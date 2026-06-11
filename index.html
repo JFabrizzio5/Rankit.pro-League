@@ -258,8 +258,8 @@
                     <!-- Póster Semana 1 -->
                     <div onclick="selectWeek(1)" id="card-w1" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-100 shadow-glowPurple">
                         <div class="noise-overlay"></div>
-                        <img src="./Imagenes/clasificatorio-1.png" alt="Póster de fase clasificatoria de la semana 1 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-45">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                        <img src="./Imagenes/clasificatorio-1.png" alt="Póster de fase clasificatoria de la semana 1 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent z-10"></div>
                         
                         <div class="relative z-20 h-full flex flex-col p-8">
                             <div class="flex justify-between items-start mb-auto">
@@ -282,10 +282,10 @@
                     </div>
 
                     <!-- Póster Semana 2 -->
-                    <div onclick="selectWeek(2)" id="card-w2" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-50 hover:opacity-100">
+                    <div onclick="selectWeek(2)" id="card-w2" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-75 hover:opacity-100">
                         <div class="noise-overlay"></div>
-                        <img src="./Imagenes/clasificatorio-2.png" alt="Póster de segunda clasificatoria de la semana 2 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-45">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                        <img src="./Imagenes/clasificatorio-2.png" alt="Póster de segunda clasificatoria de la semana 2 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent z-10"></div>
                         
                         <div class="relative z-20 h-full flex flex-col p-8">
                             <div class="flex justify-between items-start mb-auto">
@@ -308,10 +308,10 @@
                     </div>
 
                     <!-- Póster Semana 3 (Repechaje) -->
-                    <div onclick="selectWeek(3)" id="card-w3" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-50 hover:opacity-100">
+                    <div onclick="selectWeek(3)" id="card-w3" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-75 hover:opacity-100">
                         <div class="noise-overlay"></div>
-                        <img src="./Imagenes/repechaje.png" alt="Póster de repechaje de la semana 3 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-45">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                        <img src="./Imagenes/repechaje.png" alt="Póster de repechaje de la semana 3 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent z-10"></div>
                         
                         <div class="relative z-20 h-full flex flex-col p-8">
                             <div class="flex justify-between items-start mb-auto">
@@ -334,10 +334,10 @@
                     </div>
 
                     <!-- Póster Semana 4 (Final) -->
-                    <div onclick="selectWeek(4)" id="card-w4" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-50 hover:opacity-100">
+                    <div onclick="selectWeek(4)" id="card-w4" class="shrink-0 snap-center w-[85vw] max-w-[340px] h-[500px] bg-[#05020a] relative cursor-pointer transition-all duration-500 hover:-translate-y-3 group border border-white/10 rounded-lg overflow-hidden opacity-75 hover:opacity-100">
                         <div class="noise-overlay"></div>
-                        <img src="./Imagenes/gran-final.png" alt="Póster de gran final de la semana 4 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-45">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                        <img src="./Imagenes/gran-final.png" alt="Póster de gran final de la semana 4 de Fortnite" class="absolute inset-0 w-full h-full object-cover opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent z-10"></div>
                         
                         <div class="relative z-20 h-full flex flex-col p-8">
                             <div class="flex justify-between items-start mb-auto">
@@ -699,7 +699,7 @@
                 const sel = document.getElementById(`sel-w${i}`);
                 if (card) {
                     card.classList.remove('opacity-100', 'shadow-glowPurple', 'shadow-glowCyan', 'shadow-glowGold');
-                    card.classList.add('opacity-50');
+                    card.classList.add('opacity-75');
                     sel.classList.remove('opacity-100');
                     sel.classList.add('opacity-0');
                 }
@@ -709,7 +709,7 @@
             const activeSel = document.getElementById(`sel-w${weekNum}`);
             
             if (activeCard && activeSel) {
-                activeCard.classList.remove('opacity-50');
+                activeCard.classList.remove('opacity-75');
                 activeCard.classList.add('opacity-100');
                 activeSel.classList.remove('opacity-0');
                 activeSel.classList.add('opacity-100');
