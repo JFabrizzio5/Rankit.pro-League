@@ -32,13 +32,17 @@
                         fnBrightPurple: '#9b30ff',
                         fnMagenta: '#ff3df1',
                         fnGold: '#f1c40f',
-                        fnNeonCyan: '#00e5ff'
+                        fnNeonCyan: '#00e5ff',
+                        fnEmerald: '#00b074',
+                        fnCrimson: '#d7263d'
                     },
                     boxShadow: {
                         glowPurple: '0 0 40px -10px rgba(155, 48, 255, 0.5)',
                         glowMagenta: '0 0 40px -10px rgba(255, 61, 241, 0.5)',
                         glowCyan: '0 0 40px -10px rgba(0, 229, 255, 0.5)',
                         glowGold: '0 0 40px -10px rgba(241, 196, 15, 0.5)',
+                        glowEmerald: '0 0 40px -10px rgba(0, 176, 116, 0.55)',
+                        glowCrimson: '0 0 40px -10px rgba(215, 38, 61, 0.55)',
                     },
                     backgroundImage: {
                         'premium-gradient': 'linear-gradient(180deg, #0a0514 0%, #030108 100%)',
@@ -137,7 +141,7 @@
 
             <div class="hidden lg:flex space-x-8 font-chakra font-bold uppercase tracking-widest text-xs">
                 <button onclick="navigate('home')" id="nav-home" class="nav-link text-white transition-colors hover:text-white">INICIO</button>
-                <button onclick="navigate('league')" id="nav-league" class="nav-link text-gray-500 transition-colors hover:text-white">LIGA FORTNITE</button>
+                <button onclick="navigate('league')" id="nav-league" class="nav-link text-gray-500 transition-colors hover:text-white">RANKIT.PRO LEAGUE</button>
                 <button onclick="navigate('others')" id="nav-others" class="nav-link text-gray-500 transition-colors hover:text-white">OTROS TORNEOS</button>
                 <button onclick="navigate('simulator')" id="nav-simulator" class="nav-link text-gray-500 transition-colors hover:text-white">PREMIOS</button>
                 <button onclick="navigate('register')" id="nav-register" class="nav-link text-gray-500 transition-colors hover:text-white">REGISTRO</button>
@@ -156,7 +160,7 @@
         <!-- Móvil -->
         <div class="flex lg:hidden justify-around mt-4 pt-4 border-t border-white/5 text-[10px] font-chakra font-bold uppercase tracking-wider text-gray-500">
             <button onclick="navigate('home')" class="hover:text-white transition-colors"><i class="fa-solid fa-house block text-center mb-1 text-base"></i>Inicio</button>
-            <button onclick="navigate('league')" class="hover:text-white transition-colors"><i class="fa-solid fa-trophy block text-center mb-1 text-base"></i>Fortnite</button>
+            <button onclick="navigate('league')" class="hover:text-white transition-colors"><i class="fa-solid fa-trophy block text-center mb-1 text-base"></i>League</button>
             <button onclick="navigate('others')" class="hover:text-white transition-colors"><i class="fa-solid fa-gamepad block text-center mb-1 text-base"></i>Otros</button>
             <button onclick="navigate('simulator')" class="hover:text-white transition-colors"><i class="fa-solid fa-coins block text-center mb-1 text-base"></i>Premios</button>
             <button onclick="navigate('register')" class="hover:text-white transition-colors"><i class="fa-solid fa-user-plus block text-center mb-1 text-base"></i>Registro</button>
@@ -294,9 +298,9 @@
                             </div>
 
                             <div class="mt-auto">
-                                <div class="w-8 h-1 bg-white mb-4 transition-all duration-300 group-hover:w-16"></div>
+                                <div class="w-8 h-1 bg-fnEmerald mb-4 transition-all duration-300 group-hover:w-16"></div>
                                 <h3 class="font-block text-4xl text-white uppercase leading-[0.9] mb-3">BATTLE<br>ROYALE</h3>
-                                <p class="text-gray-400 text-xs font-chakra uppercase tracking-widest">Segunda Oportunidad</p>
+                                <p class="text-fnEmerald/90 text-xs font-chakra uppercase tracking-widest">Segunda Oportunidad</p>
                                 
                                 <div class="mt-6 pt-6 border-t border-white/10">
                                     <span class="block text-[10px] text-gray-500 font-chakra uppercase mb-1">Clasificación</span>
@@ -304,7 +308,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="sel-w2" class="absolute inset-0 border border-white opacity-0 transition-opacity duration-300 pointer-events-none z-30"></div>
+                        <div id="sel-w2" class="absolute inset-0 border border-fnEmerald opacity-0 transition-opacity duration-300 pointer-events-none z-30"></div>
                     </div>
 
                     <!-- Póster Semana 3 (Repechaje) -->
@@ -316,13 +320,13 @@
                         <div class="relative z-20 h-full flex flex-col p-8">
                             <div class="flex justify-between items-start mb-auto">
                                 <span class="font-chakra font-bold text-white tracking-widest text-sm uppercase">SEMANA 03</span>
-                                <span class="bg-white/10 backdrop-blur-md border border-white/20 text-fnNeonCyan text-[10px] px-2 py-1 uppercase font-bold"><i class="fa-solid fa-bolt mr-1"></i> BR & RECARGA</span>
+                                <span class="bg-fnCrimson/10 backdrop-blur-md border border-fnCrimson/30 text-fnCrimson text-[10px] px-2 py-1 uppercase font-bold"><i class="fa-solid fa-bolt mr-1"></i> BR & RECARGA</span>
                             </div>
 
                             <div class="mt-auto">
-                                <div class="w-8 h-1 bg-fnNeonCyan mb-4 transition-all duration-300 group-hover:w-16"></div>
+                                <div class="w-8 h-1 bg-fnCrimson mb-4 transition-all duration-300 group-hover:w-16"></div>
                                 <h3 class="font-block text-4xl text-white uppercase leading-[0.9] mb-3">REPECHAJE<br>ABSOLUTO</h3>
-                                <p class="text-fnNeonCyan/80 text-xs font-chakra uppercase tracking-widest">Doble Disciplina</p>
+                                <p class="text-fnCrimson/80 text-xs font-chakra uppercase tracking-widest">Doble Disciplina</p>
                                 
                                 <div class="mt-6 pt-6 border-t border-white/10">
                                     <span class="block text-[10px] text-gray-500 font-chakra uppercase mb-1">Condición de Pase</span>
@@ -330,7 +334,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="sel-w3" class="absolute inset-0 border border-fnNeonCyan opacity-0 transition-opacity duration-300 pointer-events-none z-30"></div>
+                        <div id="sel-w3" class="absolute inset-0 border border-fnCrimson opacity-0 transition-opacity duration-300 pointer-events-none z-30"></div>
                     </div>
 
                     <!-- Póster Semana 4 (Final) -->
@@ -378,6 +382,10 @@
                         <p id="panel-desc-short" class="text-gray-400 text-sm leading-relaxed mb-6">
                             El inicio de la liga regular. Sobrevive, acumula puntos y asegura tu lugar en el Top 15% para saltarte el repechaje.
                         </p>
+                        <div class="pt-4 border-t border-white/10">
+                            <span class="text-[10px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-3 block">Póster de la fase</span>
+                            <img id="panel-poster" src="./Imagenes/clasificatorio-1.png" alt="Póster oficial de la fase seleccionada" class="w-full rounded-md border border-white/10 bg-black/30 object-cover">
+                        </div>
                     </div>
 
                     <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -666,27 +674,31 @@
                 badge: "Fase Inicial", title: "SEMANA 1", 
                 desc_short: "El inicio de la liga regular. Compite en el primer corte gratuito o aprovecha el tier Premium para asegurar tu cupo.",
                 color: "text-fnBrightPurple", borderColor: "border-fnBrightPurple",
+                poster: "./Imagenes/clasificatorio-1.png", posterAlt: "Póster de la semana 1",
                 desc1: "<p>Las primeras 3 partidas son <strong class='text-white'>GRATIS</strong> para buscar clasificación. Con el Upgrade Premium, juegas <strong class='text-white'>2 partidas extras (5 en total)</strong> y participas por el pozo de dinero semanal.</p><p>El lobby es privado. Prohibido el teaming o griefing intencional. Formato puramente Solos (Sin suplentes).</p>",
                 desc2: "<p>Hay dos cortes de clasificación hacia la Final:</p><ul class='space-y-2 mt-2 text-sm text-gray-300'><li class='flex items-start gap-2'><i class='fa-solid fa-check text-fnBrightPurple mt-1'></i> <span><strong>Corte Free (Partidas 1-3):</strong> El <strong class='text-white'>Top 10% general</strong> de la jornada avanza.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-crown text-fnGold mt-1'></i> <span><strong>Corte Premium (Partidas 4-5):</strong> El <strong class='text-white'>Top 10% de los usuarios de pago</strong> avanza, sin contar a los ya clasificados.</span></li></ul>" 
             },
             2: { 
                 badge: "Segunda Oportunidad", title: "SEMANA 2", 
                 desc_short: "Misma modalidad, nueva tabla de puntos. Segundo llamado para el Top 10% gratuito y premium.",
-                color: "text-white", borderColor: "border-white",
+                color: "text-fnEmerald", borderColor: "border-fnEmerald",
+                poster: "./Imagenes/clasificatorio-2.png", posterAlt: "Póster de la semana 2",
                 desc1: "<p>Mantenemos el formato exacto de <strong class='text-white'>Battle Royale Clásico en Solos</strong>. 3 partidas gratis para el primer corte, y 2 adicionales para el corte Premium y la disputa por la bolsa semanal.</p><p>Los jugadores clasificados en la Semana 1 pueden jugar para pelear por el dinero de la semana 2, pero sus cupos de clasificación recorrerán la tabla.</p>",
-                desc2: "<p>Se aplican los mismos dos cortes de clasificación hacia la Final:</p><ul class='space-y-2 mt-2 text-sm text-gray-300'><li class='flex items-start gap-2'><i class='fa-solid fa-check text-white mt-1'></i> <span><strong>Corte Free (Partidas 1-3):</strong> El <strong class='text-white'>Top 10% general</strong> avanza.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-crown text-fnGold mt-1'></i> <span><strong>Corte Premium (Partidas 4-5):</strong> El <strong class='text-white'>Top 10% de los usuarios de pago</strong> avanza, recorriendo a los ya clasificados.</span></li></ul>" 
+                desc2: "<p>Se aplican los mismos dos cortes de clasificación hacia la Final:</p><ul class='space-y-2 mt-2 text-sm text-gray-300'><li class='flex items-start gap-2'><i class='fa-solid fa-check text-fnEmerald mt-1'></i> <span><strong>Corte Free (Partidas 1-3):</strong> El <strong class='text-white'>Top 10% general</strong> avanza.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-crown text-fnGold mt-1'></i> <span><strong>Corte Premium (Partidas 4-5):</strong> El <strong class='text-white'>Top 10% de los usuarios de pago</strong> avanza, recorriendo a los ya clasificados.</span></li></ul>" 
             },
             3: { 
                 badge: "La Última Vida", title: "SEMANA 3", 
                 desc_short: "El Repechaje Extremo. 4 partidas en total divididas en las dos disciplinas principales de la isla. Solo 8 tickets de clasificación en juego.",
-                color: "text-fnNeonCyan", borderColor: "border-fnNeonCyan",
+                color: "text-fnCrimson", borderColor: "border-fnCrimson",
+                poster: "./Imagenes/repechaje.png", posterAlt: "Póster de la semana 3",
                 desc1: "<p>Este es el filtro final de versatilidad. Jugaremos <strong class='text-white'>4 partidas exactas: 2 de Battle Royale Clásico y 2 de Recarga (Reload)</strong>.</p><p>Ya no hay clasificación por porcentaje. Los lugares son contados y se otorgan por mérito absoluto o agresividad pura.</p>",
-                desc2: "<p>Los tickets a la Final se reparten de la siguiente manera (8 Pases en total):</p><ul class='space-y-3 mt-2 text-sm text-gray-300'><li class='flex items-start gap-2'><i class='fa-solid fa-trophy text-fnNeonCyan mt-1'></i> <span><strong>Ganadores (4 pases):</strong> El jugador que gane cada partida.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-chart-line text-fnNeonCyan mt-1'></i> <span><strong>Constancia (3 pases):</strong> Los 3 jugadores con mayor cantidad de puntos totales en las 4 partidas.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-skull text-fnNeonCyan mt-1'></i> <span><strong>MVP Kills (1 pase):</strong> El jugador con mayor número de eliminaciones totales que no haya clasificado por los métodos anteriores.</span></li></ul>" 
+                desc2: "<p>Los tickets a la Final se reparten de la siguiente manera (8 Pases en total):</p><ul class='space-y-3 mt-2 text-sm text-gray-300'><li class='flex items-start gap-2'><i class='fa-solid fa-trophy text-fnCrimson mt-1'></i> <span><strong>Ganadores (4 pases):</strong> El jugador que gane cada partida.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-chart-line text-fnCrimson mt-1'></i> <span><strong>Constancia (3 pases):</strong> Los 3 jugadores con mayor cantidad de puntos totales en las 4 partidas.</span></li><li class='flex items-start gap-2'><i class='fa-solid fa-skull text-fnCrimson mt-1'></i> <span><strong>MVP Kills (1 pase):</strong> El jugador con mayor número de eliminaciones totales que no haya clasificado por los métodos anteriores.</span></li></ul>" 
             },
             4: { 
                 badge: "El Cierre Absoluto", title: "GRAN FINAL", 
                 desc_short: "Solo los mejores. Top 15% de W1 y W2, más los ganadores del Repechaje W3. El nivel más alto de Solos del servidor.",
                 color: "text-fnGold", borderColor: "border-fnGold",
+                poster: "./Imagenes/gran-final.png", posterAlt: "Póster de la gran final",
                 desc1: "<p>Volvemos al <strong class='text-white'>Battle Royale Clásico</strong>. Lobbies privados apilados (Stacked) con custom matchmaking. 6 partidas consecutivas donde no hay margen de error. No se permiten suplentes, es el jugador registrado o nada.</p>",
                 desc2: "<p>El pago del Mega Pozo. Los puntos de esta serie definen al campeón, que se lleva la gran bolsa.</p><p class='mt-2'>Además, finalizando el torneo, el <strong class='text-white border-b border-fnGold'>20% de toda la recaudación</strong> de la temporada se repartirá en sorteos de V-Bucks o efectivo en vivo para todos los que participaron alguna vez en la liga.</p>" 
             }
@@ -698,7 +710,7 @@
                 const card = document.getElementById(`card-w${i}`);
                 const sel = document.getElementById(`sel-w${i}`);
                 if (card) {
-                    card.classList.remove('opacity-100', 'shadow-glowPurple', 'shadow-glowCyan', 'shadow-glowGold');
+                    card.classList.remove('opacity-100', 'shadow-glowPurple', 'shadow-glowEmerald', 'shadow-glowCrimson', 'shadow-glowGold');
                     card.classList.add('opacity-75');
                     sel.classList.remove('opacity-100');
                     sel.classList.add('opacity-0');
@@ -715,7 +727,8 @@
                 activeSel.classList.add('opacity-100');
 
                 if (weekNum === 1) activeCard.classList.add('shadow-glowPurple');
-                if (weekNum === 3) activeCard.classList.add('shadow-glowCyan');
+                if (weekNum === 2) activeCard.classList.add('shadow-glowEmerald');
+                if (weekNum === 3) activeCard.classList.add('shadow-glowCrimson');
                 if (weekNum === 4) activeCard.classList.add('shadow-glowGold');
                 
                 // Centrar en móviles
@@ -731,6 +744,8 @@
             
             document.getElementById('panel-title').innerText = data.title;
             document.getElementById('panel-desc-short').innerText = data.desc_short;
+            document.getElementById('panel-poster').src = data.poster;
+            document.getElementById('panel-poster').alt = data.posterAlt;
             
             document.getElementById('panel-desc1').innerHTML = data.desc1;
             document.getElementById('panel-desc2').innerHTML = data.desc2;
