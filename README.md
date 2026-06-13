@@ -82,7 +82,7 @@ Para construir la pestaña de Constancia General, unimos los resultados de las d
 2. Agrupamos los datos por `Epic ID` sumando los puntos y partidas de ambas semanas.
 3. Clasificamos a los jugadores visualmente según su estado:
    * **Dorado (GOLD)**: Si el Epic ID del jugador ya se encuentra en la lista de clasificados directos (Top 15% de W1 o W2). Estos jugadores se muestran con corona dorada y la etiqueta `CLASIFICADO`.
-   * **Rojo (RED)**: Excluyendo a los jugadores dorados (ya clasificados), tomamos a los **Top 20 jugadores** con mayor puntaje acumulado. Estos 20 jugadores obtienen su pase directo para competir en el **Repechaje** de la Semana 3.
+   * **Rojo (RED)**: Excluyendo a los jugadores dorados (ya clasificados), tomamos al **35% con mayor puntaje acumulado** de los jugadores restantes. Estos jugadores obtienen su pase directo para competir en el **Repechaje** de la Semana 3.
    * **Estándar (NORMAL)**: Jugadores restantes que no clasificaron a la final ni alcanzaron cupo de repechaje.
 
 ### C. Lógica del Repechaje (Semana 3 - Muerte Súbita)
@@ -104,7 +104,7 @@ Para reflejar el estado competitivo en la tabla de clasificación, se utilizan l
 | Color | Estado Competitivo | Aplicación Visual |
 |---|---|---|
 | **Dorado (`#f1c40f`)** | Ya clasificado a la Gran Final (Top 15% W1/W2) | Fila de tabla con bordes/sombras doradas, corona dorada y badge `FINAL`. |
-| **Rojo (`#d7263d`)** | Elegible para el Repechaje (Top 20 Constancia) o Ganador de partida en Repechaje | Fila/Badge destacado en rojo brillante, texto `REP` o `CLASIFICADO`. |
+| **Rojo (`#d7263d`)** | Elegible para el Repechaje (35% Constancia) o Ganador de partida en Repechaje | Fila/Badge destacado en rojo brillante, texto `REP` o `CLASIFICADO`. |
 | **Neutral (`#gray`)** | Aún en competencia o no clasificado | Fila con estilos estándar oscuros y semitransparentes. |
 
 ---

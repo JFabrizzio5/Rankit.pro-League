@@ -881,7 +881,7 @@
                 ticketPrice: "N/A",
                 totalTickets: 0,
                 ticketsLeft: 0,
-                description: "Aquí se listan los puntos de constancia acumulados por los jugadores que compitieron activamente en <strong>Semana 1 y Semana 2</strong> pero no clasificaron directo. De un total de <strong>130 jugadores únicos</strong> registrados (con un 70% de jugadores repetidos para simular consistencia real de torneo), los **Top 20 jugadores** no clasificados avanzan al Repechaje. Esto les otorga un <strong>40% de probabilidad de clasificar</strong> (8 pases a repartir entre 20 jugadores), buscando un lobby final de 48 competidores (incluyendo 10 VIP/pago).",
+                description: "Aquí se listan los puntos de constancia acumulados por los jugadores que compitieron activamente en <strong>Semana 1 y Semana 2</strong> pero no clasificaron directo. De los jugadores que no obtuvieron pase directo, el <strong>35% con mayor puntaje</strong> avanza al Repechaje (marcados en rojo). Esto otorga una oportunidad de clasificación justa buscando un lobby final de 48 competidores (incluyendo 10 VIP/pago).",
                 players: [] // Calculado dinámicamente si hay datos en W1 o W2, sino vacío
             }
         };
@@ -1121,8 +1121,12 @@
                             <p class="text-xs text-gray-400">No hay premios en efectivo en esta fase intermedia. Los clasificados competirán en la final por la bolsa de <strong>$2,300.00 MXN</strong>.</p>
                         </div>
                     `;
+                    const constPlayers = tournamentPhases[5].players || [];
+                    const candidatesCount = constPlayers.filter(p => p.status === 'RED').length || 38; // 38 es el valor estimado (35% de ~106)
+                    const totalParticipants = candidatesCount + 20;
+
                     rulesDetail.innerHTML = `
-                        <p>• <strong>Participantes (40 totales):</strong> 20 de la Tabla de Constancia (Gratis) + 20 Entradas pagadas ($100 MXN c/u).</p>
+                        <p>• <strong>Participantes (${totalParticipants} totales):</strong> ${candidatesCount} de la Tabla de Constancia (35% no clasificados) + 20 Entradas pagadas ($150 MXN c/u).</p>
                         <p>• <strong>Formato:</strong> 4 partidas consecutivas. Exclusión en vivo: los ganadores de pase no juegan las siguientes partidas.</p>
                         <p>• <strong>Reparto de los 8 pases directos:</strong></p>
                         <div class="pl-4 space-y-1">
@@ -1163,7 +1167,7 @@
                     rewardsDetail.innerHTML = `
                         <div class="p-3 bg-fnMagenta/5 border border-fnMagenta/20 rounded-lg col-span-1">
                             <span class="text-[9px] text-fnMagenta font-bold uppercase tracking-wider block mb-1">📊 Rango Repechaje</span>
-                            <span class="text-lg font-bold text-white">Top 20 Constancia</span>
+                            <span class="text-lg font-bold text-white">Top 35% Constancia</span>
                             <span class="text-[9px] text-gray-500 block mt-1">Pasan al Repechaje</span>
                         </div>
                         <div class="p-3 bg-fnGold/5 border border-fnGold/20 rounded-lg col-span-2 flex flex-col justify-center">
@@ -1174,7 +1178,7 @@
                     rulesDetail.innerHTML = `
                         <p>• <strong>Mecánica:</strong> Suma acumulativa de todos los puntos de partida obtenidos en Semana 1 y Semana 2.</p>
                         <p>• <strong>Requisito:</strong> Haber competido en las semanas anteriores.</p>
-                        <p>• <strong>Corte de Clasificación:</strong> Los mejores 20 jugadores que no hayan clasificado directo se marcan en rojo (RED) y avanzan al Repechaje.</p>
+                        <p>• <strong>Corte de Clasificación:</strong> El 35% de los jugadores no clasificados directo (con mayor puntaje de constancia) avanzan al Repechaje (marcados en rojo).</p>
                     `;
                 }
             }
@@ -1359,7 +1363,7 @@
                 document.getElementById('leaderboard-card-title').innerText = "Tabla de Constancia General";
                 document.getElementById('legend-points-list').innerHTML = `
                     <span>📈 Constancia = W1 Pts + W2 Pts</span>
-                    <span>👑 Top 20 clasifica al Repechaje</span>
+                    <span>👑 Top 35% (no clasificados) al Repechaje</span>
                 `;
                 document.getElementById('live-dot-glow').className = "w-1.5 h-1.5 rounded-full inline-block bg-fnMagenta animate-ping";
                 document.getElementById('live-indicator-tag').className = "text-[9px] font-bold uppercase tracking-widest flex items-center gap-1.5 text-fnMagenta";
@@ -1487,10 +1491,17 @@
             playerList.sort((a, b) => b.points - a.points);
             
             // Determinar estados GOLD (finalistas) y RED (repechaje)
-            let redCount = 0;
             const cleanW1Quals = w1Qualified.map(n => n.replace(" 👑", ""));
             const cleanW2Quals = w2Qualified.map(n => n.replace(" 👑", ""));
 
+            // Calcular el 35% de los no clasificados directo
+            const nonGoldCount = playerList.filter(p => {
+                const cleanName = p.name.replace(" 👑", "");
+                return !cleanW1Quals.includes(cleanName) && !cleanW2Quals.includes(cleanName);
+            }).length;
+            const maxRedCount = Math.ceil(nonGoldCount * 0.35);
+
+            let redCount = 0;
             playerList.forEach((p) => {
                 const cleanName = p.name.replace(" 👑", "");
                 const isW1Qual = cleanW1Quals.includes(cleanName);
@@ -1500,7 +1511,7 @@
                     p.status = 'GOLD'; // Pasa directo a la final (Dorado)
                     p.name = cleanName + " 👑";
                 } else {
-                    if (redCount < 20) {
+                    if (redCount < maxRedCount) {
                         p.status = 'RED'; // Juega el repechaje (Rojo)
                         p.name = cleanName + " 👑";
                         redCount++;
@@ -1587,7 +1598,7 @@
                 submitBtn.classList.add('hidden');
                 if (guideBox) guideBox.classList.add('hidden');
                 title.innerHTML = `<i class="fa-solid fa-chart-simple ${phase.color}"></i> Constancia Finalizada`;
-                desc.innerHTML = `El roster de constancia ha finalizado. Los mejores 20 jugadores avanzaron a la Semana 3 (Repechaje). Esta pestaña es solo para visualización histórica de datos.`;
+                desc.innerHTML = `El roster de constancia ha finalizado. El 35% de los jugadores no clasificados directo avanzaron a la Semana 3 (Repechaje). Esta pestaña es solo para visualización histórica de datos.`;
             } else {
                 inputsWrapper.classList.remove('hidden');
                 submitBtn.classList.remove('hidden');
@@ -1863,14 +1874,14 @@
                     </li>
                     <li class="flex justify-between py-1">
                         <span>🔥 Constancia</span>
-                        <span class="font-bold text-fnEmerald">Corte al Repechaje (Top 20)</span>
+                        <span class="font-bold text-fnEmerald">Corte al Repechaje (Top 35% no clasificados)</span>
                     </li>
                 `;
             } else if (weekNum === 5) {
                 list.innerHTML = `
                     <li class="flex justify-between border-b border-white/5 pb-2">
                         <span>🏆 Corte de Clasificación</span>
-                        <span class="font-bold text-fnMagenta">Top 20 Pasan al Repechaje</span>
+                        <span class="font-bold text-fnMagenta">Top 35% Pasan al Repechaje</span>
                     </li>
                     <li class="flex justify-between py-1.5">
                         <span>📈 Requisito</span>
@@ -1888,7 +1899,7 @@
                     </li>
                     <li class="flex justify-between py-1">
                         <span>🎟️ Costo de Entrada</span>
-                        <span class="font-bold text-white">Boleto $100.00 MXN</span>
+                        <span class="font-bold text-white">Boleto $150.00 MXN</span>
                     </li>
                 `;
             } else {
