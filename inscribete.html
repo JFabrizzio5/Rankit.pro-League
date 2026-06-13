@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankit.Pro | Registro Oficial y Dashboard de Liga</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Black Ops One, Chakra Petch e Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        chakra: ['Chakra Petch', 'sans-serif'],
+                        block: ['Black Ops One', 'impact', 'sans-serif'],
+                    },
+                    colors: {
+                        fnDark: '#030108', // Ultra oscuro, casi negro
+                        fnDeepPurple: '#0a0514', // Paneles oscuros premium
+                        fnCard: '#0f081c', // Tarjetas minimalistas
+                        fnBrightPurple: 'rgb(var(--fn-primary-rgb) / <alpha-value>)',
+                        fnMagenta: '#ff3df1',
+                        fnGold: '#f1c40f',
+                        fnNeonCyan: '#00e5ff',
+                        fnEmerald: '#00b074',
+                        fnCrimson: '#d7263d'
+                    },
+                    boxShadow: {
+                        glowPurple: '0 0 45px -10px rgb(var(--fn-primary-rgb) / 0.65)',
+                        glowMagenta: '0 0 45px -10px rgba(255, 61, 241, 0.65)',
+                        glowCyan: '0 0 45px -10px rgba(0, 229, 255, 0.65)',
+                        glowGold: '0 0 45px -10px rgba(241, 196, 15, 0.65)',
+                        glowEmerald: '0 0 45px -10px rgba(0, 176, 116, 0.7)',
+                        glowCrimson: '0 0 45px -10px rgba(215, 38, 61, 0.7)',
+                    },
+                    backgroundImage: {
+                        'premium-gradient': 'linear-gradient(180deg, #0a0514 0%, #030108 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        :root {
+            --fn-primary-rgb: 155 48 255;
+        }
+
+        body {
+            background-color: #030108;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgb(var(--fn-primary-rgb) / 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(0, 229, 255, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Degradado metálico/neón sutil y elegante */
+        .gradient-text-epic {
+            background: linear-gradient(to bottom, #ffffff 0%, #d8b4fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 10px 20px rgba(155,48,255,0.2));
+        }
+
+        /* Botón de alto contraste */
+        .fn-btn {
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fn-skew { transform: skewX(-10deg); }
+        .fn-unskew { transform: skewX(10deg); }
+
+        /* Tarjetas Premium - Menos saturación, más cristal/borde sutil */
+        .premium-card {
+            background: rgba(10, 5, 20, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
+        .premium-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Efecto de ruido/grano fotográfico para fondos épicos */
+        .noise-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Scrollbar elegante */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030108; }
+        ::-webkit-scrollbar-thumb { background: #3b1c6b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9b30ff; }
+
+        .phase-tab {
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dynamic-row:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .corner-scratch {
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 10px);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+    <div class="noise-overlay"></div>
+
+    <!-- Navbar Premium Ultra Clean -->
+    <nav class="border-b border-white/5 bg-fnDark/80 backdrop-blur-xl sticky top-0 z-50 px-4 sm:px-8 py-4 transition-all">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <div class="flex items-center gap-3">
+                <img src="./Imagenes/logo.png" alt="Logo Rankit Pro" class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
+                <div class="flex flex-col">
+                    <span class="font-block text-2xl sm:text-3xl tracking-wide text-white uppercase italic leading-none">
+                        RANKIT<span class="text-fnBrightPurple">.PRO</span>
+                    </span>
+                    <span class="text-[9px] text-fnBrightPurple font-chakra font-bold tracking-[0.3em] uppercase ml-1 mt-1">Official League</span>
+                </div>
+            </div>
+
+            <!-- Navegación externa al index.html principal -->
+            <div class="hidden lg:flex space-x-8 font-chakra font-bold uppercase tracking-widest text-xs">
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">INICIO</a>
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">RANKIT.PRO LEAGUE</a>
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">OTROS TORNEOS</a>
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">PREMIOS</a>
+                <a href="registro.html" class="nav-link text-white transition-colors hover:text-white">REGISTRO</a>
+            </div>
+
+            <div>
+                <a href="index.html" class="fn-btn inline-block bg-transparent border border-white/20 text-white px-8 py-2.5 hover:bg-white/5 transition-colors">
+                    <span class="block font-chakra font-bold text-sm uppercase tracking-widest">
+                        VOLVER AL INICIO
+                    </span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Móvil -->
+        <div class="flex lg:hidden justify-around mt-4 pt-4 border-t border-white/5 text-[10px] font-chakra font-bold uppercase tracking-wider text-gray-500">
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-house block text-center mb-1 text-base"></i>Inicio</a>
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-trophy block text-center mb-1 text-base"></i>League</a>
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-gamepad block text-center mb-1 text-base"></i>Otros</a>
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-coins block text-center mb-1 text-base"></i>Premios</a>
+            <a href="registro.html" class="hover:text-white transition-colors text-white"><i class="fa-solid fa-user-plus block text-center mb-1 text-base"></i>Inscribirse</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 py-12 flex-grow w-full relative z-10">
+        
+        <!-- Cabecera de Página -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-3 border border-white/10 bg-white/5 px-4 py-1.5 rounded-full backdrop-blur-sm mb-4">
+                <span class="w-2 h-2 bg-fnBrightPurple rounded-full animate-pulse shadow-[0_0_10px_#9b30ff]" id="header-badge-dot"></span>
+                <span class="text-xs font-chakra font-bold text-gray-300 uppercase tracking-widest">PORTAL DE INSCRIPCIÓN Y CLASIFICACIÓN</span>
+            </div>
+            <h2 class="font-block text-4xl sm:text-6xl uppercase text-white tracking-wide mb-4">
+                LOBBY DE <span class="text-gray-500">TORNEO</span>
+            </h2>
+            <p class="text-gray-400 text-sm max-w-2xl mx-auto leading-relaxed font-chakra">
+                Selecciona la semana en las pestañas, visualiza los marcadores simulados y registra tus datos de Fortnite.
+            </p>
+        </div>
+
+        <!-- POSTER DE FASE AMPLIADO (Estructura Split: Poster Completo a la izquierda y Detalles a la derecha) -->
+        <div class="max-w-4xl mx-auto mb-10 relative group">
+            <div class="absolute inset-0 bg-fnBrightPurple/20 rounded-2xl blur-3xl opacity-50 group-hover:opacity-85 transition-opacity duration-700 font-chakra" id="poster-back-glow"></div>
+            
+            <div class="relative w-full rounded-2xl overflow-hidden border-2 transition-all duration-500 shadow-glowPurple border-fnBrightPurple premium-card grid grid-cols-1 md:grid-cols-3 gap-6 p-6" id="poster-container-border">
+                <div class="noise-overlay"></div>
+                
+                <!-- Left side: The Poster Image (shows 100% completely, vertical format, large) -->
+                <div class="md:col-span-1 flex justify-center items-center rounded-xl overflow-hidden bg-black/40 border border-white/5 p-2 h-[320px] md:h-[390px]">
+                    <img src="./Imagenes/clasificatorio-1.png" 
+                         alt="Poster oficial de la fase" 
+                         id="dynamic-phase-banner" 
+                         class="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-103">
+                </div>
+                
+                <!-- Right side: Phase Details -->
+                <div class="md:col-span-2 flex flex-col justify-between py-2 z-10">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-xs font-chakra font-bold uppercase tracking-widest text-fnBrightPurple bg-fnBrightPurple/10 border border-fnBrightPurple/20 px-3 py-1 rounded" id="poster-badge-category">Fase Inicial</span>
+                            <div class="px-2.5 py-1 rounded bg-black/40 border border-white/10 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full inline-block bg-gray-500" id="poster-status-dot"></span>
+                                <span id="poster-status-text" class="font-chakra">AÚN NO SE JUEGA</span>
+                            </div>
+                        </div>
+                        <h3 class="font-block text-3xl sm:text-5xl text-white uppercase leading-none" id="poster-title">CLASIFICATORIO 1</h3>
+                        <p class="text-gray-400 text-xs font-chakra uppercase tracking-widest mt-2" id="poster-subtitle">Semana 1 de Fortnite Solos</p>
+                        
+                        <div class="mt-4 border-t border-white/5 pt-4 text-xs sm:text-sm text-gray-300 font-chakra leading-relaxed space-y-3" id="poster-description">
+                            Límite de <strong>100 cupos</strong> por clasificatorio. Si hay más de 100 inscritos se dividirá en <strong>Grupo 1 y Grupo 2</strong> de manera balanceada. ¡Solo tienes una única oportunidad! El <strong>Top 15% de cada grupo</strong> avanza directo a la Final.
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between text-xs font-chakra">
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-500 uppercase tracking-wider">Modalidad:</span>
+                            <span class="text-white font-bold bg-white/5 border border-white/10 px-2.5 py-1 rounded" id="poster-mode-tag">Solos (Lobbies Privados)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-500 uppercase tracking-wider">Puntuación:</span>
+                            <span class="text-fnBrightPurple font-bold bg-fnBrightPurple/10 border border-fnBrightPurple/20 px-2.5 py-1 rounded animate-pulse" id="poster-points-tag">FNCS / 2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestañas de Fases (5 pestañas en grid, incluyendo Tabla de Constancia en orden cronológico) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-5xl mx-auto mb-8 font-chakra">
+            <!-- Pestaña 1 -->
+            <button onclick="switchPhase(1)" id="tab-w1" class="phase-tab py-4 text-center transition-all bg-fnDeepPurple border border-fnBrightPurple/30 relative">
+                <span class="block font-block text-lg tracking-wide uppercase text-fnBrightPurple" id="tab-title-w1">FASE 1</span>
+                <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold block mt-1">Clasificatorio 1</span>
+                <div class="absolute bottom-0 inset-x-0 h-1 bg-fnBrightPurple opacity-100" id="tab-line-w1"></div>
+            </button>
+
+            <!-- Pestaña 2 -->
+            <button onclick="switchPhase(2)" id="tab-w2" class="phase-tab py-4 text-center transition-all bg-fnDeepPurple/40 border border-white/5 relative">
+                <span class="block font-block text-lg tracking-wide uppercase text-gray-500" id="tab-title-w2">FASE 2</span>
+                <span class="text-[9px] uppercase tracking-widest text-gray-500 font-bold block mt-1">Clasificatorio 2</span>
+                <div class="absolute bottom-0 inset-x-0 h-1 bg-fnEmerald opacity-0" id="tab-line-w2"></div>
+            </button>
+
+            <!-- Pestaña 5: Constancia (Corte intermedio) -->
+            <button onclick="switchPhase(5)" id="tab-w5" class="phase-tab py-4 text-center transition-all bg-fnDeepPurple/40 border border-white/5 relative">
+                <span class="block font-block text-lg tracking-wide uppercase text-gray-500" id="tab-title-w5">CONSTANCIA</span>
+                <span class="text-[9px] uppercase tracking-widest text-gray-500 font-bold block mt-1">Puntos W1 + W2</span>
+                <div class="absolute bottom-0 inset-x-0 h-1 bg-fnMagenta opacity-0" id="tab-line-w5"></div>
+            </button>
+
+            <!-- Pestaña 3 -->
+            <button onclick="switchPhase(3)" id="tab-w3" class="phase-tab py-4 text-center transition-all bg-fnDeepPurple/40 border border-white/5 relative">
+                <span class="block font-block text-lg tracking-wide uppercase text-gray-500" id="tab-title-w3">REPECHAJE</span>
+                <span class="text-[9px] uppercase tracking-widest text-gray-500 font-bold block mt-1">Semana 3</span>
+                <div class="absolute bottom-0 inset-x-0 h-1 bg-fnCrimson opacity-0" id="tab-line-w3"></div>
+            </button>
+
+            <!-- Pestaña 4 -->
+            <button onclick="switchPhase(4)" id="tab-w4" class="phase-tab py-4 text-center transition-all bg-fnDeepPurple/40 border border-white/5 relative">
+                <span class="block font-block text-lg tracking-wide uppercase text-gray-500" id="tab-title-w4">GRAN FINAL</span>
+                <span class="text-[9px] uppercase tracking-widest text-gray-500 font-bold block mt-1">Semana 4</span>
+                <div class="absolute bottom-0 inset-x-0 h-1 bg-fnGold opacity-0" id="tab-line-w4"></div>
+            </button>
+        </div>
+
+        <!-- BARNER DE INFORMACIÓN DE FASE SELECCIONADA -->
+        <div class="max-w-5xl mx-auto premium-card p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 shadow-xl">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-white/5 rounded-lg border border-white/10 text-white">
+                    <i id="phase-badge-icon" class="fa-solid fa-circle-check text-xl text-fnBrightPurple"></i>
+                </div>
+                <div>
+                    <h4 class="font-chakra text-2xl font-bold uppercase tracking-wider leading-none text-white" id="current-phase-display-name">Clasificatorio 1</h4>
+                    <p class="text-xs text-gray-400 tracking-wider mt-1 font-chakra">Competición Solos de Fortnite | Formato de Puntos FNCS Dividido / 2</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="px-3 py-1.5 rounded bg-black/50 border border-white/15 text-xs font-bold tracking-widest uppercase flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full inline-block bg-gray-500" id="status-dot"></span>
+                    <span id="phase-status-text" class="font-chakra">AÚN NO SE JUEGA</span>
+                </div>
+
+                <button onclick="simulateMatch()" id="sim-btn" class="fn-btn bg-white text-black font-chakra font-bold text-xs px-5 py-3 hover:scale-102 active:scale-98 transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-play"></i> Simular Partida
+                </button>
+            </div>
+        </div>
+
+        <!-- DASHBOARD GRID DE LA LIGA -->
+        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            <!-- SECCIÓN DE TABLA DE POSICIONES (2 Columnas) -->
+            <div class="lg:col-span-2 premium-card p-6 flex flex-col justify-between min-h-[480px]">
+                <div>
+                    <!-- Buscador de Competidores -->
+                    <div class="flex flex-col sm:flex-row gap-3 justify-between items-center border-b border-white/5 pb-4 mb-4">
+                        <h3 class="font-chakra text-xl font-bold text-white uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-medal text-fnBrightPurple" id="leaderboard-icon"></i> <span id="leaderboard-card-title">Tabla de Clasificación</span>
+                        </h3>
+                        <div class="relative w-full sm:w-64">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                            </span>
+                            <input oninput="filterPlayers(this.value)" 
+                                   type="text" 
+                                   placeholder="Buscar Epic ID..." 
+                                   class="w-full bg-black/40 border border-white/10 rounded px-9 pr-4 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-white transition-colors">
+                        </div>
+                    </div>
+
+                    <!-- Sub-tabs estilo Fortnite Tracker -->
+                    <div class="flex border-b border-white/10 mb-6 font-chakra overflow-x-auto whitespace-nowrap gap-2">
+                        <button onclick="switchSubTab('table')" id="tab-btn-table" class="px-6 py-3 border-b-2 border-fnBrightPurple text-white text-xs font-bold uppercase tracking-wider transition-all hover:bg-white/5 flex items-center gap-2">
+                            <i class="fa-solid fa-table-list"></i> Tabla de Posiciones
+                        </button>
+                        <button onclick="switchSubTab('qualified')" id="tab-btn-qualified" class="px-6 py-3 border-b-2 border-transparent text-gray-400 text-xs font-bold uppercase tracking-wider transition-all hover:bg-white/5 hover:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-user-check"></i> Clasificados
+                        </button>
+                        <button onclick="switchSubTab('prizes')" id="tab-btn-prizes" class="px-6 py-3 border-b-2 border-transparent text-gray-400 text-xs font-bold uppercase tracking-wider transition-all hover:bg-white/5 hover:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-trophy"></i> Premios y Reglas
+                        </button>
+                    </div>
+
+                    <!-- TAB 1: Tabla de Clasificación -->
+                    <div id="subtab-table-content" class="subtab-content">
+                        <div class="w-full overflow-x-auto min-h-[300px]" id="leaderboard-container">
+                            <table class="w-full text-left border-collapse font-chakra">
+                                <thead id="leaderboard-head">
+                                    <tr class="border-b border-white/10 text-gray-500 text-xs tracking-wider font-bold">
+                                        <th class="pb-3 text-center w-12">POS</th>
+                                        <th class="pb-3 pl-4">EPIC ID FORTNITE</th>
+                                        <th class="pb-3 text-center">PUNTOS</th>
+                                        <th class="pb-3 text-center">KILLS</th>
+                                        <th class="pb-3 text-center">WINS (VR)</th>
+                                        <th class="pb-3 text-center">PARTIDAS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaderboard-body" class="divide-y divide-white/5 text-xs sm:text-sm font-medium">
+                                    <!-- Inyectado por JS -->
+                                </tbody>
+                            </table>
+                            
+                            <!-- Estado Vacío (Aún no se juega) -->
+                            <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
+                                <i class="fa-solid fa-hourglass-start text-3xl mb-3 text-fnBrightPurple animate-pulse" id="empty-state-icon"></i>
+                                <h4 class="font-chakra text-lg uppercase tracking-wider text-white font-bold" id="empty-state-title">Fase Aún No Disputada</h4>
+                                <p class="text-xs text-gray-500 max-w-xs mt-1" id="empty-state-desc">La tabla de posiciones se actualizará en tiempo real cuando simules o inicies las partidas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: Clasificados -->
+                    <div id="subtab-qualified-content" class="subtab-content hidden">
+                        <div class="font-chakra text-white py-4">
+                            <h4 class="font-block text-sm text-fnGold uppercase tracking-wider mb-4 flex items-center gap-1.5" id="qualifiers-tab-title">
+                                <i class="fa-solid fa-crown text-fnGold"></i> Clasificados de la Fase Activa
+                            </h4>
+                            <div id="subtab-qualifiers-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                <p class="text-xs text-gray-500 italic col-span-full">Esperando simulación para calcular clasificados...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: Premios y Reglas -->
+                    <div id="subtab-prizes-content" class="subtab-content hidden">
+                        <div class="font-chakra text-white py-4 space-y-6">
+                            <!-- Sección Premios -->
+                            <div>
+                                <h4 class="font-block text-sm text-fnGold uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gift"></i> Premios de esta Fase
+                                </h4>
+                                <div id="subtab-rewards-detail" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <!-- Inyectado dinámicamente -->
+                                </div>
+                            </div>
+                            
+                            <!-- Sección Reglas / Formato -->
+                            <div class="border-t border-white/5 pt-5">
+                                <h4 class="font-block text-sm text-fnBrightPurple uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-scroll"></i> Reglas y Formato de Clasificación
+                                </h4>
+                                <div id="subtab-rules-detail" class="text-xs text-gray-400 space-y-2 leading-relaxed">
+                                    <!-- Inyectado dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leyenda de puntuación -->
+                <div class="mt-6 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between text-[11px] text-gray-500 font-chakra font-medium" id="leaderboard-legend-container">
+                    <div class="flex flex-wrap gap-4" id="legend-points-list">
+                        <span>⚔️ Kill = 2 pts</span>
+                        <span>👑 VR = 32.5 pts</span>
+                        <span>Top 2-5 = 28-22 pts</span>
+                        <span>Top 6-10 = 20-16 pts</span>
+                    </div>
+                    <p id="live-indicator-tag" class="text-[9px] font-bold uppercase tracking-widest flex items-center gap-1.5 text-fnBrightPurple">
+                        <span class="w-1.5 h-1.5 rounded-full inline-block bg-fnBrightPurple animate-ping" id="live-dot-glow"></span> Servidores Activos
+                    </p>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA (Registro de fase, Costo, Premios) -->
+            <div class="flex flex-col gap-6 font-chakra">
+                
+                <!-- Tarjeta Costo/Cupos -->
+                <div id="cost-card" class="premium-card p-5 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 corner-scratch opacity-10 pointer-events-none"></div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-3">
+                        <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-chakra">MODALIDAD DE ENTRADA</span>
+                        <span id="badge-cost-type" class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide bg-purple-500/10 text-purple-400 border border-purple-500/20">Clasificatorio Gratis</span>
+                    </div>
+                    <div class="flex justify-between items-end mb-2">
+                        <div>
+                            <p class="text-[10px] text-gray-500 font-chakra">Precio Acceso:</p>
+                            <h4 class="font-block text-3xl uppercase leading-none font-bold text-white" id="cost-price-display">GRATIS</h4>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] text-gray-500 font-chakra uppercase">Disponibilidad:</p>
+                            <span class="font-mono text-xs font-bold text-purple-400" id="cost-tickets-left">84 / 100 Cupos</span>
+                        </div>
+                    </div>
+                    <div id="cost-desc-text" class="text-xs text-gray-400 leading-relaxed pt-2 border-t border-white/5 font-chakra">
+                        Límite de 100 cupos. Si hay más de 100 registrados se dividirá en Grupo 1 y Grupo 2. ¡Una sola oportunidad!
+                    </div>
+                </div>
+
+                <!-- Ficha Registro de Fase (Formulario de inscripción interactivo y completo) -->
+                <div id="register-form-card" class="premium-card p-6 border border-white/10 shadow-lg">
+                    <h4 id="register-title" class="text-lg font-bold tracking-wider uppercase font-chakra border-b border-white/10 pb-2 mb-4 text-white flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-fnBrightPurple"></i> Registro de Fase
+                    </h4>
+                    
+                    <p id="register-desc" class="text-xs text-gray-400 mb-4 leading-relaxed font-chakra">
+                        Completa tus datos para registrarte en el lobby de esta semana. El registro es necesario para poder enviarte el link de invitación.
+                    </p>
+
+                    <!-- Guía rápida y botón de registro Rankit.Pro -->
+                    <div class="mb-5 p-3.5 bg-fnBrightPurple/10 border border-fnBrightPurple/25 rounded-lg text-xs font-chakra" id="register-guide-box">
+                        <span class="block font-bold text-white uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-info text-fnBrightPurple" id="register-guide-icon"></i> ¿Cómo inscribirse?
+                        </span>
+                        <ol class="list-decimal list-inside text-gray-400 text-[11px] space-y-1.5 mb-3 leading-normal">
+                            <li>Crea tu cuenta en la plataforma de <strong class="text-white">Rankit.Pro</strong> si aún no la tienes.</li>
+                            <li>Inscríbete abajo usando el <strong>mismo correo</strong> de tu cuenta de Rankit.Pro.</li>
+                            <li>Te contactaremos vía WhatsApp/correo para enviarte pases o links de pago.</li>
+                        </ol>
+                        <a href="https://rankit.pro" target="_blank" id="register-guide-btn" class="w-full text-center bg-fnBrightPurple text-white py-2 px-3 rounded font-bold uppercase tracking-wider text-[10px] flex items-center justify-center gap-1.5 transition-all hover:opacity-90 shadow-glowPurple">
+                            <i class="fa-solid fa-user-plus"></i> 1. REGISTRARSE EN RANKIT.PRO <i class="fa-solid fa-up-right-from-square text-[8px]"></i>
+                        </a>
+                    </div>
+
+                    <!-- Wrapper de inputs para ocultar dinámicamente en fases inactivas -->
+                    <div id="inputs-container-wrapper" class="space-y-4 font-chakra">
+                        <div>
+                            <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-1">Gamer ID de Fortnite (Epic ID) *</label>
+                            <input type="text" id="phase-reg-epic" placeholder="Tu ID de Fortnite" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnBrightPurple transition-colors rounded">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-fnBrightPurple mb-1">Correo Electrónico (DEBE SER EL MISMO DE RANKIT.PRO) *</label>
+                            <input type="email" id="phase-reg-email" placeholder="correo@ejemplo.com" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnBrightPurple transition-colors rounded">
+                            <span class="text-[9px] text-fnBrightPurple mt-1 block font-bold uppercase" id="email-warning-text">⚠️ Si el correo no coincide con tu cuenta de rankit.pro, tu pase no será válido.</span>
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-1">WhatsApp de contacto *</label>
+                            <input type="tel" id="phase-reg-whatsapp" placeholder="Ej: +52 5512345678" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnBrightPurple transition-colors rounded">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-1">Usuario de Discord (Opcional)</label>
+                            <input type="text" id="phase-reg-discord" placeholder="Gamer#0000" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnBrightPurple transition-colors rounded">
+                        </div>
+
+                        <!-- Checkboxes Obligatorios -->
+                        <div class="space-y-1.5 p-3 bg-black/50 border border-white/10 rounded">
+                            <label class="flex items-start gap-2 cursor-pointer text-[10px] text-gray-400 hover:text-white transition-colors">
+                                <input id="phase-chk-rankit" type="checkbox" class="mt-0.5 rounded border-white/15 bg-black/30 text-fnBrightPurple focus:ring-fnBrightPurple">
+                                <span>Tengo una cuenta activa en <a href="https://rankit.pro" target="_blank" class="text-fnBrightPurple underline font-semibold">rankit.pro</a> con este correo.</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-[10px] text-gray-400 hover:text-white transition-colors">
+                                <input id="phase-chk-follow" type="checkbox" class="mt-0.5 rounded border-white/15 bg-black/30 text-fnBrightPurple focus:ring-fnBrightPurple">
+                                <span>Sigo a <a href="https://www.instagram.com/rankit.pro/followers/mutualOnly" target="_blank" class="text-fnBrightPurple underline font-semibold">rankit.pro</a> y a <a href="https://www.instagram.com/xbellz_/" target="_blank" class="text-fnBrightPurple underline font-semibold">bellz</a> en redes sociales.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="processPhaseRegistration()" id="btn-submit-registration" class="w-full fn-btn bg-white text-black font-chakra font-bold text-xs py-3.5 uppercase tracking-widest transition-all hover:bg-gray-200 mt-4">
+                        REGISTRAR PARTICIPACIÓN
+                    </button>
+                </div>
+
+                <!-- Ficha Éxito Registro -->
+                <div id="success-profile-widget" class="hidden premium-card p-5 border-2 border-fnBrightPurple shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-fnBrightPurple/20 blur-xl" id="widget-back-glow"></div>
+                    
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-2 border-white/20 text-xl bg-black/40">
+                            <i class="fa-solid fa-check text-fnBrightPurple" id="widget-check-icon"></i>
+                        </div>
+                        <div>
+                            <span class="text-[8px] uppercase tracking-widest font-bold bg-white/10 border border-white/15 px-2 py-0.5 rounded text-white">Registro Exitoso</span>
+                            <h4 class="font-chakra text-lg font-bold leading-none mt-1 text-white" id="widget-registered-name">Ninja</h4>
+                            <p class="text-[10px] text-gray-500 mt-1" id="widget-registered-contact">correo@mail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-white/5 pt-3 flex justify-between items-center text-[10px] font-chakra">
+                        <span class="text-gray-500" id="status-method-label">Método de Validación:</span>
+                        <span class="font-bold text-white uppercase tracking-wider" id="status-validation-text">AUTOMÁTICO</span>
+                    </div>
+
+                    <div class="mt-3 p-2 bg-white/5 rounded text-[10px] text-gray-400 border border-white/5 leading-relaxed font-chakra" id="widget-instructions-detail">
+                        Si clasificas en el Top 15%, te enviaremos el enlace del lobby de la final a tu correo.
+                    </div>
+                </div>
+
+                <!-- Premios Asignados -->
+                <div class="premium-card p-5 relative overflow-hidden">
+                    <h5 class="font-chakra text-lg uppercase tracking-wider text-fnGold mb-3 font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-award"></i> Premios Asignados
+                    </h5>
+                    <ul class="text-xs space-y-2 text-gray-400 font-chakra" id="rewards-list">
+                        <!-- Inyectado dinámicamente -->
+                    </ul>
+                </div>
+
+                <!-- Modelo de Negocio / Finanzas del Torneo -->
+                <div class="premium-card p-5 border border-fnGold/20 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 corner-scratch opacity-10 pointer-events-none"></div>
+                    <h5 class="font-chakra text-sm uppercase tracking-wider text-fnGold mb-3 font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-coins text-fnGold"></i> Modelo Financiero Rankit
+                    </h5>
+                    <div class="space-y-2.5 text-xs font-chakra">
+                        <div class="flex justify-between border-b border-white/5 pb-1.5">
+                            <span class="text-gray-400 font-medium">Ingresos Proyectados:</span>
+                            <span class="font-bold text-fnEmerald">+ $6,500.00 MXN</span>
+                        </div>
+                        <div class="pl-3 space-y-1 text-[11px] text-gray-500 border-l border-white/5">
+                            <div class="flex justify-between">
+                                <span>🎟️ 20 Entradas Repechaje ($150 c/u):</span>
+                                <span>$3,000.00 MXN</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>👑 10 Entradas Final VIP ($350 c/u):</span>
+                                <span>$3,500.00 MXN</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between border-b border-white/5 pb-1.5">
+                            <span class="text-gray-400 font-medium">Premios Totales (Egresos):</span>
+                            <span class="font-bold text-fnCrimson">- $2,700.00 MXN</span>
+                        </div>
+                        <div class="pl-3 space-y-1 text-[11px] text-gray-500 border-l border-white/5">
+                            <div class="flex justify-between">
+                                <span>Semanales (W1 + W2):</span>
+                                <span>$400.00 MXN</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Gran Final (Podio + Sorteo):</span>
+                                <span>$2,300.00 MXN</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between border-b border-white/5 pb-1.5">
+                            <span class="text-gray-400 font-medium">Publicidad (4 semanas x $200):</span>
+                            <span class="font-bold text-fnCrimson">- $800.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/5 pb-1.5">
+                            <span class="text-white font-bold">Ganancia Neta Total:</span>
+                            <span class="font-bold text-fnGold text-sm bg-fnGold/10 border border-fnGold/30 px-2 py-0.5 rounded shadow-[0_0_10px_rgba(241,196,15,0.2)]">+ $3,000.00 MXN</span>
+                        </div>
+                        <div class="pl-3 space-y-1 text-[11px] text-gray-500 border-l border-white/5">
+                            <div class="flex justify-between">
+                                <span>🎙️ Streamer Organizador (25%):</span>
+                                <span>$750.00 MXN</span>
+                            </div>
+                            <div class="flex justify-between text-white font-semibold">
+                                <span>🛡️ Utilidad Retenida Rankit (75%):</span>
+                                <span>$2,250.00 MXN</span>
+                            </div>
+                            <div class="pl-3 space-y-1 text-[10px] text-gray-500 border-l border-white/10">
+                                <div class="flex justify-between">
+                                    <span>🚀 Presupuesto Siguiente Temp:</span>
+                                    <span>$1,250.00 MXN</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>👑 Respaldo Financiero (Bono Bellz):</span>
+                                    <span>$1,000.00 MXN</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2.5 bg-fnEmerald/10 border border-fnEmerald/30 rounded text-[9.5px] text-gray-300 leading-normal uppercase">
+                            <span class="text-fnEmerald font-bold block mb-1">✅ MODELO AJUSTADO Y RENTABLE:</span>
+                            Se subieron los precios a <strong class="text-white">$150 MXN</strong> (Repechaje) y <strong class="text-white">$350 MXN</strong> (VIP Final) para mitigar el riesgo de pérdidas.
+                            <span class="text-fnGold font-bold block mt-1.5 mb-0.5">💰 ESTADO DE UTILIDADES:</span>
+                            Esto asegura una utilidad neta de <strong class="text-fnGold">$3,000 MXN</strong>, otorgando <strong class="text-white">$750 MXN</strong> al streamer (25%) y reteniendo <strong class="text-white">$2,250 MXN</strong> para Rankit (75%).
+                            <span class="text-fnNeonCyan font-bold block mt-1.5 mb-0.5">💼 DISTRIBUCIÓN DE UTILIDAD RANKIT:</span>
+                            Se destinan <strong class="text-white">$1,250 MXN</strong> para la siguiente temporada y <strong class="text-white">$1,000 MXN</strong> como respaldo financiero para fondear el bono de Bellz.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportar Errores o Soporte -->
+                <div class="premium-card p-5 border border-white/5 relative overflow-hidden">
+                    <div class="flex items-start gap-3">
+                        <div class="p-2 bg-pink-500/10 text-pink-500 rounded border border-pink-500/20">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-chakra text-base uppercase tracking-wider text-white font-bold mb-1">¿Reportar Errores o Dudas?</h5>
+                            <p class="text-[10px] text-gray-400 leading-relaxed mb-3 font-chakra">
+                                Si tienes problemas de registro o de cobro, envíanos un mensaje directo. El envío y la respuesta del mensaje puede tardar hasta **24 horas**.
+                            </p>
+                            <a href="https://www.instagram.com/rankit.pro/followers/mutualOnly" target="_blank" class="inline-flex items-center gap-1 text-[10px] text-pink-400 hover:text-pink-300 font-bold transition-all uppercase tracking-wider">
+                                Enviar mensaje en Instagram <i class="fa-solid fa-up-right-from-square text-[8px] ml-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Sistema de Notificaciones Toast de Estilo Gaming -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-black/95 border border-white/10 text-white px-6 py-4 rounded shadow-2xl flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="p-1 bg-white/5 rounded">
+            <i id="toast-icon" class="fa-solid fa-circle-check text-fnBrightPurple text-lg"></i>
+        </div>
+        <div>
+            <h5 class="font-bold text-sm font-chakra" id="toast-title">Alerta Rankit</h5>
+            <p class="text-xs text-gray-400 mt-0.5 font-chakra" id="toast-message">Procesando información del servidor...</p>
+        </div>
+    </div>
+
+    <!-- Footer Elegante -->
+    <footer class="border-t border-white/5 bg-[#010003] py-16 px-4 text-center relative z-10 font-chakra">
+        <div class="flex justify-center gap-8 text-lg text-gray-600 mb-8">
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.instagram.com/rankit.pro/followers/mutualOnly" target="_blank" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <p class="font-block text-sm text-gray-600 tracking-widest uppercase mb-4">&copy; 2026 RANKIT PRO LEAGUE.</p>
+        <p class="max-w-2xl mx-auto leading-relaxed text-[10px] text-gray-700 font-chakra">
+            Esta liga competitiva no está afiliada ni patrocinada por Epic Games. Todo el circuito es en formato solitario de Fortnite. El correo de registro debe ser el de rankit.pro. Los registros son necesarios para enviarte el link de invitación al lobby o tu boleto.
+        </p>
+    </footer>
+
+    <!-- Modal de Ganadores de la Gran Final -->
+    <div id="final-winners-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md hidden transition-all duration-300 opacity-0">
+        <div class="relative w-full max-w-lg p-8 rounded-2xl border border-fnGold/35 bg-fnDark/95 shadow-[0_0_50px_rgba(241,196,15,0.25)] text-center font-chakra">
+            <div class="absolute inset-0 bg-fnGold/5 pointer-events-none rounded-2xl"></div>
+            
+            <div class="relative z-10">
+                <i class="fa-solid fa-trophy text-5xl text-fnGold animate-bounce mb-4 block"></i>
+                <h3 class="font-block text-3xl sm:text-4xl text-white uppercase tracking-wider mb-2">¡GRAN FINAL TERMINADA!</h3>
+                <p class="text-gray-400 text-xs uppercase tracking-widest mb-6">Podio oficial de premios y sorteo</p>
+                
+                <div class="space-y-3.5 mb-8">
+                    <!-- 1er Lugar -->
+                    <div class="p-4 bg-fnGold/10 border border-fnGold/30 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🥇</span>
+                            <div class="text-left">
+                                <span class="block text-[9px] text-fnGold uppercase font-bold tracking-wider">CAMPEÓN DE LA LIGA</span>
+                                <span class="text-white font-bold" id="modal-top1-name">-</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[10px] text-gray-500 line-through">$800.00 MXN Base</span>
+                            <span class="text-fnGold font-bold text-lg font-mono">$1,200.00 MXN</span>
+                        </div>
+                    </div>
+
+                    <!-- 2do Lugar -->
+                    <div class="p-3 bg-slate-300/5 border border-slate-300/20 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🥈</span>
+                            <div class="text-left">
+                                <span class="block text-[9px] text-gray-400 uppercase font-bold">SUBCAMPEÓN</span>
+                                <span class="text-white font-semibold" id="modal-top2-name">-</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[9px] text-gray-500 line-through">$200.00 MXN Base</span>
+                            <span class="text-gray-300 font-bold font-mono">$600.00 MXN</span>
+                        </div>
+                    </div>
+
+                    <!-- 3er Lugar -->
+                    <div class="p-3 bg-amber-700/5 border border-amber-700/20 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🥉</span>
+                            <div class="text-left">
+                                <span class="block text-[9px] text-amber-600 uppercase font-bold">TERCER PUESTO</span>
+                                <span class="text-white font-semibold" id="modal-top3-name">-</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[9px] text-gray-500 line-through">$100.00 MXN Base</span>
+                            <span class="text-amber-500 font-bold font-mono">$400.00 MXN</span>
+                        </div>
+                    </div>
+
+                    <!-- Sorteo -->
+                    <div class="p-3.5 bg-fnMagenta/10 border border-fnMagenta/25 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-lg">🎟️</span>
+                            <div class="text-left">
+                                <span class="block text-[9px] text-fnMagenta uppercase font-bold">GANADOR DEL SORTEO (RESTO DEL LOBBY)</span>
+                                <span class="text-white font-semibold" id="modal-raffle-name">-</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-fnMagenta font-bold font-mono">$100.00 MXN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="closeFinalWinnersModal()" class="fn-btn w-full bg-white text-black font-chakra font-bold text-xs py-3.5 uppercase tracking-widest transition-all hover:bg-gray-200">
+                    CERRAR PODIO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- POOL DE JUGADORES MOCK REALISTAS PARA TORNEOS DE 100 PARTICIPANTES ---
+        const playerPool = [
+            "Purple_Nova_FN", "Savage_Llama", "ZeroBuild_King", "Cranker_Fort", "Shield_Breaker",
+            "Double_Edit_FN", "Riot_Spectre", "Vibe_Soldier", "Clutch_Master", "BusDriver_Fan",
+            "SlurpySip_OG", "SniperPro_007", "Toxic_Gamer", "FaZe_Clon", "Buga_Wannabe",
+            "BoxFight_God", "Piece_Control_OP", "Tilted_Sweat", "ChugJug_Chugger", "Bush_Camper",
+            "Victory_Royale_V1", "AimBot_Active", "NoScope_Hero", "HighGround_Retake", "Llama_Whisperer",
+            "Sweaty_Skins", "Reboot_Rebel", "MiniShield_Mini", "Rift_Rider", "LaunchPad_Flyer",
+            "Default_Slayer", "Gold_Scar_OP", "Boogie_Bomb_Vibe", "Storm_Runner", "MedKit_Medic",
+            "Cranky_Builder", "Edit_Course_Pro", "FNCS_Hopeful", "DreamHack_Champ", "Solo_Warrior",
+            "Duos_Partner", "Trios_Sweat", "Squad_Carry", "VBucks_Spender", "BattlePass_Max",
+            "Ninja_Mode_On", "Bellz_Follower", "Rankit_Pro_OG", "Clasificatorio_Beast", "Finals_Contender",
+            "Grappler_Pro", "Shockwave_Jump", "PumpShotty_God", "Siphon_Slayer", "Lobby_Leader",
+            "Apex_Predator_FN", "Fortnite_Solo_V", "Sweaty_Hands", "Click_Fast", "Keyboard_Warrior",
+            "Controller_Scrimmer", "Linear_Aim", "Exponential_Aim", "Zone_Wars_Pro", "Realistics_God",
+            "Clix_Clone", "Mongraal_Fan", "Savage_Play", "Mitro_Sweat", "Benjy_Fan",
+            "Tfue_Legacy", "Ninja_Legacy", "SypherPK_Fan", "Courage_Llama", "Lupo_Spectre",
+            "Nickmercs_Beast", "TimTheTatman_OG", "DrLupo_Aim", "AliA_Clickbait", "Lachlan_Icon",
+            "Loserfruit_Fan", "Grefg_Speed", "Rubius_Gamer", "Auron_Sweat", "Ibai_Lobby",
+            "ElMariana_FN", "Rivers_OP", "Spreen_Click", "Quackity_Fan", "JuanSGuarnizo",
+            "MissaSinfonia", "Ded_Gamer", "Aldo_Geo", "Barca_Gamer", "Roberto_OP",
+            "AriGameplays_Fan", "Amablitz_Fan", "Staryuuki_OG", "WindyGirk_OG", "Coscu_Army",
+            "Momo_Aim", "Frankkaster_OP", "PapoMC_Fan", "LitKillah_Llama", "Duki_Skins",
+            "Bizarrap_Beast", "Trueno_Edit", "Wos_Aim", "Cacha_Gamer", "Klan_Spectre",
+            "Stuart_Aim", "Mecha_Sweat", "Spike_OP", "Gale_Storm", "Breeze_Retake",
+            "Cyclone_Edit", "Tornado_Build", "Hurricane_Solo", "Blizzard_God", "Avalanche_OP",
+            "Volcano_Crank", "Earthquake_Aim", "Tsunami_Slayer", "Meteor_Scar", "Comet_Pump",
+            "Galaxy_Skin", "Nebula_Retake", "Supernova_OP", "BlackHole_Camper", "Cosmic_Llama",
+            "Astral_Aim", "Solar_Flare", "Lunar_Orbit", "Eclipse_Scar", "Aurora_Borealis",
+            "MeteorShower", "Starlight_Pro", "Moonlight_Edit", "Sunlight_Llama", "Daylight_Sweat",
+            "Nightfall_Spectre", "Twilight_Aim", "Midnight_Crank", "Sunrise_Retake", "Sunset_Solo"
+        ];
+
+        function getRandomAvatar() {
+            const avatars = ["🔥", "🎯", "⚡", "💀", "🛡️", "🛠️", "👻", "👾", "🌟", "🚌", "🧪", "👁️", "🦖", "🦊", "🦁", "🐼", "🤖", "👽"];
+            return avatars[Math.floor(Math.random() * avatars.length)];
+        }
+
+        function getWeek1Players() {
+            // Primeros 100 jugadores
+            return playerPool.slice(0, 100).map((name, idx) => ({
+                name: name,
+                points: 0,
+                kills: 0,
+                vr: 0,
+                matches: 0,
+                avatar: getRandomAvatar(),
+                rank: idx + 1
+            }));
+        }
+
+        function getWeek2Players() {
+            // 70 de Semana 1 (repetidos)
+            const repeated = playerPool.slice(0, 70);
+            // 30 nuevos (de index 100 en adelante)
+            const newPlayers = playerPool.slice(100, 130);
+            const totalNames = [...repeated, ...newPlayers];
+            
+            return totalNames.map((name, idx) => ({
+                name: name,
+                points: 0,
+                kills: 0,
+                vr: 0,
+                matches: 0,
+                avatar: getRandomAvatar(),
+                rank: idx + 1
+            }));
+        }
+
+        // --- DATOS COMPLETOS DE LIGA (TABLAS INICIALIZADAS EN ESTADO "AÚN NO SE JUEGA" / VACÍAS) ---
+        const tournamentPhases = {
+            1: {
+                name: "Clasificatorio 1",
+                status: "Aún no se juega",
+                icon: "fa-solid fa-circle-check",
+                image: "./Imagenes/clasificatorio-1.png",
+                color: "text-fnBrightPurple",
+                glowColor: "rgba(155, 48, 255, 0.65)",
+                borderColor: "border-fnBrightPurple shadow-glowPurple",
+                badgeCategory: "Fase Inicial",
+                type: "gratis",
+                ticketPrice: "Gratis",
+                totalTickets: 100,
+                ticketsLeft: 100,
+                description: "Límite de <strong>100 cupos</strong> por clasificatorio. Si hay más de 100 inscritos se divide en Grupo 1 y Grupo 2 de manera balanceada. ¡Solo tienes una única oportunidad! El <strong>Top 15% de cada grupo</strong> avanza directo a la Final.",
+                players: [] // Inicia vacío ("Aún no se juega")
+            },
+            2: {
+                name: "Clasificatorio 2",
+                status: "Aún no se juega",
+                icon: "fa-solid fa-bolt",
+                image: "./Imagenes/clasificatorio-2.png",
+                color: "text-fnEmerald",
+                glowColor: "rgba(0, 176, 116, 0.7)",
+                borderColor: "border-fnEmerald shadow-glowEmerald",
+                badgeCategory: "Segunda Oportunidad",
+                type: "gratis",
+                ticketPrice: "Gratis",
+                totalTickets: 100,
+                ticketsLeft: 100,
+                description: "Último clasificatorio directo. Mismo formato de <strong>100 cupos</strong> con divisiones en Grupo 1 y 2 en caso de exceso. Solo una oportunidad. El <strong>Top 15% de cada grupo</strong> avanza directo a la final.",
+                players: [] // Inicia vacío
+            },
+            3: {
+                name: "El Repechaje",
+                status: "Aún no se juega",
+                icon: "fa-solid fa-arrows-rotate",
+                image: "./Imagenes/repechaje.png",
+                color: "text-fnCrimson",
+                glowColor: "rgba(215, 38, 61, 0.7)",
+                borderColor: "border-fnCrimson shadow-glowCrimson",
+                badgeCategory: "Última Oportunidad",
+                type: "repechaje",
+                ticketPrice: "$150.00 MXN",
+                totalTickets: 20,
+                ticketsLeft: 20,
+                description: "Acceso para los mejores por puntos de constancia de W1 y W2. Consta de <strong>4 partidas exactas de Battle Royale</strong>. Los 8 pases directos a la final se reparten de la siguiente manera:<br>• <strong class='text-white'>Ganadores (4 pases):</strong> El jugador que gane cada partida (ya clasificado, se colorea en rojo y no puede jugar/ganar de nuevo en el repechaje).<br>• <strong class='text-white'>Constancia (3 pases):</strong> Los 3 jugadores con mayor puntaje total en las 4 partidas (que no hayan ganado).<br>• <strong class='text-white'>MVP Kills (1 pase):</strong> El jugador con más kills que no haya clasificado por los anteriores.",
+                players: [] // Inicia vacío
+            },
+            4: {
+                name: "Gran Final",
+                status: "Próximamente",
+                icon: "fa-solid fa-trophy",
+                image: "./Imagenes/gran-final.png",
+                color: "text-fnGold",
+                glowColor: "rgba(241, 196, 15, 0.65)",
+                borderColor: "border-fnGold shadow-glowGold",
+                badgeCategory: "Gran Final VIP",
+                type: "final",
+                ticketPrice: "$350.00 MXN",
+                totalTickets: 10,
+                ticketsLeft: 10,
+                description: "La gran final de la liga. Compiten los clasificados directos del 15% de W1 y W2, y los 8 pases definidos en el Repechaje de la Semana 3. Pelean por el **premio base de $1,000 MXN garantizados + el pozo extra acumulado**.",
+                players: []
+            },
+            5: {
+                name: "Tabla de Constancia",
+                status: "Aún no se juega",
+                icon: "fa-solid fa-chart-simple",
+                image: "./Imagenes/clasificatorio-2.png",
+                color: "text-fnMagenta",
+                glowColor: "rgba(255, 61, 241, 0.65)",
+                borderColor: "border-fnMagenta shadow-glowMagenta",
+                badgeCategory: "Constancia W1 + W2",
+                type: "constancia",
+                ticketPrice: "N/A",
+                totalTickets: 0,
+                ticketsLeft: 0,
+                description: "Aquí se listan los puntos de constancia acumulados por los jugadores que compitieron activamente en <strong>Semana 1 y Semana 2</strong> pero no clasificaron directo. De un total de <strong>130 jugadores únicos</strong> registrados (con un 70% de jugadores repetidos para simular consistencia real de torneo), los **Top 20 jugadores** no clasificados avanzan al Repechaje. Esto les otorga un <strong>40% de probabilidad de clasificar</strong> (8 pases a repartir entre 20 jugadores), buscando un lobby final de 48 competidores (incluyendo 10 VIP/pago).",
+                players: [] // Calculado dinámicamente si hay datos en W1 o W2, sino vacío
+            }
+        };
+
+        let currentPhase = 1;
+        let registeredUser = null;
+        let w1Qualified = [];
+        let w2Qualified = [];
+
+        function getRepechajeRankScore(p) {
+            if (!p.repechaje_status) return 0;
+            if (p.repechaje_status.startsWith('Ganador')) return 3;
+            if (p.repechaje_status === 'Constancia') return 2;
+            if (p.repechaje_status === 'MVP Kills') return 1;
+            return 0;
+        }
+
+        function updateSideQualifiersPanel() {
+            const phase = tournamentPhases[currentPhase];
+            if (!phase || !phase.players || phase.players.length === 0) {
+                updateSubTabContent();
+                return;
+            }
+
+            // Calcular el 15% (100 participantes * 0.15 = 15 clasificados)
+            const numQualifiers = Math.ceil(phase.players.length * 0.15);
+            let qualifiers = [];
+
+            if (currentPhase === 1) {
+                qualifiers = phase.players.slice(0, numQualifiers);
+                w1Qualified = qualifiers.map(q => q.name);
+            } else if (currentPhase === 2) {
+                // Filtrar los que ya clasificaron en Semana 1
+                const cleanW1Names = w1Qualified.map(n => n.replace(" 👑", ""));
+                const eligible = phase.players.filter(p => !cleanW1Names.includes(p.name.replace(" 👑", "")));
+                qualifiers = eligible.slice(0, numQualifiers);
+                w2Qualified = qualifiers.map(q => q.name);
+            }
+
+            updateSubTabContent();
+        }
+
+        function switchSubTab(tabId) {
+            // Ocultar todos los contenidos de subtabs
+            document.querySelectorAll('.subtab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Resetear estilos de los botones de subtabs
+            const tabs = ['table', 'qualified', 'prizes'];
+            tabs.forEach(id => {
+                const btn = document.getElementById(`tab-btn-${id}`);
+                if (btn) {
+                    btn.className = "px-6 py-3 border-b-2 border-transparent text-gray-400 text-xs font-bold uppercase tracking-wider transition-all hover:bg-white/5 hover:text-white flex items-center gap-2";
+                    btn.style.borderBottomColor = 'transparent';
+                }
+            });
+
+            // Mostrar el subtab activo
+            const activeContent = document.getElementById(`subtab-${tabId}-content`);
+            if (activeContent) activeContent.classList.remove('hidden');
+
+            // Poner el botón activo con su borde de color de fase
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "px-6 py-3 border-b-2 text-white text-xs font-bold uppercase tracking-wider transition-all hover:bg-white/5 flex items-center gap-2";
+                activeBtn.style.borderBottomColor = 'rgb(var(--fn-primary-rgb))';
+            }
+            
+            // Forzar renderizado del contenido
+            updateSubTabContent();
+        }
+
+        function updateSubTabContent() {
+            const phase = tournamentPhases[currentPhase];
+            if (!phase) return;
+
+            // 1. ACTUALIZAR CLASIFICADOS (TAB 2)
+            const qualTitle = document.getElementById('qualifiers-tab-title');
+            if (qualTitle) {
+                qualTitle.innerHTML = `<i class="fa-solid fa-crown text-fnGold"></i> Clasificados de la Fase: ${phase.name}`;
+            }
+
+            const qualList = document.getElementById('subtab-qualifiers-list');
+            if (qualList) {
+                qualList.innerHTML = '';
+                
+                if (currentPhase === 1 || currentPhase === 2) {
+                    const listToCheck = currentPhase === 1 ? w1Qualified : w2Qualified;
+                    const phasePlayers = phase.players || [];
+                    
+                    if (phasePlayers.length === 0 || listToCheck.length === 0) {
+                        qualList.innerHTML = `<p class="text-xs text-gray-500 italic col-span-full py-4 text-center">⚠️ Semana ${currentPhase} aún no se ha jugado. ¡Simula la partida para ver quiénes clasificaron directo!</p>`;
+                    } else {
+                        const listToCheckClean = listToCheck.map(n => n.replace(" 👑", ""));
+                        const qualifiersDetails = phasePlayers.filter(p => listToCheckClean.includes(p.name.replace(" 👑", "")));
+                        
+                        qualifiersDetails.forEach((p, index) => {
+                            const card = document.createElement('div');
+                            card.className = "p-3 bg-fnGold/5 border border-fnGold/30 rounded-lg flex items-center justify-between gap-3 text-xs text-white";
+                            card.innerHTML = `
+                                <div class="flex items-center gap-2.5 truncate">
+                                    <span class="text-base">${p.avatar || '🎮'}</span>
+                                    <div class="truncate">
+                                        <h6 class="font-bold truncate text-white" title="${p.name}">${p.name}</h6>
+                                        <span class="text-[9px] text-gray-500 font-mono">Pts: ${p.points} | Kills: ${p.kills}</span>
+                                    </div>
+                                </div>
+                                <span class="bg-fnGold/15 border border-fnGold/40 text-fnGold font-bold text-[9px] px-2 py-0.5 rounded flex items-center gap-0.5 whitespace-nowrap"><i class="fa-solid fa-crown text-[7px]"></i> PASS #${index + 1}</span>
+                            `;
+                            qualList.appendChild(card);
+                        });
+                    }
+                } else if (currentPhase === 3) {
+                    const repPlayers = phase.players || [];
+                    const qualifiers = repPlayers.filter(p => p.status === 'RED');
+                    
+                    if (repPlayers.length === 0 || qualifiers.length === 0) {
+                        qualList.innerHTML = `<p class="text-xs text-gray-500 italic col-span-full py-4 text-center">⚠️ El Repechaje aún no se ha jugado. ¡Simula la partida para ver quiénes ganaron los 8 pases directos!</p>`;
+                    } else {
+                        qualifiers.forEach((p) => {
+                            const card = document.createElement('div');
+                            card.className = "p-3 bg-fnCrimson/5 border border-fnCrimson/30 rounded-lg flex items-center justify-between gap-3 text-xs text-white";
+                            card.innerHTML = `
+                                <div class="flex items-center gap-2.5 truncate">
+                                    <span class="text-base">${p.avatar || '🎮'}</span>
+                                    <div class="truncate">
+                                        <h6 class="font-bold truncate text-white" title="${p.name}">${p.name}</h6>
+                                        <span class="text-[9px] text-gray-500 font-mono">Pts: ${p.points} | Kills: ${p.kills}</span>
+                                    </div>
+                                </div>
+                                <span class="bg-fnCrimson/20 border border-fnCrimson/40 text-fnCrimson font-bold text-[9px] px-2 py-0.5 rounded uppercase whitespace-nowrap">${p.repechaje_status || 'PASS'}</span>
+                            `;
+                            qualList.appendChild(card);
+                        });
+                    }
+                } else if (currentPhase === 4) {
+                    const finalPlayers = phase.players || [];
+                    if (finalPlayers.length === 0) {
+                        qualList.innerHTML = `<p class="text-xs text-gray-500 italic col-span-full py-4 text-center">⚠️ La Gran Final aún no se ha jugado. ¡Simula la partida para ver los ganadores!</p>`;
+                    } else {
+                        const top3 = finalPlayers.slice(0, 3);
+                        top3.forEach((p, index) => {
+                            let colorTheme = "border-fnGold bg-fnGold/5 text-fnGold";
+                            let medal = "🥇 Champion";
+                            if (index === 1) {
+                                colorTheme = "border-slate-300 bg-slate-300/5 text-slate-300";
+                                medal = "🥈 2nd Place";
+                            } else if (index === 2) {
+                                colorTheme = "border-amber-700 bg-amber-700/5 text-amber-600";
+                                medal = "🥉 3rd Place";
+                            }
+                            
+                            const card = document.createElement('div');
+                            card.className = `p-3.5 border rounded-lg flex items-center justify-between gap-3 text-xs ${colorTheme}`;
+                            card.innerHTML = `
+                                <div class="flex items-center gap-2.5 truncate">
+                                    <span class="text-lg">${p.avatar || '🎮'}</span>
+                                    <div class="truncate">
+                                        <h6 class="font-bold truncate text-white" title="${p.name}">${p.name}</h6>
+                                        <span class="text-[9px] text-gray-400 font-mono">Pts: ${p.points} | Kills: ${p.kills}</span>
+                                    </div>
+                                </div>
+                                <span class="bg-white/10 border border-current font-bold text-[9px] px-2.5 py-0.5 rounded uppercase whitespace-nowrap">${medal}</span>
+                            `;
+                            qualList.appendChild(card);
+                        });
+                    }
+                } else if (currentPhase === 5) {
+                    const constPlayers = phase.players || [];
+                    const goldList = constPlayers.filter(p => p.status === 'GOLD');
+                    const redList = constPlayers.filter(p => p.status === 'RED');
+                    
+                    if (constPlayers.length === 0) {
+                        qualList.innerHTML = `<p class="text-xs text-gray-500 italic col-span-full py-4 text-center">⚠️ Esperando simulación de Semana 1 y Semana 2 para calcular la Tabla de Constancia.</p>`;
+                    } else {
+                        const summary = document.createElement('div');
+                        summary.className = "col-span-full mb-2 p-2.5 bg-white/5 rounded border border-white/5 text-[10px] text-gray-400 uppercase leading-relaxed";
+                        summary.innerHTML = `
+                            💡 ESTADO DE CONSTANCIA:<br>
+                            ⭐ <strong class="text-fnGold">Ya Clasificados (Dorado)</strong>: ${goldList.length} jugadores.<br>
+                            🔴 <strong class="text-fnCrimson">Clasificados al Repechaje (Rojo)</strong>: ${redList.length} jugadores.
+                        `;
+                        qualList.appendChild(summary);
+
+                        redList.forEach((p, idx) => {
+                            const card = document.createElement('div');
+                            card.className = "p-2 bg-fnCrimson/5 border border-fnCrimson/25 rounded-md flex items-center justify-between text-[11px] text-white";
+                            card.innerHTML = `
+                                <div class="flex items-center gap-2 truncate">
+                                    <span>${p.avatar || '🎮'}</span>
+                                    <span class="font-medium truncate text-white">${p.name}</span>
+                                </div>
+                                <span class="text-[9px] bg-fnCrimson/15 text-fnCrimson border border-fnCrimson/35 px-1.5 py-0.5 rounded font-mono font-bold">#${idx + 1} CONST</span>
+                            `;
+                            qualList.appendChild(card);
+                        });
+                    }
+                }
+            }
+
+            // 2. ACTUALIZAR PREMIOS Y REGLAS (TAB 3)
+            const rewardsDetail = document.getElementById('subtab-rewards-detail');
+            const rulesDetail = document.getElementById('subtab-rules-detail');
+            
+            if (rewardsDetail && rulesDetail) {
+                if (currentPhase === 1 || currentPhase === 2) {
+                    rewardsDetail.innerHTML = `
+                        <div class="p-3 bg-fnGold/5 border border-fnGold/20 rounded-lg">
+                            <span class="text-[9px] text-fnGold font-bold uppercase tracking-wider block mb-1">🥇 1.º Lugar</span>
+                            <span class="text-xl font-bold text-white">$100.00 MXN</span>
+                            <span class="text-[9px] text-gray-500 block mt-1">Efectivo Semanal</span>
+                        </div>
+                        <div class="p-3 bg-white/5 border border-white/10 rounded-lg">
+                            <span class="text-[9px] text-slate-300 font-bold uppercase tracking-wider block mb-1">🥈 2.º Lugar</span>
+                            <span class="text-xl font-bold text-white">$60.00 MXN</span>
+                            <span class="text-[9px] text-gray-500 block mt-1">Efectivo Semanal</span>
+                        </div>
+                        <div class="p-3 bg-amber-700/5 border border-amber-700/20 rounded-lg">
+                            <span class="text-[9px] text-amber-600 font-bold uppercase tracking-wider block mb-1">🥉 3.º Lugar</span>
+                            <span class="text-xl font-bold text-white">$40.00 MXN</span>
+                            <span class="text-[9px] text-gray-500 block mt-1">Efectivo Semanal</span>
+                        </div>
+                        <div class="col-span-full p-3 bg-fnBrightPurple/5 border border-fnBrightPurple/20 rounded-lg flex justify-between items-center text-xs text-white">
+                            <span class="font-bold">🏆 Pase Directo a la Gran Final:</span>
+                            <span class="text-fnBrightPurple font-black uppercase tracking-wider">Top 15% Pasa Directo</span>
+                        </div>
+                    `;
+                    rulesDetail.innerHTML = `
+                        <p>• <strong>Formato:</strong> 4 partidas consecutivas en modo Solos con puntuación FNCS Dividido / 2.</p>
+                        <p>• <strong>Puntuación:</strong> 2 puntos por eliminación, 32.5 por ganar la partida, y puntos por colocación en el Top 30.</p>
+                        <p>• <strong>Pases:</strong> El Top 15% (15 jugadores de 100) avanza directo a la final y queda excluido del Repechaje para dar oportunidad a otros.</p>
+                        <p>• <strong>Constancia:</strong> Los que no califiquen directo acumulan sus puntos para la Tabla de Constancia.</p>
+                    `;
+                } else if (currentPhase === 3) {
+                    rewardsDetail.innerHTML = `
+                        <div class="col-span-full p-4 bg-fnCrimson/5 border border-fnCrimson/20 rounded-lg text-center">
+                            <h5 class="text-sm font-bold text-fnCrimson uppercase tracking-wide mb-1 text-white">🎟️ 8 PASES DIRECTOS A LA GRAN FINAL</h5>
+                            <p class="text-xs text-gray-400">No hay premios en efectivo en esta fase intermedia. Los clasificados competirán en la final por la bolsa de <strong>$2,300.00 MXN</strong>.</p>
+                        </div>
+                    `;
+                    rulesDetail.innerHTML = `
+                        <p>• <strong>Participantes (40 totales):</strong> 20 de la Tabla de Constancia (Gratis) + 20 Entradas pagadas ($100 MXN c/u).</p>
+                        <p>• <strong>Formato:</strong> 4 partidas consecutivas. Exclusión en vivo: los ganadores de pase no juegan las siguientes partidas.</p>
+                        <p>• <strong>Reparto de los 8 pases directos:</strong></p>
+                        <div class="pl-4 space-y-1">
+                            <p>👑 <strong>Ganadores (4 pases):</strong> El jugador que gane la Victory Royale en cada una de las 4 partidas.</p>
+                            <p>🏆 <strong>Constancia (3 pases):</strong> Los 3 jugadores con mayor cantidad de puntos acumulados que no hayan ganado partida.</p>
+                            <p>⚔️ <strong>MVP Kills (1 pase):</strong> El jugador con mayor cantidad de eliminaciones totales que no haya calificado por los anteriores.</p>
+                        </div>
+                        <p class="text-fnCrimson font-semibold mt-2">• ⚠️ Exclusiones: Los clasificados de Semana 1 y 2 no pueden participar.</p>
+                    `;
+                } else if (currentPhase === 4) {
+                    rewardsDetail.innerHTML = `
+                        <div class="p-3 bg-fnGold/10 border-2 border-fnGold rounded-lg shadow-md shadow-fnGold/10">
+                            <span class="text-[9px] text-fnGold font-bold uppercase tracking-wider block mb-1">🥇 Gran Campeón</span>
+                            <span class="text-2xl font-black text-white">$1,200.00 MXN</span>
+                            <span class="text-[9px] text-gray-400 block mt-1">($800 MXN Base Garantizado)</span>
+                        </div>
+                        <div class="p-3 bg-slate-300/5 border border-slate-300/30 rounded-lg">
+                            <span class="text-[9px] text-slate-300 font-bold uppercase tracking-wider block mb-1">🥈 Subcampeón</span>
+                            <span class="text-xl font-bold text-white">$600.00 MXN</span>
+                            <span class="text-[9px] text-gray-400 block mt-1">($200 MXN Base Garantizado)</span>
+                        </div>
+                        <div class="p-3 bg-amber-700/5 border border-amber-700/30 rounded-lg">
+                            <span class="text-[9px] text-amber-600 font-bold uppercase tracking-wider block mb-1">🥉 3.º Puesto</span>
+                            <span class="text-xl font-bold text-white">$400.00 MXN</span>
+                            <span class="text-[9px] text-gray-400 block mt-1">($100 MXN Base Garantizado)</span>
+                        </div>
+                        <div class="col-span-full p-2.5 bg-fnMagenta/5 border border-fnMagenta/25 rounded-lg flex justify-between items-center text-xs text-white">
+                            <span class="font-bold">🎟️ Sorteo Final Especial:</span>
+                            <span class="text-fnMagenta font-black uppercase tracking-wider">$100.00 MXN</span>
+                        </div>
+                    `;
+                    rulesDetail.innerHTML = `
+                        <p>• <strong>Participantes (48 totales):</strong> 15 de Semana 1 + 15 de Semana 2 + 8 del Repechaje + 10 VIP/Pago de Entrada ($200 MXN c/u).</p>
+                        <p>• <strong>Formato:</strong> 1 lobby final de alta tensión. Puntos estilo FNCS/2.</p>
+                        <p>• <strong>Sorteo:</strong> Al terminar la partida final, se sortean $100 MXN en efectivo entre todos los participantes excepto el Top 3.</p>
+                    `;
+                } else if (currentPhase === 5) {
+                    rewardsDetail.innerHTML = `
+                        <div class="p-3 bg-fnMagenta/5 border border-fnMagenta/20 rounded-lg col-span-1">
+                            <span class="text-[9px] text-fnMagenta font-bold uppercase tracking-wider block mb-1">📊 Rango Repechaje</span>
+                            <span class="text-lg font-bold text-white">Top 20 Constancia</span>
+                            <span class="text-[9px] text-gray-500 block mt-1">Pasan al Repechaje</span>
+                        </div>
+                        <div class="p-3 bg-fnGold/5 border border-fnGold/20 rounded-lg col-span-2 flex flex-col justify-center">
+                            <span class="text-[9px] text-fnGold font-bold uppercase tracking-wider block mb-1">👑 Clasificados Directos (GOLD)</span>
+                            <span class="text-xs text-gray-300">Ya cuentan con pase a la final de W1 y W2. Excluidos del Repechaje.</span>
+                        </div>
+                    `;
+                    rulesDetail.innerHTML = `
+                        <p>• <strong>Mecánica:</strong> Suma acumulativa de todos los puntos de partida obtenidos en Semana 1 y Semana 2.</p>
+                        <p>• <strong>Requisito:</strong> Haber competido en las semanas anteriores.</p>
+                        <p>• <strong>Corte de Clasificación:</strong> Los mejores 20 jugadores que no hayan clasificado directo se marcan en rojo (RED) y avanzan al Repechaje.</p>
+                    `;
+                }
+            }
+        }
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            switchSubTab('table');
+            
+            // Si es la pestaña 5 (Constancia), calculamos dinámicamente los standings en base a Fase 1 y Fase 2
+            if (phaseId === 5) {
+                calculateConstancyStandings();
+            }
+            
+            const phase = tournamentPhases[phaseId];
+
+            // 1. Cambiar Estilos de las Pestañas
+            for (let i = 1; i <= 5; i++) {
+                const tab = document.getElementById(`tab-w${i}`);
+                const tabTitle = document.getElementById(`tab-title-w${i}`);
+                const tabLine = document.getElementById(`tab-line-w${i}`);
+                
+                if (tab) {
+                    tab.className = "phase-tab py-4 text-center transition-all bg-fnDeepPurple/40 border border-white/5 relative";
+                    tabTitle.className = "block font-block text-lg sm:text-xl tracking-wide uppercase text-gray-500";
+                    tabLine.style.opacity = "0";
+                }
+            }
+
+            const activeTab = document.getElementById(`tab-w${phaseId}`);
+            const activeTabTitle = document.getElementById(`tab-title-w${phaseId}`);
+            const activeTabLine = document.getElementById(`tab-line-w${phaseId}`);
+            
+            let colorClass = "text-fnBrightPurple";
+            let activeBorderClass = "border-fnBrightPurple/30";
+            
+            if (phaseId === 1) {
+                colorClass = "text-fnBrightPurple";
+                activeBorderClass = "border-fnBrightPurple/30";
+            } else if (phaseId === 2) {
+                colorClass = "text-fnEmerald";
+                activeBorderClass = "border-fnEmerald/30";
+            } else if (phaseId === 5) {
+                colorClass = "text-fnMagenta";
+                activeBorderClass = "border-fnMagenta/30";
+            } else if (phaseId === 3) {
+                colorClass = "text-fnCrimson";
+                activeBorderClass = "border-fnCrimson/30";
+            } else if (phaseId === 4) {
+                colorClass = "text-fnGold";
+                activeBorderClass = "border-fnGold/30";
+            }
+
+            if (activeTab && activeTabTitle && activeTabLine) {
+                activeTab.className = `phase-tab py-4 text-center transition-all bg-fnDeepPurple border ${activeBorderClass} relative`;
+                activeTabTitle.className = `block font-block text-lg sm:text-xl tracking-wide uppercase ${colorClass}`;
+                activeTabLine.style.opacity = "1";
+            }
+
+            // 2. Cambiar Brillo y Contenido del Poster (Estructura Split)
+            const posterBorder = document.getElementById('poster-container-border');
+            const posterBackGlow = document.getElementById('poster-back-glow');
+            const posterImg = document.getElementById('dynamic-phase-banner');
+            const posterBadge = document.getElementById('poster-badge-category');
+            const posterTitle = document.getElementById('poster-title');
+            const posterSubtitle = document.getElementById('poster-subtitle');
+            const posterDesc = document.getElementById('poster-description');
+            const headerDot = document.getElementById('header-badge-dot');
+            const modeTag = document.getElementById('poster-mode-tag');
+            const pointsTag = document.getElementById('poster-points-tag');
+
+            // Actualizar borde de la tarjeta y color de resplandor
+            posterBorder.className = `relative w-full rounded-2xl overflow-hidden border-2 transition-all duration-500 premium-card grid grid-cols-1 md:grid-cols-3 gap-6 p-6 ${phase.borderColor}`;
+            posterBackGlow.style.backgroundColor = phase.glowColor;
+            
+            // Animación de cambio de imagen
+            posterImg.style.opacity = 0;
+            setTimeout(() => {
+                posterImg.src = phase.image;
+                posterImg.style.opacity = 1;
+            }, 200);
+
+            posterBadge.innerText = phase.badgeCategory;
+            posterBadge.className = `text-xs font-chakra font-bold uppercase tracking-widest ${phase.color} bg-black/45 border border-white/5 px-3 py-1 rounded w-fit mb-2`;
+            posterTitle.innerText = phase.name.toUpperCase();
+            posterDesc.innerHTML = phase.description;
+            
+            // Estilo dinámico de la cabecera
+            if (phaseId === 1 || phaseId === 2) {
+                posterSubtitle.innerText = `Límite de 100 cupos | Fortnite Solos`;
+                headerDot.className = `w-2.5 h-2.5 rounded-full animate-pulse shadow-[0_0_10px_#9b30ff] bg-fnBrightPurple`;
+                modeTag.innerText = "Solos (Lobbies Privados)";
+                pointsTag.innerText = "FNCS / 2";
+                pointsTag.className = "text-fnBrightPurple font-bold bg-fnBrightPurple/10 border border-fnBrightPurple/20 px-2.5 py-1 rounded animate-pulse";
+            } else if (phaseId === 5) {
+                posterSubtitle.innerText = `Corte de Puntos de Constancia`;
+                headerDot.className = `w-2.5 h-2.5 rounded-full animate-pulse shadow-[0_0_10px_#ff3df1] bg-fnMagenta`;
+                modeTag.innerText = "Historial W1 + W2";
+                pointsTag.innerText = "Cálculo Acumulado";
+                pointsTag.className = "text-fnMagenta font-bold bg-fnMagenta/10 border border-fnMagenta/20 px-2.5 py-1 rounded";
+            } else if (phaseId === 3) {
+                posterSubtitle.innerText = `Acceso Especial | 4 Partidas de Muerte Súbita`;
+                headerDot.className = `w-2.5 h-2.5 rounded-full animate-pulse shadow-[0_0_10px_#d7263d] bg-fnCrimson`;
+                modeTag.innerText = "Solos (Lobbies Privados)";
+                pointsTag.innerText = "FNCS / 2";
+                pointsTag.className = "text-fnCrimson font-bold bg-fnCrimson/10 border border-fnCrimson/20 px-2.5 py-1 rounded animate-pulse";
+            } else if (phaseId === 4) {
+                posterSubtitle.innerText = `Final de Liga | Clasificados de la Temporada`;
+                headerDot.className = `w-2.5 h-2.5 rounded-full animate-pulse shadow-[0_0_10px_#f1c40f] bg-fnGold`;
+                modeTag.innerText = "Solos (Presencial/Lobby)";
+                pointsTag.innerText = "FNCS / 2";
+                pointsTag.className = "text-fnGold font-bold bg-fnGold/10 border border-fnGold/20 px-2.5 py-1 rounded animate-pulse";
+            }
+
+            // 3. Actualizar Banner Informativo del Dashboard y Poster Status
+            document.getElementById('current-phase-display-name').innerText = phase.name;
+            document.getElementById('phase-status-text').innerText = phase.status.toUpperCase();
+
+            const posterStatusText = document.getElementById('poster-status-text');
+            const posterStatusDot = document.getElementById('poster-status-dot');
+            if (posterStatusText && posterStatusDot) {
+                posterStatusText.innerText = phase.status.toUpperCase();
+                posterStatusDot.className = "w-1.5 h-1.5 rounded-full inline-block ";
+                if (phase.status === 'En Vivo') {
+                    posterStatusDot.className += "bg-fnEmerald animate-pulse";
+                } else if (phase.status === 'Última Oportunidad') {
+                    posterStatusDot.className += "bg-fnCrimson animate-pulse";
+                } else if (phase.status === 'Finalizado' || phase.status === 'Corte Cerrado') {
+                    posterStatusDot.className += "bg-gray-500";
+                } else if (phase.status === 'Aún no se juega') {
+                    posterStatusDot.className += "bg-gray-500 animate-pulse";
+                } else {
+                    posterStatusDot.className += "bg-fnGold animate-pulse";
+                }
+            }
+
+            // Configurar ícono y estado dinámico
+            const iconBadge = document.getElementById('phase-badge-icon');
+            iconBadge.className = `${phase.icon} text-xl ${phase.color}`;
+
+            // Configurar ícono en el header de la tabla
+            document.getElementById('leaderboard-icon').className = `fa-solid fa-medal ${phase.color}`;
+
+            const dot = document.getElementById('status-dot');
+            const simBtn = document.getElementById('sim-btn');
+            dot.className = "w-2.5 h-2.5 rounded-full inline-block ";
+
+            if (phase.status === 'En Vivo') {
+                dot.className += "bg-fnEmerald animate-pulse";
+                simBtn.removeAttribute('disabled');
+            } else if (phase.status === 'Última Oportunidad') {
+                dot.className += "bg-fnCrimson animate-pulse";
+                simBtn.removeAttribute('disabled');
+            } else if (phase.status === 'Finalizado' || phase.status === 'Corte Cerrado') {
+                dot.className += "bg-gray-500";
+                simBtn.setAttribute('disabled', 'true');
+            } else if (phase.status === 'Aún no se juega') {
+                dot.className += "bg-gray-500 animate-pulse";
+                if (phaseId === 5) {
+                    simBtn.setAttribute('disabled', 'true');
+                } else {
+                    simBtn.removeAttribute('disabled');
+                }
+            } else {
+                dot.className += "bg-fnGold animate-pulse";
+                simBtn.removeAttribute('disabled');
+            }
+
+            // 4. Configurar headers dinámicos en la tabla antes de renderizar
+            const tableHead = document.getElementById('leaderboard-head');
+            if (phaseId === 5) {
+                tableHead.innerHTML = `
+                    <tr class="border-b border-white/10 text-gray-500 text-xs tracking-wider font-bold">
+                        <th class="pb-3 text-center w-12 font-chakra">CORONA</th>
+                        <th class="pb-3 pl-4 font-chakra">EPIC ID FORTNITE</th>
+                        <th class="pb-3 text-center font-chakra">TOTAL CONSTANCIA</th>
+                        <th class="pb-3 text-center font-chakra">PUNTOS SEMANA 1</th>
+                        <th class="pb-3 text-center font-chakra">PUNTOS SEMANA 2</th>
+                        <th class="pb-3 text-center font-chakra">PARTIDAS JUGADAS</th>
+                    </tr>
+                `;
+                document.getElementById('leaderboard-card-title').innerText = "Tabla de Constancia General";
+                document.getElementById('legend-points-list').innerHTML = `
+                    <span>📈 Constancia = W1 Pts + W2 Pts</span>
+                    <span>👑 Top 20 clasifica al Repechaje</span>
+                `;
+                document.getElementById('live-dot-glow').className = "w-1.5 h-1.5 rounded-full inline-block bg-fnMagenta animate-ping";
+                document.getElementById('live-indicator-tag').className = "text-[9px] font-bold uppercase tracking-widest flex items-center gap-1.5 text-fnMagenta";
+            } else {
+                tableHead.innerHTML = `
+                    <tr class="border-b border-white/10 text-gray-500 text-xs tracking-wider font-bold">
+                        <th class="pb-3 text-center w-12 font-chakra">POS</th>
+                        <th class="pb-3 pl-4 font-chakra">EPIC ID FORTNITE</th>
+                        <th class="pb-3 text-center font-chakra">PUNTOS</th>
+                        <th class="pb-3 text-center font-chakra">KILLS</th>
+                        <th class="pb-3 text-center font-chakra">WINS (VR)</th>
+                        <th class="pb-3 text-center font-chakra">PARTIDAS</th>
+                    </tr>
+                `;
+                document.getElementById('leaderboard-card-title').innerText = "Tabla de Clasificación";
+                document.getElementById('legend-points-list').innerHTML = `
+                    <span>⚔️ Kill = 2 pts</span>
+                    <span>👑 VR = 32.5 pts</span>
+                    <span>Top 2-5 = 28-22 pts</span>
+                    <span>Top 6-10 = 20-16 pts</span>
+                `;
+                document.getElementById('live-dot-glow').className = "w-1.5 h-1.5 rounded-full inline-block bg-fnBrightPurple animate-ping";
+                document.getElementById('live-indicator-tag').className = "text-[9px] font-bold uppercase tracking-widest flex items-center gap-1.5 text-fnBrightPurple";
+            }
+
+            // 5. Actualizar Tarjeta de Costos
+            updateCostCardUI(phase);
+
+            // 6. Adaptar Formulario de la Fase
+            resetPhaseForm(phaseId, phase);
+
+            // 7. Renderizar Premios Asignados
+            updateRewardsUI(phaseId);
+
+            // 8. Renderizar Leaderboard
+            renderLeaderboard(phase.players);
+            updateSideQualifiersPanel();
+
+            // 9. Cambiar color de fondo de las tarjetas de inscripción, tablas y body según la fase activa
+            const phaseColorData = {
+                1: '155 48 255', // fnBrightPurple
+                2: '0 176 116',  // fnEmerald
+                3: '215 38 61',  // fnCrimson
+                4: '241 196 15',  // fnGold
+                5: '255 61 241'   // fnMagenta
+            };
+            const activeColorRgb = phaseColorData[phaseId] || phaseColorData[1];
+            
+            // Actualizar la variable CSS global del color primario
+            document.documentElement.style.setProperty('--fn-primary-rgb', activeColorRgb);
+            
+            const leaderboardCard = document.getElementById('leaderboard-card');
+            const registerCard = document.getElementById('register-form-card');
+            
+            if (leaderboardCard) {
+                leaderboardCard.style.backgroundImage = `radial-gradient(circle at top right, rgb(var(--fn-primary-rgb) / 0.08) 0%, rgba(10, 5, 20, 0.75) 60%)`;
+                leaderboardCard.style.borderColor = `rgb(var(--fn-primary-rgb) / 0.25)`;
+                leaderboardCard.style.boxShadow = `0 0 30px rgb(var(--fn-primary-rgb) / 0.06)`;
+            }
+            if (registerCard) {
+                registerCard.style.backgroundImage = `radial-gradient(circle at top right, rgb(var(--fn-primary-rgb) / 0.08) 0%, rgba(10, 5, 20, 0.75) 60%)`;
+                registerCard.style.borderColor = `rgb(var(--fn-primary-rgb) / 0.25)`;
+                registerCard.style.boxShadow = `0 0 30px rgb(var(--fn-primary-rgb) / 0.06)`;
+            }
+        }
+
+        // Función para calcular puntos de constancia dinámicamente
+        function calculateConstancyStandings() {
+            const w1Players = tournamentPhases[1].players || [];
+            const w2Players = tournamentPhases[2].players || [];
+            const constPhase = tournamentPhases[5];
+
+            if (w1Players.length === 0 && w2Players.length === 0) {
+                constPhase.players = [];
+                constPhase.status = "Aún no se juega";
+                return;
+            }
+
+            const standingsMap = {};
+
+            // Mapear jugadores de la Semana 1
+            w1Players.forEach(p => {
+                standingsMap[p.name] = {
+                    name: p.name,
+                    w1_pts: p.points,
+                    w2_pts: 0,
+                    matches: p.matches,
+                    avatar: p.avatar
+                };
+            });
+
+            // Mapear jugadores de la Semana 2
+            w2Players.forEach(p => {
+                const cleanName = p.name.replace(" 👑", "");
+                let foundKey = Object.keys(standingsMap).find(k => k.replace(" 👑", "") === cleanName);
+
+                if (foundKey) {
+                    standingsMap[foundKey].w2_pts = p.points;
+                    standingsMap[foundKey].matches += p.matches;
+                } else {
+                    standingsMap[p.name] = {
+                        name: p.name,
+                        w1_pts: 0,
+                        w2_pts: p.points,
+                        matches: p.matches,
+                        avatar: p.avatar
+                    };
+                }
+            });
+
+            // Convertir a Array y calificar
+            const playerList = Object.values(standingsMap).map(p => {
+                const total = p.w1_pts + p.w2_pts;
+                return {
+                    name: p.name,
+                    points: total,
+                    w1_pts: p.w1_pts,
+                    w2_pts: p.w2_pts,
+                    matches: p.matches,
+                    avatar: p.avatar
+                };
+            });
+
+            // Ordenar por puntos acumulados descendente
+            playerList.sort((a, b) => b.points - a.points);
+            
+            // Determinar estados GOLD (finalistas) y RED (repechaje)
+            let redCount = 0;
+            const cleanW1Quals = w1Qualified.map(n => n.replace(" 👑", ""));
+            const cleanW2Quals = w2Qualified.map(n => n.replace(" 👑", ""));
+
+            playerList.forEach((p) => {
+                const cleanName = p.name.replace(" 👑", "");
+                const isW1Qual = cleanW1Quals.includes(cleanName);
+                const isW2Qual = cleanW2Quals.includes(cleanName);
+
+                if (isW1Qual || isW2Qual) {
+                    p.status = 'GOLD'; // Pasa directo a la final (Dorado)
+                    p.name = cleanName + " 👑";
+                } else {
+                    if (redCount < 20) {
+                        p.status = 'RED'; // Juega el repechaje (Rojo)
+                        p.name = cleanName + " 👑";
+                        redCount++;
+                    } else {
+                        p.status = 'NORMAL';
+                        p.name = cleanName;
+                    }
+                }
+            });
+
+            playerList.forEach((p, index) => {
+                p.rank = index + 1;
+            });
+
+            constPhase.players = playerList;
+            constPhase.status = "Corte Cerrado";
+        }
+
+        function updateCostCardUI(phase) {
+            const priceDisplay = document.getElementById('cost-price-display');
+            const ticketsLeftDisplay = document.getElementById('cost-tickets-left');
+            const costDesc = document.getElementById('cost-desc-text');
+            const badge = document.getElementById('badge-cost-type');
+
+            priceDisplay.innerText = phase.ticketPrice.toUpperCase();
+            
+            if (phase.type === 'gratis') {
+                badge.innerText = "Clasificatorio Gratis";
+                badge.className = `px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide bg-purple-500/10 ${phase.color} border border-purple-500/20`;
+                ticketsLeftDisplay.innerText = `${phase.ticketsLeft} / ${phase.totalTickets} Cupos`;
+                ticketsLeftDisplay.className = `font-mono text-xs font-bold ${phase.color}`;
+                costDesc.innerHTML = `Límite de <strong>100 cupos</strong> por clasificatorio. Si hay más de 100 inscritos se dividirá en <strong>Grupo 1 y Grupo 2</strong>. ¡Solo tienes una única oportunidad!`;
+            } else if (phase.type === 'repechaje') {
+                badge.innerText = "Boleto Repechaje";
+                badge.className = `px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide bg-red-500/10 ${phase.color} border border-red-500/20`;
+                ticketsLeftDisplay.innerText = `${phase.ticketsLeft} / ${phase.totalTickets} Boletos`;
+                ticketsLeftDisplay.className = `font-mono text-xs font-bold ${phase.color} animate-pulse`;
+                costDesc.innerHTML = `Boletos para el Repechaje (4 partidas independientes, los ganadores avanzan). Registra tus datos para enviarte el link de pago ($150 MXN) por WhatsApp o correo.`;
+            } else if (phase.type === 'final') {
+                badge.innerText = "Gran Final VIP";
+                badge.className = `px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide bg-yellow-500/10 ${phase.color} border border-yellow-500/20`;
+                ticketsLeftDisplay.innerText = `${phase.ticketsLeft} / ${phase.totalTickets} Boletos`;
+                ticketsLeftDisplay.className = `font-mono text-xs font-bold ${phase.color}`;
+                costDesc.innerHTML = `Cupos de pago para la Gran Final de la Liga ($350 MXN). Envíanos tus datos de Fortnite y contacto para enviarte el enlace de pago oficial.`;
+            } else if (phase.type === 'constancia') {
+                badge.innerText = "Corte Cerrado";
+                badge.className = `px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide bg-pink-500/10 ${phase.color} border border-pink-500/20`;
+                ticketsLeftDisplay.innerText = "20 / 20 Calificados";
+                ticketsLeftDisplay.className = `font-mono text-xs font-bold ${phase.color}`;
+                costDesc.innerHTML = `La tabla de constancia sumó los resultados de la Semana 1 y la Semana 2. Los 20 mejores jugadores avanzaron a la Semana 3.`;
+            }
+        }
+
+        function resetPhaseForm(phaseId, phase) {
+            const successWidget = document.getElementById('success-profile-widget');
+            const formCard = document.getElementById('register-form-card');
+            
+            successWidget.classList.add('hidden');
+            formCard.classList.remove('hidden');
+
+            const title = document.getElementById('register-title');
+            const desc = document.getElementById('register-desc');
+            const emailWarning = document.getElementById('email-warning-text');
+            const submitBtn = document.getElementById('btn-submit-registration');
+            const inputsWrapper = document.getElementById('inputs-container-wrapper');
+
+            // Vaciar inputs
+            document.getElementById('phase-reg-epic').value = '';
+            document.getElementById('phase-reg-email').value = '';
+            document.getElementById('phase-reg-whatsapp').value = '';
+            document.getElementById('phase-reg-discord').value = '';
+            document.getElementById('phase-chk-rankit').checked = false;
+            document.getElementById('phase-chk-follow').checked = false;
+            // Configurar color de los avisos del input de email
+            emailWarning.className = `text-[9px] ${phase.color} mt-1 block font-bold uppercase`;
+
+            const guideBox = document.getElementById('register-guide-box');
+            const guideBtn = document.getElementById('register-guide-btn');
+            const guideIcon = document.getElementById('register-guide-icon');
+
+            if (phase.type === 'constancia') {
+                // Ocultar inputs y botón de registro
+                inputsWrapper.classList.add('hidden');
+                submitBtn.classList.add('hidden');
+                if (guideBox) guideBox.classList.add('hidden');
+                title.innerHTML = `<i class="fa-solid fa-chart-simple ${phase.color}"></i> Constancia Finalizada`;
+                desc.innerHTML = `El roster de constancia ha finalizado. Los mejores 20 jugadores avanzaron a la Semana 3 (Repechaje). Esta pestaña es solo para visualización histórica de datos.`;
+            } else {
+                inputsWrapper.classList.remove('hidden');
+                submitBtn.classList.remove('hidden');
+                if (guideBox) {
+                    guideBox.classList.remove('hidden');
+                    if (phaseId === 1) {
+                        guideBox.className = "mb-5 p-3.5 bg-fnBrightPurple/10 border border-fnBrightPurple/25 rounded-lg text-xs font-chakra";
+                    } else if (phaseId === 2) {
+                        guideBox.className = "mb-5 p-3.5 bg-fnEmerald/10 border border-fnEmerald/25 rounded-lg text-xs font-chakra";
+                    } else if (phaseId === 3) {
+                        guideBox.className = "mb-5 p-3.5 bg-fnCrimson/10 border border-fnCrimson/25 rounded-lg text-xs font-chakra";
+                    } else if (phaseId === 4) {
+                        guideBox.className = "mb-5 p-3.5 bg-fnGold/10 border border-fnGold/25 rounded-lg text-xs font-chakra";
+                    }
+                }
+                if (guideBtn) {
+                    if (phaseId === 1) {
+                        guideBtn.className = "w-full text-center bg-fnBrightPurple text-white py-2 px-3 rounded font-bold uppercase tracking-wider text-[10px] flex items-center justify-center gap-1.5 transition-all hover:opacity-90 shadow-glowPurple";
+                    } else if (phaseId === 2) {
+                        guideBtn.className = "w-full text-center bg-fnEmerald text-white py-2 px-3 rounded font-bold uppercase tracking-wider text-[10px] flex items-center justify-center gap-1.5 transition-all hover:opacity-90 shadow-glowEmerald";
+                    } else if (phaseId === 3) {
+                        guideBtn.className = "w-full text-center bg-fnCrimson text-white py-2 px-3 rounded font-bold uppercase tracking-wider text-[10px] flex items-center justify-center gap-1.5 transition-all hover:opacity-90 shadow-glowCrimson";
+                    } else if (phaseId === 4) {
+                        guideBtn.className = "w-full text-center bg-fnGold text-black py-2 px-3 rounded font-bold uppercase tracking-wider text-[10px] flex items-center justify-center gap-1.5 transition-all hover:opacity-90 shadow-glowGold";
+                    }
+                }
+                if (guideIcon) {
+                    guideIcon.className = `fa-solid fa-circle-info ${phase.color}`;
+                }
+
+                if (phase.type === 'gratis') {
+                    title.innerHTML = `<i class="fa-solid fa-gamepad ${phase.color}"></i> Registro Clasificatorio`;
+                    desc.innerHTML = `Regístrate en la lista de cupos (máx 100). En caso de superar los 100 se dividirá en Grupo 1 y Grupo 2 de manera balanceada. ¡Solo una oportunidad!`;
+                    submitBtn.innerText = "REGISTRAR PARTICIPACIÓN";
+                } else if (phase.type === 'repechaje') {
+                    title.innerHTML = `<i class="fa-solid fa-ticket ${phase.color}"></i> Solicitar Boleto Repechaje`;
+                    desc.innerHTML = `Registra tus datos para contactarte vía WhatsApp/correo y enviarte el enlace de pago oficial del boleto ($150 MXN) del Repechaje.`;
+                    submitBtn.innerText = "SOLICITAR BOLETO REPECHAJE";
+                } else if (phase.type === 'final') {
+                    title.innerHTML = `<i class="fa-solid fa-trophy ${phase.color}"></i> Solicitar Boleto Final`;
+                    desc.innerHTML = `Ingresa tus datos para contactarte directamente vía WhatsApp o correo electrónico y enviarte tu enlace de pago oficial VIP de la final ($350 MXN).`;
+                    submitBtn.innerText = "SOLICITAR ENLACE DE PAGO";
+                }
+            }
+        }
+
+        function processPhaseRegistration() {
+            const phase = tournamentPhases[currentPhase];
+            const successWidget = document.getElementById('success-profile-widget');
+            const formCard = document.getElementById('register-form-card');
+            
+            const widgetName = document.getElementById('widget-registered-name');
+            const widgetContact = document.getElementById('widget-registered-contact');
+            const widgetMethod = document.getElementById('status-validation-text');
+            const widgetLabel = document.getElementById('status-method-label');
+            const widgetInstructions = document.getElementById('widget-instructions-detail');
+            const widgetBackGlow = document.getElementById('widget-back-glow');
+            const widgetCheckIcon = document.getElementById('widget-check-icon');
+
+            const epic = document.getElementById('phase-reg-epic').value.trim();
+            const email = document.getElementById('phase-reg-email').value.trim();
+            const whatsapp = document.getElementById('phase-reg-whatsapp').value.trim();
+            const discord = document.getElementById('phase-reg-discord').value.trim();
+            
+            const chkRankit = document.getElementById('phase-chk-rankit').checked;
+            const chkFollow = document.getElementById('phase-chk-follow').checked;
+
+            if (!epic || !email || !whatsapp) {
+                showToast("Campos Incompletos", "Por favor completa tu ID de Fortnite, Correo y WhatsApp.", "exclamation-triangle");
+                return;
+            }
+
+            if (!chkRankit || !chkFollow) {
+                showToast("Requisitos Vacíos", "Debes tener cuenta en rankit.pro y seguir a los oficiales para participar.", "exclamation-triangle");
+                return;
+            }
+
+            // Registrar usuario en memoria
+            registeredUser = epic;
+            widgetName.innerText = `Epic ID: ${epic}`;
+            widgetContact.innerText = `Correo: ${email} | WA: ${whatsapp}${discord ? ' | Discord: ' + discord : ''}`;
+
+            // Adaptar widget de éxito a los colores del tema
+            successWidget.style.borderColor = phase.color === 'text-fnBrightPurple' ? '#9b30ff' : 
+                                               phase.color === 'text-fnEmerald' ? '#00b074' : 
+                                               phase.color === 'text-fnCrimson' ? '#d7263d' : '#f1c40f';
+            widgetBackGlow.style.backgroundColor = phase.glowColor;
+            widgetCheckIcon.className = `fa-solid fa-check text-lg ${phase.color}`;
+
+            if (phase.type === 'gratis') {
+                if (phase.ticketsLeft <= 0 && phase.status !== 'Finalizado') {
+                    showToast("Sin Cupos", "Lo sentimos, ya no hay cupos gratuitos disponibles en esta fase.", "lock");
+                    return;
+                }
+                
+                if (phase.status !== 'Finalizado') {
+                    phase.ticketsLeft -= 1;
+                    updateCostCardUI(phase);
+                }
+
+                widgetLabel.innerText = "Invitación al Lobby:";
+                widgetMethod.innerText = "TOP 15% PASA DIRECTO";
+                widgetInstructions.innerText = "¡Excelente! Has quedado registrado en el Roster. Te enviaremos tu enlace de invitación al lobby privado de Fortnite por WhatsApp y correo. Recuerda que el correo debe ser el mismo que usas en rankit.pro.";
+            } else {
+                if (phase.ticketsLeft <= 0) {
+                    showToast("Boletos Agotados", "Se han agotado los boletos oficiales para esta fase del torneo.", "lock");
+                    return;
+                }
+                
+                phase.ticketsLeft -= 1;
+                updateCostCardUI(phase);
+
+                widgetLabel.innerText = "Estado de Boleto:";
+                widgetMethod.innerText = "ENLACE DE PAGO PENDIENTE";
+                widgetInstructions.innerText = "¡Solicitud de pase registrada con éxito! Te contactaremos a la brevedad por mensaje de WhatsApp o correo electrónico para enviarte tu enlace de pago oficial de boleto.";
+            }
+
+            // Ocultar formulario, mostrar éxito
+            formCard.classList.add('hidden');
+            successWidget.classList.remove('hidden');
+            
+            showToast("Registro Completo", "Tus datos han sido validados con éxito.", "circle-check");
+        }
+
+        function renderLeaderboard(playersList) {
+            const tbody = document.getElementById('leaderboard-body');
+            const emptyState = document.getElementById('empty-state');
+            const tableElement = tbody.closest('table');
+
+            tbody.innerHTML = '';
+
+            if (!playersList || playersList.length === 0) {
+                // Configurar mensaje de estado vacío
+                const emptyTitle = document.getElementById('empty-state-title');
+                const emptyDesc = document.getElementById('empty-state-desc');
+                const emptyIcon = document.getElementById('empty-state-icon');
+                const phase = tournamentPhases[currentPhase];
+
+                if (currentPhase === 5) {
+                    emptyIcon.className = "fa-solid fa-chart-simple text-3xl mb-3 text-fnMagenta animate-pulse";
+                    emptyTitle.innerText = "Tabla de Constancia Vacía";
+                    emptyDesc.innerText = "Se calculará automáticamente en cuanto los jugadores jueguen y acumulen puntos en la Fase 1 y Fase 2.";
+                } else if (currentPhase === 4) {
+                    emptyIcon.className = `fa-solid fa-hourglass-start text-3xl mb-3 ${phase.color} animate-pulse`;
+                    emptyTitle.innerText = "Próximamente";
+                    emptyDesc.innerText = "La Gran Final se disputará en la Semana 4. Los clasificados se anunciarán próximamente.";
+                } else {
+                    emptyIcon.className = `fa-solid fa-hourglass-start text-3xl mb-3 ${phase.color} animate-pulse`;
+                    emptyTitle.innerText = "Aún no se juega";
+                    emptyDesc.innerText = "La tabla de posiciones se actualizará en tiempo real cuando simules o inicies las partidas de esta fase.";
+                }
+
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                tableElement.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            tableElement.classList.remove('hidden');
+
+            playersList.forEach((player) => {
+                const tr = document.createElement('tr');
+                let rowClass = "dynamic-row transition-all duration-300 border-b border-white/5";
+                let rankBadge = `<span class="text-gray-400 font-bold font-chakra">${player.rank}</span>`;
+                let nameSpan = `<span class="text-gray-200 font-chakra font-medium tracking-wide">${player.name}</span>`;
+
+                if (currentPhase === 5) {
+                    // Renderizado de Constancia
+                    if (player.status === 'GOLD') {
+                        rowClass = "dynamic-row transition-all duration-300 border-b border-fnGold/10 bg-fnGold/5 hover:bg-fnGold/10";
+                        rankBadge = `<span class="bg-fnGold text-black font-black px-1.5 py-0.5 rounded text-[9px] font-chakra flex items-center justify-center gap-0.5 shadow-[0_0_10px_rgba(241,196,15,0.3)]"><i class="fa-solid fa-crown text-[7px]"></i> PASS</span>`;
+                        nameSpan = `<span class="text-fnGold font-chakra font-bold tracking-wide flex items-center gap-1">${player.name} <i class="fa-solid fa-check text-[9px]"></i></span>`;
+                    } else if (player.status === 'RED') {
+                        rowClass = "dynamic-row transition-all duration-300 border-b border-fnCrimson/10 bg-fnCrimson/5 hover:bg-fnCrimson/10";
+                        rankBadge = `<span class="bg-fnCrimson text-white font-black px-1.5 py-0.5 rounded text-[9px] font-chakra flex items-center justify-center gap-0.5 shadow-[0_0_10px_rgba(215,38,61,0.3)]"><i class="fa-solid fa-arrows-rotate text-[7px]"></i> REP</span>`;
+                        nameSpan = `<span class="text-fnCrimson font-chakra font-medium tracking-wide">${player.name}</span>`;
+                    }
+                    
+                    tr.className = rowClass;
+                    tr.innerHTML = `
+                        <td class="py-3.5 text-center">${rankBadge}</td>
+                        <td class="py-3.5 pl-4 flex items-center gap-3">
+                            <span class="text-base">${player.avatar || '🎮'}</span>
+                            ${nameSpan}
+                        </td>
+                        <td class="py-3.5 text-center font-bold text-white font-mono">${player.points} pts</td>
+                        <td class="py-3.5 text-center text-gray-400 font-mono">${player.w1_pts} pts</td>
+                        <td class="py-3.5 text-center text-gray-400 font-mono">${player.w2_pts} pts</td>
+                        <td class="py-3.5 text-center text-gray-500 font-mono">${player.matches}</td>
+                    `;
+                } else if (currentPhase === 3) {
+                    // Renderizado de Repechaje
+                    if (player.status === 'RED') {
+                        rowClass = "dynamic-row transition-all duration-300 border-b border-fnCrimson/10 bg-fnCrimson/5 hover:bg-fnCrimson/10";
+                        rankBadge = `<span class="bg-fnCrimson text-white font-black px-1.5 py-0.5 rounded text-[8px] font-chakra flex items-center justify-center gap-0.5 shadow-[0_0_10px_rgba(215,38,61,0.3)]"><i class="fa-solid fa-check text-[7px]"></i> PASS</span>`;
+                        nameSpan = `<span class="text-fnCrimson font-chakra font-medium tracking-wide flex items-center gap-1.5">${player.name} <span class="bg-fnCrimson/25 border border-fnCrimson/45 text-fnCrimson text-[8px] font-bold px-1.5 py-0.5 rounded">${player.repechaje_status.toUpperCase()}</span></span>`;
+                    }
+                    
+                    tr.className = rowClass;
+                    tr.innerHTML = `
+                        <td class="py-3.5 text-center">${rankBadge}</td>
+                        <td class="py-3.5 pl-4 flex items-center gap-3">
+                            <span class="text-base">${player.avatar || '🎮'}</span>
+                            ${nameSpan}
+                        </td>
+                        <td class="py-3.5 text-center font-bold text-white font-mono">${player.points}</td>
+                        <td class="py-3.5 text-center text-gray-400 font-mono">${player.kills}</td>
+                        <td class="py-3.5 text-center text-fnGold font-mono">${player.vr}</td>
+                        <td class="py-3.5 text-center text-gray-500 font-mono">${player.matches}</td>
+                    `;
+                } else {
+                    // Renderizado de Fase 1, 2, 4
+                    const isW1Qual = w1Qualified.includes(player.name.replace(" 👑", ""));
+                    const isW2Qual = w2Qualified.includes(player.name.replace(" 👑", ""));
+                    
+                    if ((currentPhase === 1 && isW1Qual) || (currentPhase === 2 && isW2Qual)) {
+                        rowClass = "dynamic-row transition-all duration-300 border-b border-fnGold/10 bg-fnGold/5 hover:bg-fnGold/10";
+                        rankBadge = `<span class="bg-fnGold text-black font-black px-1.5 py-0.5 rounded text-[9px] font-chakra flex items-center justify-center gap-0.5"><i class="fa-solid fa-crown text-[7px]"></i> PASS</span>`;
+                        nameSpan = `<span class="text-fnGold font-chakra font-bold tracking-wide flex items-center gap-1">${player.name} <i class="fa-solid fa-check text-[9px]"></i></span>`;
+                    } else {
+                        if (player.rank === 1) {
+                            rankBadge = `<span class="bg-fnGold text-black font-black px-2 py-0.5 rounded text-[10px] font-chakra">1</span>`;
+                        } else if (player.rank === 2) {
+                            rankBadge = `<span class="bg-slate-300 text-black font-black px-2 py-0.5 rounded text-[10px] font-chakra">2</span>`;
+                        } else if (player.rank === 3) {
+                            rankBadge = `<span class="bg-amber-700 text-white font-black px-2 py-0.5 rounded text-[10px] font-chakra">3</span>`;
+                        }
+                    }
+                    
+                    tr.className = rowClass;
+                    tr.innerHTML = `
+                        <td class="py-3.5 text-center">${rankBadge}</td>
+                        <td class="py-3.5 pl-4 flex items-center gap-3">
+                            <span class="text-base">${player.avatar || '🎮'}</span>
+                            ${nameSpan}
+                        </td>
+                        <td class="py-3.5 text-center font-bold text-white font-mono">${player.points}</td>
+                        <td class="py-3.5 text-center text-gray-400 font-mono">${player.kills}</td>
+                        <td class="py-3.5 text-center text-fnGold font-mono">${player.vr}</td>
+                        <td class="py-3.5 text-center text-gray-500 font-mono">${player.matches}</td>
+                    `;
+                }
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Buscador de jugadores
+        function filterPlayers(query) {
+            const players = tournamentPhases[currentPhase].players;
+            if (!players) return;
+            
+            const filtered = players.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+            renderLeaderboard(filtered);
+        }
+
+        function updateRewardsUI(weekNum) {
+            const list = document.getElementById('rewards-list');
+
+            if (weekNum === 1 || weekNum === 2) {
+                list.innerHTML = `
+                    <li class="flex flex-col border-b border-white/5 pb-2">
+                        <span class="text-[9px] text-gray-500 uppercase">Premios en Efectivo</span>
+                        <span class="font-bold text-fnGold text-sm">Premios Semanales Solos:</span>
+                        <span class="text-[10px] text-gray-300 mt-1">• 🥇 1.º Lugar: $100.00 MXN</span>
+                        <span class="text-[10px] text-gray-300 font-semibold">• 🥈 2.º Lugar: $60.00 MXN</span>
+                        <span class="text-[10px] text-gray-300 font-semibold">• 🥉 3.º Lugar: $40.00 MXN</span>
+                    </li>
+                    <li class="flex justify-between border-b border-white/5 py-1.5">
+                        <span>🏆 Pase Directo</span>
+                        <span class="font-bold text-fnBrightPurple">Top 15% de cada grupo</span>
+                    </li>
+                    <li class="flex justify-between py-1">
+                        <span>🔥 Constancia</span>
+                        <span class="font-bold text-fnEmerald">Corte al Repechaje (Top 20)</span>
+                    </li>
+                `;
+            } else if (weekNum === 5) {
+                list.innerHTML = `
+                    <li class="flex justify-between border-b border-white/5 pb-2">
+                        <span>🏆 Corte de Clasificación</span>
+                        <span class="font-bold text-fnMagenta">Top 20 Pasan al Repechaje</span>
+                    </li>
+                    <li class="flex justify-between py-1.5">
+                        <span>📈 Requisito</span>
+                        <span class="font-bold text-white">Haber competido en W1 y W2</span>
+                    </li>
+                `;
+            } else if (weekNum === 3) {
+                list.innerHTML = `
+                    <li class="flex flex-col border-b border-white/5 pb-2">
+                        <span class="text-[9px] text-gray-500 uppercase">Premios del Repechaje</span>
+                        <span class="font-bold text-sm text-fnCrimson">8 Pases en Total a la Gran Final:</span>
+                        <span class="text-[10px] text-gray-400 mt-1 font-semibold">• 4 Ganadores (1 por partida)</span>
+                        <span class="text-[10px] text-gray-400 font-semibold">• 3 por Constancia (Mayores puntos totales)</span>
+                        <span class="text-[10px] text-gray-400 font-semibold">• 1 MVP Kills (Más eliminaciones sin pase)</span>
+                    </li>
+                    <li class="flex justify-between py-1">
+                        <span>🎟️ Costo de Entrada</span>
+                        <span class="font-bold text-white">Boleto $100.00 MXN</span>
+                    </li>
+                `;
+            } else {
+                list.innerHTML = `
+                    <li class="flex flex-col border-b border-white/5 pb-2">
+                        <span class="text-[9px] text-gray-500 uppercase">Premios en Efectivo</span>
+                        <span class="font-bold text-fnGold text-sm">Podio de la Gran Final:</span>
+                        <span class="text-[11px] text-fnGold mt-1 font-bold">• 🥇 1.º Lugar: $1,200.00 MXN <span class="text-[9px] text-gray-500 font-normal">($800 Base)</span></span>
+                        <span class="text-[11px] text-slate-300 font-bold">• 🥈 2.º Lugar: $600.00 MXN <span class="text-[9px] text-gray-500 font-normal">($200 Base)</span></span>
+                        <span class="text-[11px] text-amber-600 font-bold">• 🥉 3.º Lugar: $400.00 MXN <span class="text-[9px] text-gray-500 font-normal">($100 Base)</span></span>
+                        <span class="text-[11px] text-fnMagenta font-bold">• 🎟️ Sorteo Final: $100.00 MXN</span>
+                    </li>
+                    <li class="flex justify-between py-1">
+                        <span>🏆 Gran Campeón</span>
+                        <span class="font-bold text-fnGold">Corona + Trofeo Oficial</span>
+                    </li>
+                `;
+            }
+        }
+
+        // Simulador de Partida con Formato FNCS / 2
+        function simulateMatch() {
+            const phase = tournamentPhases[currentPhase];
+            
+            // Bloquear si es la fase de Constancia (5)
+            if (currentPhase === 5) return;
+
+            showToast("Servidores de Lobbies", "Procesando puntuación FNCS/2...", "spinner");
+
+            setTimeout(() => {
+                // --- CASO REPECHAJE (FASE 3) ---
+                if (currentPhase === 3) {
+                    // Cargar jugadores desde Constancia si existen y no están vacíos
+                    const constPlayers = tournamentPhases[5].players || [];
+                    const candidates = constPlayers.filter(p => p.status === 'RED').map(p => ({
+                        name: p.name.replace(" 👑", ""),
+                        points: 0,
+                        kills: 0,
+                        vr: 0,
+                        matches: 0,
+                        avatar: p.avatar,
+                        status: 'NORMAL',
+                        repechaje_status: ''
+                    }));
+
+                    if (candidates.length > 0) {
+                        phase.players = candidates;
+                    }
+
+                    // Asegurar que haya al menos 20 jugadores en el repechaje
+                    if (!phase.players || phase.players.length === 0) {
+                        phase.players = playerPool.slice(0, 20).map((name) => ({
+                            name: name,
+                            points: 0,
+                            kills: 0,
+                            vr: 0,
+                            matches: 0,
+                            avatar: getRandomAvatar(),
+                            status: 'NORMAL',
+                            repechaje_status: ''
+                        }));
+                    }
+
+                    // Generar 20 jugadores adicionales de pago (que compraron entrada de repechaje)
+                    const paidPlayers = [];
+                    for (let i = 1; i <= 20; i++) {
+                        paidPlayers.push({
+                            name: `Pago_Repechaje_${i} 🎟️`,
+                            points: 0,
+                            kills: 0,
+                            vr: 0,
+                            matches: 0,
+                            avatar: getRandomAvatar(),
+                            status: 'PAID',
+                            repechaje_status: ''
+                        });
+                    }
+
+                    // Combinar para tener 40 jugadores en total
+                    phase.players = [...phase.players, ...paidPlayers];
+                    const players = phase.players;
+                    
+                    // Resetear estadísticas para la simulación del repechaje
+                    players.forEach(p => {
+                        p.points = 0;
+                        p.kills = 0;
+                        p.vr = 0;
+                        p.matches = 0;
+                        p.status = 'NORMAL';
+                        p.repechaje_status = '';
+                    });
+
+                    phase.status = "En Vivo";
+                    document.getElementById('phase-status-text').innerText = "EN VIVO";
+                    const dot = document.getElementById('status-dot');
+                    dot.className = "w-2.5 h-2.5 rounded-full inline-block bg-fnEmerald animate-pulse";
+                    
+                    const posterStatusText = document.getElementById('poster-status-text');
+                    const posterStatusDot = document.getElementById('poster-status-dot');
+                    if (posterStatusText && posterStatusDot) {
+                        posterStatusText.innerText = "EN VIVO";
+                        posterStatusDot.className = "w-1.5 h-1.5 rounded-full inline-block bg-fnEmerald animate-pulse";
+                    }
+
+                    // Simular 4 partidas consecutivas del Repechaje
+                    const winners = [];
+                    for (let m = 1; m <= 4; m++) {
+                        // Mezclar jugadores elegibles para esta partida (excluyendo ganadores de partidas anteriores)
+                        const activePlayers = players.filter(p => !winners.includes(p.name));
+                        const shuffled = [...activePlayers].sort(() => Math.random() - 0.5);
+                        
+                        shuffled.forEach((p, idx) => {
+                            const placement = idx + 1;
+                            let placementPoints = 0;
+                            
+                            // Formato FNCS / 2
+                            if (placement === 1) {
+                                placementPoints = 32.5;
+                                p.vr += 1;
+                            } else if (placement === 2) placementPoints = 28;
+                            else if (placement === 3) placementPoints = 26;
+                            else if (placement === 4) placementPoints = 24;
+                            else if (placement === 5) placementPoints = 22;
+                            else if (placement === 6) placementPoints = 20;
+                            else if (placement === 7) placementPoints = 19;
+                            else if (placement === 8) placementPoints = 18;
+                            else if (placement === 9) placementPoints = 17;
+                            else if (placement === 10) placementPoints = 16;
+                            else if (placement >= 11 && placement <= 15) placementPoints = 13;
+                            else if (placement >= 16 && placement <= 20) placementPoints = 8;
+                            else if (placement >= 21 && placement <= 25) placementPoints = 4;
+                            else if (placement >= 26 && placement <= 30) placementPoints = 2;
+                            
+                            const extraKills = Math.floor(Math.random() * 5); // 0 a 4 kills
+                            p.kills += extraKills;
+                            p.matches += 1;
+                            p.points += placementPoints + (extraKills * 2);
+                        });
+
+                        // El primer lugar ( placement === 1 ) es el ganador de esta partida
+                        const roundWinner = shuffled.find(p => p.vr > winners.filter(w => w === p.name).length);
+                        if (roundWinner) {
+                            winners.push(roundWinner.name);
+                            roundWinner.repechaje_status = `Ganador M${m}`;
+                            roundWinner.status = 'RED'; // Rojo para los ganadores del Repechaje
+                        }
+                    }
+
+                    // Determinar los pases de constancia (3 mejores no ganadores)
+                    const nonWinners = players.filter(p => !winners.includes(p.name));
+                    nonWinners.sort((a, b) => b.points - a.points);
+                    
+                    const constancyWinners = [];
+                    for (let i = 0; i < Math.min(3, nonWinners.length); i++) {
+                        nonWinners[i].status = 'RED';
+                        nonWinners[i].repechaje_status = 'Constancia';
+                        constancyWinners.push(nonWinners[i].name);
+                    }
+
+                    // Determinar el pase de MVP Kills (el que tiene más kills entre los restantes)
+                    const remainingPlayers = players.filter(p => !winners.includes(p.name) && !constancyWinners.includes(p.name));
+                    remainingPlayers.sort((a, b) => b.kills - a.kills);
+                    if (remainingPlayers.length > 0) {
+                        remainingPlayers[0].status = 'RED';
+                        remainingPlayers[0].repechaje_status = 'MVP Kills';
+                    }
+
+                    // Ordenar tabla final de Repechaje: Ganadores M1-M4 primero, luego Constancia, luego MVP Kills, luego el resto
+                    players.sort((a, b) => {
+                        const scoreA = getRepechajeRankScore(a);
+                        const scoreB = getRepechajeRankScore(b);
+                        if (scoreA !== scoreB) return scoreB - scoreA;
+                        return b.points - a.points; // Desempate por puntos totales
+                    });
+
+                    players.forEach((p, idx) => p.rank = idx + 1);
+
+                    renderLeaderboard(players);
+                    updateSubTabContent();
+                    showToast("Repechaje Completado", "Se definieron los 8 pases directos a la final (marcados en rojo).", "circle-check");
+                    return;
+                }
+
+                // --- CASO GRAN FINAL (FASE 4) ---
+                if (currentPhase === 4) {
+                    const w1Players = tournamentPhases[1].players || [];
+                    const w2Players = tournamentPhases[2].players || [];
+                    const repPlayers = tournamentPhases[3].players || [];
+
+                    // Obtener los 15 clasificados de W1
+                    const numW1Quals = Math.ceil(w1Players.length * 0.15) || 15;
+                    let w1Finalists = w1Players.slice(0, numW1Quals);
+
+                    // Obtener los 15 clasificados de W2 (excluyendo a los de W1)
+                    const cleanW1Names = w1Finalists.map(p => p.name.replace(" 👑", ""));
+                    const eligibleW2 = w2Players.filter(p => !cleanW1Names.includes(p.name.replace(" 👑", "")));
+                    const numW2Quals = Math.ceil(w2Players.length * 0.15) || 15;
+                    let w2Finalists = eligibleW2.slice(0, numW2Quals);
+
+                    // Obtener los 8 clasificados de Repechaje
+                    let repFinalists = repPlayers.filter(p => p.status === 'RED');
+
+                    // Fallbacks por si el usuario simula la final directamente sin simular fases previas
+                    if (w1Finalists.length === 0) {
+                        w1Finalists = playerPool.slice(0, 15).map((name) => ({
+                            name: name + " 👑",
+                            avatar: getRandomAvatar()
+                        }));
+                    }
+                    if (w2Finalists.length === 0) {
+                        w2Finalists = playerPool.slice(15, 30).map((name) => ({
+                            name: name + " 👑",
+                            avatar: getRandomAvatar()
+                        }));
+                    }
+                    if (repFinalists.length === 0) {
+                        repFinalists = playerPool.slice(30, 38).map((name) => ({
+                            name: name + " (REP)",
+                            avatar: getRandomAvatar(),
+                            repechaje_status: 'MOCK'
+                        }));
+                    }
+
+                    // Generar 10 jugadores VIP de pago ($200 MXN c/u)
+                    const vipFinalists = [];
+                    for (let i = 1; i <= 10; i++) {
+                        vipFinalists.push({
+                            name: `VIP_Pago_${i} 👑🎟️`,
+                            avatar: getRandomAvatar()
+                        });
+                    }
+
+                    // Unir a todos (15 + 15 + 8 + 10 = 48 jugadores)
+                    const finalLobby = [
+                        ...w1Finalists.map(p => ({ name: p.name, avatar: p.avatar })),
+                        ...w2Finalists.map(p => ({ name: p.name, avatar: p.avatar })),
+                        ...repFinalists.map(p => ({ name: p.name.includes("(REP)") ? p.name : p.name + " (REP)", avatar: p.avatar })),
+                        ...vipFinalists
+                    ];
+
+                    phase.players = finalLobby.map(p => ({
+                        name: p.name,
+                        points: 0,
+                        kills: 0,
+                        vr: 0,
+                        matches: 0,
+                        avatar: p.avatar,
+                        status: 'NORMAL'
+                    }));
+
+                    const players = phase.players;
+                    phase.status = "En Vivo";
+                    document.getElementById('phase-status-text').innerText = "EN VIVO";
+                    const dot = document.getElementById('status-dot');
+                    dot.className = "w-2.5 h-2.5 rounded-full inline-block bg-fnEmerald animate-pulse";
+                    
+                    const posterStatusText = document.getElementById('poster-status-text');
+                    const posterStatusDot = document.getElementById('poster-status-dot');
+                    if (posterStatusText && posterStatusDot) {
+                        posterStatusText.innerText = "EN VIVO";
+                        posterStatusDot.className = "w-1.5 h-1.5 rounded-full inline-block bg-fnEmerald animate-pulse";
+                    }
+
+                    // Simular partida final
+                    const shuffled = [...players].sort(() => Math.random() - 0.5);
+                    shuffled.forEach((p, idx) => {
+                        const placement = idx + 1;
+                        let placementPoints = 0;
+                        
+                        if (placement === 1) {
+                            placementPoints = 32.5;
+                            p.vr += 1;
+                        } else if (placement === 2) placementPoints = 28;
+                        else if (placement === 3) placementPoints = 26;
+                        else if (placement === 4) placementPoints = 24;
+                        else if (placement === 5) placementPoints = 22;
+                        else if (placement === 6) placementPoints = 20;
+                        else if (placement === 7) placementPoints = 19;
+                        else if (placement === 8) placementPoints = 18;
+                        else if (placement === 9) placementPoints = 17;
+                        else if (placement === 10) placementPoints = 16;
+                        else if (placement >= 11 && placement <= 15) placementPoints = 13;
+                        else if (placement >= 16 && placement <= 20) placementPoints = 8;
+                        else if (placement >= 21 && placement <= 25) placementPoints = 4;
+                        else if (placement >= 26 && placement <= 30) placementPoints = 2;
+                        
+                        const extraKills = Math.floor(Math.random() * 6); // 0 a 5 kills
+                        p.kills += extraKills;
+                        p.matches += 1;
+                        p.points += placementPoints + (extraKills * 2);
+                    });
+
+                    // Ordenar por puntos
+                    players.sort((a, b) => b.points - a.points);
+                    players.forEach((p, idx) => p.rank = idx + 1);
+
+                    // Renderizar tabla
+                    renderLeaderboard(players);
+                    updateSubTabContent();
+                    
+                    // Mostrar premios en el podio final
+                    const top1 = players[0] ? players[0].name.replace(" 👑", "").replace(" 👑🎟️", "") : "Jugador 1";
+                    const top2 = players[1] ? players[1].name.replace(" 👑", "").replace(" 👑🎟️", "") : "Jugador 2";
+                    const top3 = players[2] ? players[2].name.replace(" 👑", "").replace(" 👑🎟️", "") : "Jugador 3";
+
+                    // Sorteo de $100 MXN
+                    const raffleCandidates = players.slice(3);
+                    const raffleWinner = raffleCandidates.length > 0 ? raffleCandidates[Math.floor(Math.random() * raffleCandidates.length)].name.replace(" 👑", "").replace(" 👑🎟️", "") : "Ninguno";
+
+                    setTimeout(() => {
+                        showToast("Final Terminada", `Campeón: ${top1} ($1,200 MXN)`, "circle-check");
+                        openFinalWinnersModal(top1, top2, top3, raffleWinner);
+                    }, 1000);
+
+                    return;
+                }
+
+                // --- CASO CLASIFICATORIOS 1 Y 2 ---
+                let players = phase.players;
+                
+                // Si la tabla está vacía, la poblamos inicialmente (100 jugadores por semana)
+                if (!players || players.length === 0) {
+                    if (currentPhase === 1) {
+                        phase.players = getWeek1Players();
+                    } else if (currentPhase === 2) {
+                        phase.players = getWeek2Players();
+                    }
+                    players = phase.players;
+                    phase.status = "En Vivo";
+                    document.getElementById('phase-status-text').innerText = "EN VIVO";
+                    const dot = document.getElementById('status-dot');
+                    dot.className = "w-2.5 h-2.5 rounded-full inline-block bg-fnEmerald animate-pulse";
+                    
+                    const posterStatusText = document.getElementById('poster-status-text');
+                    const posterStatusDot = document.getElementById('poster-status-dot');
+                    if (posterStatusText && posterStatusDot) {
+                        posterStatusText.innerText = "EN VIVO";
+                        posterStatusDot.className = "w-1.5 h-1.5 rounded-full inline-block bg-fnEmerald animate-pulse";
+                    }
+                }
+                
+                // Simular orden aleatorio de la partida
+                const shuffled = [...players].sort(() => Math.random() - 0.5);
+                
+                shuffled.forEach((p, idx) => {
+                    const placement = idx + 1;
+                    let placementPoints = 0;
+                    
+                    // Asignación de puntos estilo FNCS / 2
+                    if (placement === 1) {
+                        placementPoints = 32.5;
+                        p.vr += 1;
+                    } else if (placement === 2) placementPoints = 28;
+                    else if (placement === 3) placementPoints = 26;
+                    else if (placement === 4) placementPoints = 24;
+                    else if (placement === 5) placementPoints = 22;
+                    else if (placement === 6) placementPoints = 20;
+                    else if (placement === 7) placementPoints = 19;
+                    else if (placement === 8) placementPoints = 18;
+                    else if (placement === 9) placementPoints = 17;
+                    else if (placement === 10) placementPoints = 16;
+                    else if (placement >= 11 && placement <= 15) placementPoints = 13;
+                    else if (placement >= 16 && placement <= 20) placementPoints = 8;
+                    else if (placement >= 21 && placement <= 25) placementPoints = 4;
+                    else if (placement >= 26 && placement <= 30) placementPoints = 2;
+                    
+                    // Simular eliminaciones (Kills = 2 pts)
+                    const extraKills = Math.floor(Math.random() * 5); // 0 a 4 kills
+                    p.kills += extraKills;
+                    p.matches += 1;
+                    p.points += placementPoints + (extraKills * 2);
+                });
+
+                // Reordenar
+                players.sort((a, b) => b.points - a.points);
+                players.forEach((p, idx) => p.rank = idx + 1);
+
+                renderLeaderboard(players);
+                updateSideQualifiersPanel();
+                showToast("Simulación Completada", "Marcadores actualizados con formato Solos (FNCS/2).", "circle-check");
+            }, 800);
+        }
+
+        // Sistema de Notificaciones Toast de Estilo Gaming
+        function showToast(title, message, iconClass = "circle-check") {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastTitle.innerText = title;
+            toastMsg.innerText = message;
+            
+            if (iconClass === 'spinner') {
+                toastIcon.className = "fa-solid fa-spinner animate-spin text-fnBrightPurple text-lg";
+            } else if (iconClass === 'circle-check') {
+                toastIcon.className = "fa-solid fa-circle-check text-fnEmerald text-lg";
+            } else if (iconClass === 'lock') {
+                toastIcon.className = "fa-solid fa-lock text-fnCrimson text-lg";
+            } else {
+                toastIcon.className = `fa-solid fa-${iconClass} text-fnBrightPurple text-lg`;
+            }
+
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 4000);
+        }
+
+        function openFinalWinnersModal(top1, top2, top3, raffle) {
+            document.getElementById('modal-top1-name').innerText = top1;
+            document.getElementById('modal-top2-name').innerText = top2;
+            document.getElementById('modal-top3-name').innerText = top3;
+            document.getElementById('modal-raffle-name').innerText = raffle;
+
+            const modal = document.getElementById('final-winners-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+            }, 50);
+        }
+
+        function closeFinalWinnersModal() {
+            const modal = document.getElementById('final-winners-modal');
+            modal.classList.add('opacity-0');
+            modal.classList.remove('opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        window.onload = function() {
+            switchPhase(1); // Auto-seleccionar W1
+        };
+    </script>
+</body>
+</html>

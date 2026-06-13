@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RANKIT.PRO LEAGUE - Dashboard Oficial</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Teko para Gaming y Montserrat para legibilidad -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Teko:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            /* Tema Púrpura - Fase 1 */
+            --theme-primary: #a855f7;
+            --theme-primary-hover: #c084fc;
+            --theme-dark: #581c87;
+            --theme-glow: rgba(168, 85, 247, 0.4);
+            --theme-glow-intense: rgba(168, 85, 247, 0.85);
+            --theme-bg-center: #1a083a;
+            --theme-bg-edge: #070112;
+            --theme-text-accent: #e9d5ff;
+            --theme-border: rgba(168, 85, 247, 0.25);
+            --theme-border-focus: rgba(168, 85, 247, 0.8);
+            --theme-row-hover: rgba(168, 85, 247, 0.05);
+        }
+
+        .theme-purple {
+            --theme-primary: #a855f7;
+            --theme-primary-hover: #c084fc;
+            --theme-dark: #581c87;
+            --theme-glow: rgba(168, 85, 247, 0.4);
+            --theme-glow-intense: rgba(168, 85, 247, 0.85);
+            --theme-bg-center: #1e093e;
+            --theme-bg-edge: #080214;
+            --theme-text-accent: #e9d5ff;
+            --theme-border: rgba(168, 85, 247, 0.3);
+            --theme-border-focus: rgba(168, 85, 247, 0.8);
+            --theme-row-hover: rgba(168, 85, 247, 0.05);
+        }
+
+        .theme-green {
+            --theme-primary: #10b981;
+            --theme-primary-hover: #34d399;
+            --theme-dark: #065f46;
+            --theme-glow: rgba(16, 185, 129, 0.4);
+            --theme-glow-intense: rgba(16, 185, 129, 0.85);
+            --theme-bg-center: #022c22;
+            --theme-bg-edge: #020617;
+            --theme-text-accent: #a7f3d0;
+            --theme-border: rgba(16, 185, 129, 0.3);
+            --theme-border-focus: rgba(16, 185, 129, 0.8);
+            --theme-row-hover: rgba(16, 185, 129, 0.05);
+        }
+
+        .theme-red {
+            --theme-primary: #ef4444;
+            --theme-primary-hover: #fca5a5;
+            --theme-dark: #7f1d1d;
+            --theme-glow: rgba(239, 68, 68, 0.4);
+            --theme-glow-intense: rgba(239, 68, 68, 0.85);
+            --theme-bg-center: #3f0712;
+            --theme-bg-edge: #090103;
+            --theme-text-accent: #fecaca;
+            --theme-border: rgba(239, 68, 68, 0.3);
+            --theme-border-focus: rgba(239, 68, 68, 0.8);
+            --theme-row-hover: rgba(239, 68, 68, 0.05);
+        }
+
+        .theme-gold {
+            --theme-primary: #d97706;
+            --theme-primary-hover: #fbbf24;
+            --theme-dark: #78350f;
+            --theme-glow: rgba(217, 119, 6, 0.4);
+            --theme-glow-intense: rgba(217, 119, 6, 0.85);
+            --theme-bg-center: #2d1a04;
+            --theme-bg-edge: #0c0701;
+            --theme-text-accent: #fde68a;
+            --theme-border: rgba(217, 119, 6, 0.3);
+            --theme-border-focus: rgba(217, 119, 6, 0.8);
+            --theme-row-hover: rgba(217, 119, 6, 0.05);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 50% 30%, var(--theme-bg-center) 0%, var(--theme-bg-edge) 100%);
+            background-attachment: fixed;
+            transition: background 0.8s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        .font-teko {
+            font-family: 'Teko', sans-serif;
+        }
+
+        .bg-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .btn-crystal {
+            background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-dark) 100%);
+            border: 2px solid var(--theme-primary-hover);
+            box-shadow: 0 0 15px var(--theme-glow), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+            clip-path: polygon(6% 0%, 94% 0%, 100% 50%, 94% 100%, 6% 100%, 0% 50%);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-crystal:hover:not(:disabled) {
+            filter: brightness(1.2);
+            box-shadow: 0 0 25px var(--theme-glow-intense), inset 0 0 12px rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-crystal:disabled {
+            background: #24242e;
+            border-color: #4b5563;
+            box-shadow: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .phase-tab {
+            clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dynamic-glow-border {
+            border-color: var(--theme-border);
+            box-shadow: 0 0 15px var(--theme-glow);
+            transition: all 0.5s ease;
+        }
+
+        .dynamic-text-primary {
+            color: var(--theme-primary);
+            transition: color 0.5s ease;
+        }
+
+        .dynamic-text-accent {
+            color: var(--theme-text-accent);
+            transition: color 0.5s ease;
+        }
+
+        .dynamic-row:hover {
+            background-color: var(--theme-row-hover);
+        }
+
+        .corner-scratch {
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 10px);
+        }
+
+        tr {
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+<body class="theme-purple text-white min-h-screen flex flex-col justify-between relative selection:bg-purple-600 selection:text-white">
+
+    <div class="bg-grid-overlay"></div>
+
+    <script>
+        const tournamentPhases = {
+            fase1: {
+                name: "Clasificatorio 1",
+                status: "Finalizado",
+                icon: "shield-check",
+                image: "https://jfabrizzio5.github.io/Rankit.pro-League/Imagenes/clasificatorio-1.png",
+                theme: "theme-purple",
+                type: "gratis",
+                ticketPrice: "Gratis",
+                totalTickets: "Ilimitado",
+                ticketsLeft: "Abierto",
+                players: [
+                    { rank: 1, name: "Purple_Nova_FN 👑", points: 295, kills: 52, vr: 4, matches: 6, avatar: "🔥" },
+                    { rank: 2, name: "Savage_Llama", points: 256, kills: 40, vr: 3, matches: 6, avatar: "🎯" },
+                    { rank: 3, name: "ZeroBuild_King", points: 241, kills: 42, vr: 2, matches: 6, avatar: "⚡" },
+                    { rank: 4, name: "Cranker_Fort", points: 210, kills: 31, vr: 1, matches: 6, avatar: "💀" },
+                    { rank: 5, name: "Shield_Breaker", points: 195, kills: 28, vr: 1, matches: 5, avatar: "🛡️" },
+                    { rank: 6, name: "Double_Edit_FN", points: 182, kills: 33, vr: 0, matches: 6, avatar: "🛠️" },
+                    { rank: 7, name: "Riot_Spectre", points: 165, kills: 22, vr: 1, matches: 6, avatar: "👻" },
+                    { rank: 8, name: "Vibe_Soldier", points: 154, kills: 19, vr: 0, matches: 6, avatar: "👾" },
+                    { rank: 9, name: "Clutch_Master", points: 142, kills: 24, vr: 1, matches: 4, avatar: "🌟" },
+                    { rank: 10, name: "BusDriver_Fan", points: 110, kills: 11, vr: 0, matches: 5, avatar: "🚌" }
+                ]
+            },
+            fase2: {
+                name: "Clasificatorio 2",
+                status: "En Vivo",
+                icon: "zap",
+                image: "https://jfabrizzio5.github.io/Rankit.pro-League/Imagenes/clasificatorio-2.png",
+                theme: "theme-green",
+                type: "gratis",
+                ticketPrice: "Gratis",
+                totalTickets: "Ilimitado",
+                ticketsLeft: "Abierto",
+                players: [
+                    { rank: 1, name: "SlurpySip_OG 👑", points: 212, kills: 38, vr: 3, matches: 4, avatar: "🧼" },
+                    { rank: 2, name: "Cranker_Fort", points: 178, kills: 29, vr: 2, matches: 4, avatar: "⚡" },
+                    { rank: 3, name: "ChugSplash_User", points: 165, kills: 22, vr: 1, matches: 4, avatar: "💦" },
+                    { rank: 4, name: "Storm_Surge_Fighter", points: 154, kills: 26, vr: 1, matches: 4, avatar: "⛈️" },
+                    { rank: 5, name: "Savage_Llama", points: 140, kills: 18, vr: 1, matches: 3, avatar: "🔥" },
+                    { rank: 6, name: "BushCamper_Noob", points: 122, kills: 8, vr: 2, matches: 4, avatar: "🌿" },
+                    { rank: 7, name: "LootLlama_Seele", points: 115, kills: 14, vr: 0, matches: 4, avatar: "🦙" },
+                    { rank: 8, name: "SniperPro_007", points: 98, kills: 16, vr: 0, matches: 4, avatar: "👁️" }
+                ]
+            },
+            repechaje: {
+                name: "Repechaje",
+                status: "Última Oportunidad",
+                icon: "refresh-cw",
+                image: "https://jfabrizzio5.github.io/Rankit.pro-League/Imagenes/repechaje.png",
+                theme: "theme-red",
+                type: "repechaje",
+                ticketPrice: "Boleto de Pago",
+                totalTickets: 20,
+                ticketsLeft: 8,
+                players: [
+                    { rank: 1, name: "Riot_Spectre 👑", points: 198, kills: 33, vr: 2, matches: 5, avatar: "👻" },
+                    { rank: 2, name: "Vibe_Soldier", points: 184, kills: 29, vr: 2, matches: 5, avatar: "👾" },
+                    { rank: 3, name: "Clutch_Master", points: 172, kills: 25, vr: 1, matches: 5, avatar: "🌟" },
+                    { rank: 4, name: "BusDriver_Fan", points: 145, kills: 18, vr: 1, matches: 5, avatar: "🚌" },
+                    { rank: 5, name: "SniperPro_007", points: 130, kills: 19, vr: 0, matches: 5, avatar: "👁️" }
+                ]
+            },
+            final: {
+                name: "Gran Final",
+                status: "Próximamente",
+                icon: "trophy",
+                image: "https://jfabrizzio5.github.io/Rankit.pro-League/Imagenes/gran-final.png",
+                theme: "theme-gold",
+                type: "final",
+                ticketPrice: "$10.00 USD",
+                totalTickets: 10,
+                ticketsLeft: 4,
+                players: []
+            }
+        };
+
+        let currentPhase = 'fase1';
+        let registeredUser = null;
+    </script>
+
+    <header class="w-full z-10 flex flex-col items-center pt-8 px-4">
+        <div class="relative mb-4 select-none cursor-pointer group" onclick="resetLeaderboard()">
+            <img src="https://jfabrizzio5.github.io/Rankit.pro-League/Imagenes/logo.png" 
+                 alt="Rankit.pro Logo" 
+                 class="h-16 md:h-20 object-contain drop-shadow-[0_0_15px_var(--theme-glow-intense)] group-hover:scale-105 transition-all duration-500">
+        </div>
+
+        <div class="relative w-full max-w-lg md:max-w-xl flex items-center justify-center overflow-hidden rounded-2xl border border-white/5 bg-black/45 backdrop-blur-md shadow-2xl p-6 mb-4">
+            <div class="absolute w-72 h-72 rounded-full opacity-25 blur-[85px] transition-all duration-1000 z-0" style="background-color: var(--theme-primary);"></div>
+            <div class="absolute bottom-2 right-2 w-32 h-32 corner-scratch opacity-10 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 h-2 bg-gradient-to-r from-transparent via-[var(--theme-primary)] to-transparent opacity-80 blur-[2px] z-10"></div>
+            
+            <img id="dynamic-phase-banner" 
+                 src="https://jfabrizzio5.github.io/Rankit.pro-League/Imagenes/clasificatorio-1.png" 
+                 alt="Fase Banner Activo" 
+                 class="max-w-full h-auto max-h-32 md:max-h-40 object-contain z-10 transition-all duration-700 transform scale-100 hover:scale-102">
+        </div>
+    </header>
+
+    <section class="w-full max-w-5xl mx-auto px-4 mt-4 z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 bg-black/60 p-2 rounded-t-xl border-t border-x border-white/10">
+            <button onclick="switchPhase('fase1')" id="tab-fase1" class="phase-tab py-3.5 text-center transition-all focus:outline-none bg-purple-950/10 border-b-2 border-transparent">
+                <span class="block font-teko text-2xl tracking-wide uppercase text-purple-400">FASE 1</span>
+                <span class="text-[9px] uppercase tracking-widest text-purple-300 font-bold block">Clasificatorio 1</span>
+            </button>
+
+            <button onclick="switchPhase('fase2')" id="tab-fase2" class="phase-tab py-3.5 text-center transition-all focus:outline-none bg-emerald-950/10 border-b-2 border-transparent relative">
+                <span class="absolute top-1 right-3 flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="block font-teko text-2xl tracking-wide uppercase text-emerald-400">FASE 2</span>
+                <span class="text-[9px] uppercase tracking-widest text-emerald-300 font-bold block">Clasificatorio 2</span>
+            </button>
+
+            <button onclick="switchPhase('repechaje')" id="tab-repechaje" class="phase-tab py-3.5 text-center transition-all focus:outline-none bg-red-950/10 border-b-2 border-transparent">
+                <span class="block font-teko text-2xl tracking-wide uppercase text-red-500">REPECHAJE</span>
+                <span class="text-[9px] uppercase tracking-widest text-red-300 font-bold block">Oportunidad</span>
+            </button>
+
+            <button onclick="switchPhase('final')" id="tab-final" class="phase-tab py-3.5 text-center transition-all focus:outline-none bg-amber-950/10 border-b-2 border-transparent">
+                <span class="block font-teko text-2xl tracking-wide uppercase text-amber-500">GRAN FINAL</span>
+                <span class="text-[9px] uppercase tracking-widest text-amber-300 font-bold block">Campeonato</span>
+            </button>
+        </div>
+
+        <div class="bg-black/45 border-b border-x border-white/5 px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 shadow-xl">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-white/5 rounded-lg border border-white/10">
+                    <i id="phase-badge-icon" data-lucide="shield-check" class="w-6 h-6 dynamic-text-primary"></i>
+                </div>
+                <div>
+                    <h4 class="font-teko text-3xl tracking-wide leading-none uppercase dynamic-text-accent" id="current-phase-display-name">Clasificatorio 1</h4>
+                    <p class="text-[11px] text-gray-400 tracking-wider">Competición Solos de Fortnite en vivo en Rankit.pro</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="px-3 py-1.5 rounded bg-black/50 border border-white/15 text-xs font-bold tracking-widest uppercase flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full inline-block" id="status-dot"></span>
+                    <span id="phase-status-text">FINALIZADO</span>
+                </div>
+
+                <button onclick="simulateMatch()" id="sim-btn" class="bg-white hover:bg-gray-100 text-black font-black text-xs px-4 py-2.5 rounded-lg uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md active:scale-95 disabled:opacity-50">
+                    <i data-lucide="play-circle" class="w-4 h-4"></i> Simular Juego
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main class="w-full max-w-5xl mx-auto px-4 mt-6 z-10 flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-black/45 backdrop-blur-md rounded-xl p-4 md:p-6 border border-white/5 shadow-2xl flex flex-col justify-between">
+            <div>
+                <div class="flex flex-col sm:flex-row gap-3 justify-between items-center border-b border-white/5 pb-4 mb-4">
+                    <h3 class="font-teko text-3xl tracking-wider text-white uppercase flex items-center gap-2">
+                        <i data-lucide="medal" class="w-6 h-6 dynamic-text-primary"></i> Tabla de Posiciones
+                    </h3>
+                    <div class="relative w-full sm:w-64">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+                        </span>
+                        <input oninput="filterPlayers(this.value)" 
+                               type="text" 
+                               placeholder="Buscar gamertag..." 
+                               class="w-full bg-black/30 border border-white/10 rounded-lg pl-9 pr-4 py-1.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[var(--theme-primary)] transition-colors">
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto min-h-[300px]" id="leaderboard-container">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-white/5 text-gray-400 font-teko text-xl tracking-widest">
+                                <th class="pb-3 text-center w-12">POS</th>
+                                <th class="pb-3 pl-4">EPIC ID FORTNITE</th>
+                                <th class="pb-3 text-center">PUNTOS</th>
+                                <th class="pb-3 text-center">ELIMINACIONES</th>
+                                <th class="pb-3 text-center">WINS (VR)</th>
+                                <th class="pb-3 text-center">PARTIDAS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body" class="divide-y divide-white/5 text-sm md:text-base font-semibold">
+                            <!-- JS rows -->
+                        </tbody>
+                    </table>
+                    
+                    <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
+                        <i data-lucide="lock" class="w-12 h-12 mb-3 animate-pulse dynamic-text-primary"></i>
+                        <h4 class="font-teko text-2xl uppercase tracking-wider text-white">Resultados Bloqueados</h4>
+                        <p class="text-xs text-gray-400 max-w-xs mt-1">Los nicks de los jugadores se desbloquearán cuando se definan las fases eliminatorias del Repechaje.</p>
+                        <button onclick="switchPhase('repechaje')" class="btn-crystal mt-4 py-2 px-5 text-xs font-bold text-white uppercase">
+                            Ir al Repechaje
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between text-xs text-gray-400">
+                <div class="flex gap-4">
+                    <span>⚔️ Kills = 2 pts</span>
+                    <span>👑 VR = 15 pts</span>
+                    <span>Top 5 = 10 pts</span>
+                </div>
+                <p id="live-indicator-tag" class="text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 dynamic-text-primary">
+                    <span class="w-2 h-2 rounded-full inline-block bg-[var(--theme-primary)] animate-ping"></span> Sincronizado
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+            <div id="cost-card" class="bg-black/60 rounded-xl p-5 border border-white/10 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 corner-scratch opacity-10 pointer-events-none"></div>
+                <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest font-black text-gray-400">MODALIDAD DE ENTRADA</span>
+                    <span id="badge-cost-type" class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wide bg-purple-500/10 text-purple-400 border border-purple-500/20">Gratuito</span>
+                </div>
+                <div class="flex justify-between items-end mb-2">
+                    <div>
+                        <p class="text-xs text-gray-400">Precio del Acceso:</p>
+                        <h4 class="font-teko text-4xl uppercase leading-none font-bold" id="cost-price-display">GRATIS</h4>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">Disponibilidad:</p>
+                        <span class="font-mono text-sm font-bold text-white" id="cost-tickets-left">Ilimitado</span>
+                    </div>
+                </div>
+                <div id="cost-desc-text" class="text-xs text-gray-300 leading-relaxed pt-2 border-t border-white/5">
+                    Fase exclusiva para clasificar a los jugadores sin costos de entrada.
+                </div>
+            </div>
+
+            <div id="register-form-card" class="bg-black/45 backdrop-blur-md rounded-xl p-6 border border-white/5 shadow-2xl">
+                <h4 id="register-title" class="text-2xl font-black tracking-wider uppercase font-teko border-b border-white/5 pb-2 mb-4 text-white flex items-center gap-2">
+                    <i data-lucide="gamepad-2" class="w-6 h-6 text-[var(--theme-primary)]"></i> Registro de Torneo
+                </h4>
+                
+                <p id="register-desc" class="text-xs text-gray-400 mb-4 leading-relaxed">
+                    Sincroniza tus datos de juego para registrar tu participación en el Roster Oficial de la Fase.
+                </p>
+
+                <div class="space-y-4" id="inputs-container"></div>
+
+                <button onclick="processPhaseRegistration()" id="btn-submit-registration" class="btn-crystal w-full py-3.5 px-6 text-xs font-black tracking-widest text-white uppercase mt-4">
+                    REGISTRAR PARTICIPACIÓN
+                </button>
+            </div>
+
+            <div id="success-profile-widget" class="hidden bg-black/60 rounded-xl p-5 border-2 border-[var(--theme-primary)] shadow-xl relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 w-24 h-24 rounded-full blur-xl opacity-20" style="background-color: var(--theme-primary);"></div>
+                
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center border-2 border-white/20 text-2xl bg-black/40 shadow-md shadow-white/5">
+                        ✅
+                    </div>
+                    <div>
+                        <span class="text-[9px] uppercase tracking-widest font-black bg-white/10 border border-white/15 px-2 py-0.5 rounded text-white">Registro Completado</span>
+                        <h4 class="font-teko text-2xl uppercase leading-none mt-1" id="widget-registered-name">Gamer</h4>
+                        <p class="text-xs text-gray-400" id="widget-registered-contact">correo@mail.com</p>
+                    </div>
+                </div>
+                
+                <div class="border-t border-white/5 pt-3 flex justify-between items-center text-xs">
+                    <span class="text-gray-400" id="status-method-label">Método de Validación:</span>
+                    <span class="font-mono font-bold dynamic-text-accent" id="status-validation-text">AUTOMÁTICO</span>
+                </div>
+
+                <div class="mt-3 p-2 bg-white/5 rounded text-[11px] text-gray-400 border border-white/5" id="widget-instructions-detail">
+                    Tu registro ha sido enviado. Recibirás tu clave de acceso en las próximas horas.
+                </div>
+            </div>
+
+            <div class="bg-black/40 rounded-xl p-5 border border-white/5 relative overflow-hidden" id="prizes-card">
+                <div class="absolute -right-6 -bottom-6 w-16 h-16 corner-scratch opacity-10 pointer-events-none"></div>
+                <h5 class="font-teko text-2xl uppercase tracking-wider text-amber-500 mb-3 flex items-center gap-1.5">
+                    <i data-lucide="award" class="w-5 h-5"></i> Premios Asignados
+                </h5>
+                <ul class="text-xs space-y-2 text-gray-300" id="rewards-list"></ul>
+
+                <div id="final-extras-section" class="hidden mt-4 pt-4 border-t border-white/5 bg-gradient-to-r from-amber-500/5 to-transparent p-3 rounded-lg border border-amber-500/10">
+                    <h6 class="font-teko text-lg uppercase tracking-wider text-amber-400 flex items-center gap-1">
+                        <i data-lucide="tv" class="w-4 h-4"></i> Sorteos en Transmisión
+                    </h6>
+                    <p class="text-[11px] text-gray-300 leading-normal mt-1">
+                        ¡Se realizarán sorteos de premios especiales a los competidores que jueguen todas las partidas de la liga y se mantengan viendo el Stream oficial!
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-black/60 rounded-xl p-5 border border-white/5 shadow-xl relative overflow-hidden">
+                <div class="flex items-start gap-3">
+                    <div class="p-2 bg-pink-500/10 text-pink-500 rounded border border-pink-500/20">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="font-teko text-xl uppercase tracking-wider text-white leading-none mb-1">¿Reportar Errores o Dudas?</h5>
+                        <p class="text-[11px] text-gray-400 leading-relaxed mb-3">
+                            Si tienes problemas de registro o de cobro, envíanos un mensaje directo. El envío y la respuesta del mensaje puede tardar hasta **24 horas**.
+                        </p>
+                        <a href="https://instagram.com" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-pink-400 hover:text-pink-300 font-bold transition-all">
+                            Enviar mensaje en Instagram <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-black/90 border border-white/15 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="p-1 bg-white/5 rounded">
+            <i id="toast-icon" data-lucide="check" class="w-5 h-5 dynamic-text-primary"></i>
+        </div>
+        <div>
+            <h5 class="font-bold text-sm" id="toast-title">Alerta Rankit</h5>
+            <p class="text-xs text-gray-400" id="toast-message">Procesando información del servidor...</p>
+        </div>
+    </div>
+
+    <footer class="w-full max-w-5xl mx-auto mt-12 px-4 py-6 border-t border-white/5 z-10 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+        <div class="flex items-center gap-2">
+            <span class="font-teko text-lg text-white tracking-wider">RANKIT.PRO LEAGUE</span>
+            <span>&copy; 2026. Todos los derechos reservados.</span>
+        </div>
+        <div class="flex gap-6 uppercase font-bold tracking-widest text-[10px]">
+            <a href="#" class="hover:text-white transition-colors">Términos y Condiciones</a>
+            <a href="#" class="hover:text-white transition-colors">Soporte Competitivo</a>
+        </div>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            lucide.createIcons();
+            switchPhase('fase1');
+        };
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            const phase = tournamentPhases[phaseId];
+            document.body.className = phase.theme + " text-white min-h-screen flex flex-col justify-between relative selection:bg-purple-600 selection:text-white";
+            const bannerImg = document.getElementById('dynamic-phase-banner');
+            bannerImg.style.opacity = 0;
+            setTimeout(() => {
+                bannerImg.src = phase.image;
+                bannerImg.style.opacity = 1;
+            }, 150);
+
+            document.querySelectorAll('.phase-tab').forEach(tab => {
+                tab.classList.remove('bg-white/10', 'border-b-2', 'border-[var(--theme-primary)]');
+            });
+            const activeTab = document.getElementById(`tab-${phaseId}`);
+            activeTab.classList.add('bg-white/10', 'border-b-2', 'border-[var(--theme-primary)]');
+
+            document.getElementById('current-phase-display-name').innerText = phase.name;
+            document.getElementById('phase-status-text').innerText = phase.status;
+
+            const iconBadge = document.getElementById('phase-badge-icon');
+            iconBadge.setAttribute('data-lucide', phase.icon);
+
+            const dot = document.getElementById('status-dot');
+            const simBtn = document.getElementById('sim-btn');
+            dot.className = "w-2.5 h-2.5 rounded-full inline-block ";
+
+            if (phase.status === 'En Vivo') {
+                dot.classList.add('bg-emerald-500', 'animate-pulse');
+                simBtn.removeAttribute('disabled');
+            } else if (phase.status === 'Última Oportunidad') {
+                dot.classList.add('bg-red-500', 'animate-pulse');
+                simBtn.removeAttribute('disabled');
+            } else if (phase.status === 'Finalizado') {
+                dot.classList.add('bg-gray-500');
+                simBtn.setAttribute('disabled', 'true');
+            } else {
+                dot.classList.add('bg-amber-500');
+                simBtn.setAttribute('disabled', 'true');
+            }
+
+            updateCostCardUI(phase);
+            generateDynamicForm(phase);
+            updateRewardsUI(phaseId);
+            renderLeaderboard(phase.players);
+            lucide.createIcons();
+        }
+
+        function generateDynamicForm(phase) {
+            const container = document.getElementById('inputs-container');
+            const title = document.getElementById('register-title');
+            const desc = document.getElementById('register-desc');
+            const formCard = document.getElementById('register-form-card');
+            const successWidget = document.getElementById('success-profile-widget');
+
+            successWidget.classList.add('hidden');
+            formCard.classList.remove('hidden');
+            container.innerHTML = '';
+
+            if (phase.type === 'gratis') {
+                title.innerHTML = `<i data-lucide="gamepad-2" class="w-6 h-6 text-[var(--theme-primary)]"></i> Registro Gratuito`;
+                desc.innerText = "Fase 1 y Fase 2 son GRATIS. Introduce tu Correo registrado en rankit.pro o tu cuenta de Discord para clasificar.";
+                container.innerHTML = `
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Usuario de Discord o Correo Rankit.pro</label>
+                        <div class="flex items-center bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 focus-within:border-[var(--theme-primary)] transition-all">
+                            <i data-lucide="user" class="w-5 h-5 text-[var(--theme-primary)] mr-2"></i>
+                            <input id="reg-input-primary" type="text" placeholder="ejemplo#0000 o correo@rankit.pro" class="bg-transparent w-full text-white placeholder-gray-600 focus:outline-none text-sm font-semibold">
+                        </div>
+                    </div>
+                `;
+            } else if (phase.type === 'repechaje') {
+                title.innerHTML = `<i data-lucide="ticket" class="w-6 h-6 text-red-500"></i> Boleto de Pago`;
+                desc.innerText = "El repechaje tiene un costo y está limitado a 20 tickets. Introduce tu Correo, Teléfono o WhatsApp para enviarte el enlace de cobro.";
+                container.innerHTML = `
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Correo Electrónico de contacto</label>
+                        <div class="flex items-center bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 focus-within:border-[var(--theme-primary)] transition-all mb-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-red-500 mr-2"></i>
+                            <input id="reg-input-email" type="email" placeholder="tu-correo@mail.com" class="bg-transparent w-full text-white placeholder-gray-600 focus:outline-none text-sm font-semibold">
+                        </div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Teléfono o WhatsApp de Cobro</label>
+                        <div class="flex items-center bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 focus-within:border-[var(--theme-primary)] transition-all">
+                            <i data-lucide="phone" class="w-5 h-5 text-emerald-400 mr-2"></i>
+                            <input id="reg-input-whatsapp" type="tel" placeholder="+52 o número de celular" class="bg-transparent w-full text-white placeholder-gray-600 focus:outline-none text-sm font-semibold">
+                        </div>
+                        <p class="text-[9px] text-gray-500 mt-2">Te enviaremos el enlace de cobro de boleto de inmediato vía celular/WhatsApp.</p>
+                    </div>
+                `;
+            } else if (phase.type === 'final') {
+                title.innerHTML = `<i data-lucide="trophy" class="w-6 h-6 text-yellow-500"></i> Gran Final VIP`;
+                desc.innerText = "¡La Gran Final tiene cupo máximo de 10 lugares por $10 USD! Introduce tus datos para registrar tu solicitud y recibir instrucciones de pago.";
+                container.innerHTML = `
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Nombre Completo o Gamertag</label>
+                        <div class="flex items-center bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 focus-within:border-[var(--theme-primary)] transition-all mb-3">
+                            <i data-lucide="user" class="w-5 h-5 text-amber-500 mr-2"></i>
+                            <input id="reg-input-name" type="text" placeholder="Ej. SavageLlama_FN" class="bg-transparent w-full text-white placeholder-gray-600 focus:outline-none text-sm font-semibold">
+                        </div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">WhatsApp de contacto directo</label>
+                        <div class="flex items-center bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 focus-within:border-[var(--theme-primary)] transition-all mb-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-emerald-400 mr-2"></i>
+                            <input id="reg-input-whatsapp-final" type="tel" placeholder="WhatsApp para enlace de cobro" class="bg-transparent w-full text-white placeholder-gray-600 focus:outline-none text-sm font-semibold">
+                        </div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Correo Electrónico</label>
+                        <div class="flex items-center bg-black/40 border border-white/10 rounded-lg px-3 py-2.5 focus-within:border-[var(--theme-primary)] transition-all">
+                            <i data-lucide="mail" class="w-5 h-5 text-gray-400 mr-2"></i>
+                            <input id="reg-input-email-final" type="email" placeholder="tu-correo@mail.com" class="bg-transparent w-full text-white placeholder-gray-600 focus:outline-none text-sm font-semibold">
+                        </div>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function processPhaseRegistration() {
+            const phase = tournamentPhases[currentPhase];
+            const successWidget = document.getElementById('success-profile-widget');
+            const formCard = document.getElementById('register-form-card');
+            const widgetName = document.getElementById('widget-registered-name');
+            const widgetContact = document.getElementById('widget-registered-contact');
+            const widgetMethod = document.getElementById('status-validation-text');
+            const widgetLabel = document.getElementById('status-method-label');
+            const widgetInstructions = document.getElementById('widget-instructions-detail');
+
+            if (phase.type === 'gratis') {
+                const primaryInput = document.getElementById('reg-input-primary').value.trim();
+                if (!primaryInput) {
+                    showToast("Error de Registro", "Introduce tu Correo o Discord para registrarte.", "alert-triangle");
+                    return;
+                }
+                registeredUser = primaryInput;
+                widgetName.innerText = primaryInput;
+                widgetContact.innerText = primaryInput.includes('@') ? "Correo verificado" : "Cuenta de Discord verificada";
+                widgetLabel.innerText = "Método de Clasificación:";
+                widgetMethod.innerText = "GRATIS / AUTOMÁTICO";
+                widgetInstructions.innerText = "¡Excelente! Has quedado registrado en el Roster de esta Fase Clasificatoria de Fortnite. ¡Prepara tus edits!";
+            } else if (phase.type === 'repechaje') {
+                const emailInput = document.getElementById('reg-input-email').value.trim();
+                const waInput = document.getElementById('reg-input-whatsapp').value.trim();
+                if (!emailInput || !waInput) {
+                    showToast("Campos Vacíos", "Se requiere Correo y Teléfono/WhatsApp para continuar.", "alert-triangle");
+                    return;
+                }
+                if (phase.ticketsLeft <= 0) {
+                    showToast("Sin Boletos", "Se han agotado los boletos de pago del Repechaje.", "lock");
+                    return;
+                }
+                phase.ticketsLeft -= 1;
+                updateCostCardUI(phase);
+                registeredUser = emailInput;
+                widgetName.innerText = "Enlace Solicitado";
+                widgetContact.innerText = `${emailInput} / WA: ${waInput}`;
+                widgetLabel.innerText = "Estado de Cobro:";
+                widgetMethod.innerText = "PENDIENTE DE ENLACE";
+                widgetInstructions.innerText = "¡Listo! Te hemos enviado el link de cobro a tu WhatsApp y Correo. Tienes hasta 2 horas para pagarlo antes de perder el ticket.";
+            } else if (phase.type === 'final') {
+                const nameInput = document.getElementById('reg-input-name').value.trim();
+                const waInput = document.getElementById('reg-input-whatsapp-final').value.trim();
+                const emailInput = document.getElementById('reg-input-email-final').value.trim();
+                if (!nameInput || !waInput || !emailInput) {
+                    showToast("Campos Incompletos", "Por favor completa todos los campos requeridos.", "alert-triangle");
+                    return;
+                }
+                if (phase.ticketsLeft <= 0) {
+                    showToast("Límite Alcanzado", "Lo sentimos, ya se ocuparon los lugares para la Gran Final.", "lock");
+                    return;
+                }
+                phase.ticketsLeft -= 1;
+                updateCostCardUI(phase);
+                registeredUser = nameInput;
+                widgetName.innerText = nameInput;
+                widgetContact.innerText = `WhatsApp: ${waInput}`;
+                widgetLabel.innerText = "Costo de Reserva:";
+                widgetMethod.innerText = "$10.00 USD";
+                widgetInstructions.innerText = `¡Espacio reservado! Te contactaremos a tu WhatsApp para verificar el pago de $10 USD. Recuerda: Compites por los $1000 MXN base + el pozo acumulado.`;
+            }
+
+            formCard.classList.add('hidden');
+            successWidget.classList.remove('hidden');
+            successWidget.classList.add('animate-pulse');
+            setTimeout(() => {
+                successWidget.classList.remove('animate-pulse');
+            }, 1000);
+            showToast("Registro Completo", "Tus datos han sido validados con éxito.", "check-circle");
+        }
+
+        function updateCostCardUI(phase) {
+            const priceDisplay = document.getElementById('cost-price-display');
+            const ticketsLeftDisplay = document.getElementById('cost-tickets-left');
+            const costDesc = document.getElementById('cost-desc-text');
+            const badge = document.getElementById('badge-cost-type');
+            priceDisplay.innerText = phase.ticketPrice;
+            
+            if (phase.type === 'gratis') {
+                badge.innerText = "Clasificatoria Gratis";
+                badge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wide bg-purple-500/10 text-purple-400 border border-purple-500/20";
+                ticketsLeftDisplay.innerText = "Ilimitado";
+                ticketsLeftDisplay.className = "font-mono text-sm font-bold text-white";
+                costDesc.innerHTML = `Fase de acceso gratuito sin barreras de entrada. Registra tu cuenta y juega para clasificar de inmediato.`;
+            } else if (phase.type === 'repechaje') {
+                badge.innerText = "Repechaje de Pago";
+                badge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wide bg-red-500/10 text-red-400 border border-red-500/20";
+                ticketsLeftDisplay.innerText = `${phase.ticketsLeft} / 20 Disponibles`;
+                ticketsLeftDisplay.className = "font-mono text-sm font-bold text-red-400 animate-pulse";
+                costDesc.innerHTML = `Para esta fase se requiere comprar boletos de pago. Solamente hay **20 boletos de acceso** disponibles en total.`;
+            } else if (phase.type === 'final') {
+                badge.innerText = "Cupo VIP Limitado";
+                badge.className = "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wide bg-amber-500/10 text-amber-400 border border-amber-500/20";
+                ticketsLeftDisplay.innerText = `${phase.ticketsLeft} / 10 Ocupados`;
+                ticketsLeftDisplay.className = "font-mono text-sm font-bold text-amber-400";
+                const ticketsSold = 10 - phase.ticketsLeft;
+                const accumulatedPool = ticketsSold * 10;
+                costDesc.innerHTML = `Cupos de pago de **$10 USD** (Máximo 10 lugares). <br><strong class="text-amber-400">Pozo de boletos acumulado: $${accumulatedPool} USD</strong>.`;
+            }
+        }
+
+        function renderLeaderboard(playersList) {
+            const tbody = document.getElementById('leaderboard-body');
+            const emptyState = document.getElementById('empty-state');
+            const tableElement = tbody.closest('table');
+            tbody.innerHTML = '';
+
+            if (!playersList || playersList.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                tableElement.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            tableElement.classList.remove('hidden');
+
+            playersList.forEach((player) => {
+                const tr = document.createElement('tr');
+                tr.className = "dynamic-row transition-all duration-300";
+                let rankBadge = `<span class="text-gray-400 font-bold">${player.rank}</span>`;
+                if (player.rank === 1) {
+                    rankBadge = `<span class="bg-yellow-500 text-black font-black px-2.5 py-0.5 rounded text-xs">1</span>`;
+                } else if (player.rank === 2) {
+                    rankBadge = `<span class="bg-slate-300 text-black font-black px-2.5 py-0.5 rounded text-xs">2</span>`;
+                } else if (player.rank === 3) {
+                    rankBadge = `<span class="bg-amber-700 text-white font-black px-2.5 py-0.5 rounded text-xs">3</span>`;
+                }
+
+                tr.innerHTML = `
+                    <td class="py-3.5 text-center">${rankBadge}</td>
+                    <td class="py-3.5 pl-4 flex items-center gap-3">
+                        <span class="text-xl">${player.avatar || '🎮'}</span>
+                        <span class="text-gray-100">${player.name}</span>
+                    </td>
+                    <td class="py-3.5 text-center font-bold text-white text-lg">${player.points}</td>
+                    <td class="py-3.5 text-center text-gray-300">${player.kills}</td>
+                    <td class="py-3.5 text-center text-amber-500">${player.vr}</td>
+                    <td class="py-3.5 text-center text-gray-500">${player.matches}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterPlayers(query) {
+            const players = tournamentPhases[currentPhase].players;
+            if (!players) return;
+            const filtered = players.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+            renderLeaderboard(filtered);
+        }
+
+        function updateRewardsUI(phaseId) {
+            const list = document.getElementById('rewards-list');
+            const finalExtras = document.getElementById('final-extras-section');
+            if (phaseId === 'final') {
+                finalExtras.classList.remove('hidden');
+            } else {
+                finalExtras.classList.add('hidden');
+            }
+
+            if (phaseId === 'fase1' || phaseId === 'fase2') {
+                list.innerHTML = `
+                    <li class="flex justify-between border-b border-white/5 pb-1.5">
+                        <span>🥇 1er Puesto</span>
+                        <span class="font-bold text-yellow-400">Pase Directo a la Gran Final</span>
+                    </li>
+                    <li class="flex justify-between border-b border-white/5 pb-1.5">
+                        <span>🥈 2do al 5to Puesto</span>
+                        <span class="font-bold text-gray-300">Pase a Semifinales</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span>🥉 6to al 10mo Puesto</span>
+                        <span class="font-bold text-amber-600">Pase de Repechaje</span>
+                    </li>
+                `;
+            } else if (phaseId === 'repechaje') {
+                list.innerHTML = `
+                    <li class="flex justify-between border-b border-white/5 pb-1.5">
+                        <span>🥇 1er al 3er Puesto</span>
+                        <span class="font-bold text-red-400">Clasificación de Emergencia</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span>💀 Resto del Roster</span>
+                        <span class="font-bold text-gray-500">Eliminado del Ránking</span>
+                    </li>
+                `;
+            } else {
+                const ticketsSold = 10 - tournamentPhases.final.ticketsLeft;
+                const accumulatedPoolVal = ticketsSold * 10;
+                list.innerHTML = `
+                    <li class="flex flex-col border-b border-white/5 pb-2">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">Premio Campeón de Liga</span>
+                        <span class="font-bold text-2xl text-yellow-400 font-teko tracking-wide">$1,000 Pesos MXN Garantizados</span>
+                        <span class="text-[11px] text-emerald-400 font-semibold">+ $${accumulatedPoolVal} USD Acumulados del Pozo de Boletos</span>
+                    </li>
+                    <li class="flex justify-between border-b border-white/5 py-1.5">
+                        <span>🥈 Subcampeón</span>
+                        <span class="font-bold text-gray-300">5,000 V-Bucks</span>
+                    </li>
+                    <li class="flex justify-between py-1">
+                        <span>🥉 3er Puesto</span>
+                        <span class="font-bold text-amber-600">2,500 V-Bucks</span>
+                    </li>
+                `;
+            }
+        }
+
+        function simulateMatch() {
+            if (currentPhase === 'fase1' || currentPhase === 'final') return;
+            showToast("Servidores Rankit.pro", "Procesando telemetría de juego en vivo...", "loader");
+            setTimeout(() => {
+                const players = tournamentPhases[currentPhase].players;
+                players.forEach(p => {
+                    const extraKills = Math.floor(Math.random() * 5);
+                    const gotVictory = Math.random() > 0.85; 
+                    p.kills += extraKills;
+                    p.matches += 1;
+                    if (gotVictory) {
+                        p.vr += 1;
+                        p.points += 15; 
+                    }
+                    p.points += (extraKills * 2) + Math.floor(Math.random() * 4); 
+                });
+                players.sort((a, b) => b.points - a.points);
+                players.forEach((p, idx) => p.rank = idx + 1);
+                renderLeaderboard(players);
+                showToast("Simulación Finalizada", "Marcadores de Fortnite actualizados en tiempo real.", "swords");
+            }, 800);
+        }
+
+        function resetLeaderboard() {
+            window.location.reload();
+        }
+
+        function showToast(title, message, iconName = "check") {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+            toastTitle.innerText = title;
+            toastMsg.innerText = message;
+            toastIcon.setAttribute('data-lucide', iconName);
+            lucide.createIcons();
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

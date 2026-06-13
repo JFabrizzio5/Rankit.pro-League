@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankit.Pro | Centro de Inscripciones</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Black Ops One, Chakra Petch e Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        chakra: ['Chakra Petch', 'sans-serif'],
+                        block: ['Black Ops One', 'impact', 'sans-serif'],
+                    },
+                    colors: {
+                        fnDark: '#030108',
+                        fnDeepPurple: '#0a0514',
+                        fnCard: '#0f081c',
+                        fnBrightPurple: '#9b30ff',
+                        fnMagenta: '#ff3df1',
+                        fnGold: '#f1c40f',
+                        fnNeonCyan: '#00e5ff',
+                        fnEmerald: '#00b074',
+                        fnCrimson: '#d7263d'
+                    },
+                    boxShadow: {
+                        glowPurple: '0 0 45px -10px rgba(155, 48, 255, 0.65)',
+                        glowMagenta: '0 0 45px -10px rgba(255, 61, 241, 0.65)',
+                        glowCyan: '0 0 45px -10px rgba(0, 229, 255, 0.65)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #030108;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(155, 48, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(0, 229, 255, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+        }
+
+        .fn-btn {
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-card {
+            background: rgba(10, 5, 20, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
+        .premium-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .noise-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Scrollbar elegante */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030108; }
+        ::-webkit-scrollbar-thumb { background: #3b1c6b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9b30ff; }
+        
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+    <div class="noise-overlay"></div>
+
+    <!-- Navbar Premium Ultra Clean -->
+    <nav class="border-b border-white/5 bg-fnDark/80 backdrop-blur-xl sticky top-0 z-50 px-4 sm:px-8 py-4 transition-all">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <div class="flex items-center gap-3">
+                <img src="./Imagenes/logo.png" alt="Logo Rankit Pro" class="w-10 h-10 sm:w-12 sm:h-12 object-contain">
+                <div class="flex flex-col">
+                    <span class="font-block text-2xl sm:text-3xl tracking-wide text-white uppercase italic leading-none">
+                        RANKIT<span class="text-fnBrightPurple">.PRO</span>
+                    </span>
+                    <span class="text-[9px] text-fnBrightPurple font-chakra font-bold tracking-[0.3em] uppercase ml-1 mt-1">Official League</span>
+                </div>
+            </div>
+
+            <!-- Navegación externa al index.html principal -->
+            <div class="hidden lg:flex space-x-8 font-chakra font-bold uppercase tracking-widest text-xs">
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">INICIO</a>
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">RANKIT.PRO LEAGUE</a>
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">OTROS TORNEOS</a>
+                <a href="index.html" class="nav-link text-gray-500 transition-colors hover:text-white">PREMIOS</a>
+                <a href="registro.html" class="nav-link text-white transition-colors hover:text-white">REGISTRO</a>
+            </div>
+
+            <div>
+                <a href="index.html" class="fn-btn inline-block bg-transparent border border-white/20 text-white px-8 py-2.5 hover:bg-white/5 transition-colors">
+                    <span class="block font-chakra font-bold text-sm uppercase tracking-widest">
+                        VOLVER AL INICIO
+                    </span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Móvil -->
+        <div class="flex lg:hidden justify-around mt-4 pt-4 border-t border-white/5 text-[10px] font-chakra font-bold uppercase tracking-wider text-gray-500">
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-house block text-center mb-1 text-base"></i>Inicio</a>
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-trophy block text-center mb-1 text-base"></i>League</a>
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-gamepad block text-center mb-1 text-base"></i>Otros</a>
+            <a href="index.html" class="hover:text-white transition-colors"><i class="fa-solid fa-coins block text-center mb-1 text-base"></i>Premios</a>
+            <a href="registro.html" class="hover:text-white transition-colors text-white"><i class="fa-solid fa-user-plus block text-center mb-1 text-base"></i>Registro</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 py-12 flex-grow w-full relative z-10">
+        
+        <!-- Vista de Selección de Categoría (Intermedia) -->
+        <section id="view-selection" class="fade-in max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-3 border border-white/10 bg-white/5 px-4 py-1.5 rounded-full backdrop-blur-sm mb-4">
+                    <span class="w-2 h-2 bg-fnBrightPurple rounded-full animate-pulse shadow-[0_0_10px_#9b30ff]"></span>
+                    <span class="text-xs font-chakra font-bold text-gray-300 uppercase tracking-widest">PORTAL INTERMEDIO DE INSCRIPCIÓN</span>
+                </div>
+                <h2 class="font-block text-4xl sm:text-6xl uppercase text-white tracking-wide mb-4">
+                    CENTRO DE <span class="text-gray-500">REGISTRO</span>
+                </h2>
+                <p class="text-gray-400 text-sm max-w-xl mx-auto leading-relaxed font-chakra">
+                    Selecciona en cuál de nuestros eventos competitivos deseas registrar tu participación hoy.
+                </p>
+            </div>
+
+            <!-- Panel de Decisiones (Tarjetas Gaming) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mt-8">
+                
+                <!-- Tarjeta 1: Rankit.Pro League (Fortnite) -->
+                <div class="premium-card p-8 rounded-2xl flex flex-col justify-between relative overflow-hidden group border border-fnBrightPurple/20 hover:border-fnBrightPurple/40 shadow-[0_0_30px_-15px_rgba(155,48,255,0.3)]">
+                    <!-- Brillo de fondo en hover -->
+                    <div class="absolute -right-16 -top-16 w-40 h-40 bg-fnBrightPurple/10 rounded-full blur-3xl group-hover:bg-fnBrightPurple/25 transition-all duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-xs font-chakra font-bold uppercase tracking-widest text-fnBrightPurple bg-fnBrightPurple/10 border border-fnBrightPurple/20 px-3 py-1 rounded">OFICIAL</span>
+                            <i class="fa-solid fa-trophy text-2xl text-fnGold"></i>
+                        </div>
+                        <h3 class="font-block text-3xl text-white uppercase italic tracking-wide mb-4">
+                            Rankit.Pro League
+                        </h3>
+                        <p class="text-gray-400 text-sm font-chakra leading-relaxed mb-6">
+                            El circuito oficial de Fortnite Solos de 4 semanas. Juega clasificatorios gratis limitados a 100 cupos, acumula constancia y avanza a la Gran Final.
+                        </p>
+
+                        <!-- Guía rápida y botón de registro Rankit.Pro -->
+                        <div class="mb-6 p-4 bg-fnBrightPurple/10 border border-fnBrightPurple/25 rounded-lg text-xs font-chakra">
+                            <span class="block font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-info text-fnBrightPurple"></i> Pasos para registrarte:
+                            </span>
+                            <ol class="list-decimal list-inside text-gray-400 text-[11px] space-y-1.5 mb-3.5 leading-normal">
+                                <li>Crea una cuenta en la web oficial de <strong class="text-white font-semibold">Rankit.Pro</strong>.</li>
+                                <li>Ve al Dashboard y regístrate usando el <strong>mismo correo</strong> de Rankit.Pro.</li>
+                                <li>Recibe tu pase de lobby e instrucciones de pago por WhatsApp y correo.</li>
+                            </ol>
+                            <a href="https://rankit.pro" target="_blank" class="w-full text-center bg-fnBrightPurple text-white py-2.5 px-3 rounded font-block tracking-widest text-[9px] flex items-center justify-center gap-1.5 transition-all hover:bg-purple-600 shadow-glowPurple mb-1">
+                                <i class="fa-solid fa-user-plus"></i> 1. REGISTRARSE EN RANKIT.PRO <i class="fa-solid fa-up-right-from-square text-[8px]"></i>
+                            </a>
+                        </div>
+                        
+                        <ul class="space-y-3 mb-8 font-chakra text-xs text-gray-300 border-t border-white/5 pt-4">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-gamepad text-fnBrightPurple"></i>
+                                <span>Lobbies de Fortnite en vivo y simulación.</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-arrows-split-up-and-left text-fnBrightPurple"></i>
+                                <span>Cortes en Grupo 1 y 2 (>100 jugadores).</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="inscribete.html" class="fn-btn w-full block text-center bg-white text-black font-chakra font-bold text-xs py-4 uppercase tracking-widest hover:bg-gray-200 relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center justify-center gap-2">
+                            2. IR AL DASHBOARD DE LIGA <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Tarjeta 2: Torneos Semanales de Otros Juegos -->
+                <div class="premium-card p-8 rounded-2xl flex flex-col justify-between relative overflow-hidden group border border-fnNeonCyan/20 hover:border-fnNeonCyan/40 shadow-[0_0_30px_-15px_rgba(0,229,255,0.3)]">
+                    <div class="absolute -right-16 -top-16 w-40 h-40 bg-fnNeonCyan/10 rounded-full blur-3xl group-hover:bg-fnNeonCyan/25 transition-all duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-center mb-6">
+                            <span class="text-xs font-chakra font-bold uppercase tracking-widest text-fnNeonCyan bg-fnNeonCyan/10 border border-fnNeonCyan/20 px-3 py-1 rounded">COMUNIDAD</span>
+                            <i class="fa-solid fa-circle-play text-2xl text-fnNeonCyan"></i>
+                        </div>
+                        <h3 class="font-block text-3xl text-white uppercase italic tracking-wide mb-4">
+                            Torneos Semanales
+                        </h3>
+                        <p class="text-gray-400 text-sm font-chakra leading-relaxed mb-6">
+                            Torneos rápidos comunitarios en tus juegos favoritos. Participa en Valorant Deathmatch, doli ARAM de League of Legends, doli Hoops de Rocket League o Boxfights de Fortnite.
+                        </p>
+                        
+                        <ul class="space-y-3.5 mb-8 font-chakra text-xs text-gray-300">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-crosshairs text-fnNeonCyan"></i>
+                                <span>Valorant, League of Legends, Rocket League, etc.</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-wallet text-fnNeonCyan"></i>
+                                <span>Entrada estándar económica ($5 USD).</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-gift text-fnNeonCyan"></i>
+                                <span>Bolsas de premios de comunidad directas.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="showOtherGamesForm()" class="fn-btn w-full bg-white text-black font-chakra font-bold text-xs py-4 uppercase tracking-widest hover:bg-gray-200 relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center justify-center gap-2">
+                            VER OTROS TORNEOS <i class="fa-solid fa-angles-down"></i>
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Vista del Formulario para Otros Torneos Semanales (Oculto por defecto) -->
+        <section id="view-other-form" class="hidden fade-in max-w-xl mx-auto">
+            
+            <button onclick="backToSelection()" class="mb-6 text-xs font-chakra font-bold text-gray-400 hover:text-white transition-colors flex items-center gap-1.5 uppercase">
+                <i class="fa-solid fa-arrow-left"></i> Volver a opciones
+            </button>
+
+            <!-- Ficha Registro Otros Juegos -->
+            <div id="register-card" class="premium-card p-6 border border-white/10 shadow-lg rounded-xl">
+                <h4 class="text-xl font-bold tracking-wider uppercase font-chakra border-b border-white/10 pb-2.5 mb-4 text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-fnNeonCyan"></i> Registro de Otros Torneos
+                </h4>
+                
+                <p class="text-xs text-gray-400 mb-4 leading-relaxed font-chakra">
+                    Introduce tus datos de jugador y selecciona el juego de tu interés. Te contactaremos por WhatsApp o correo para coordinar el lobby y confirmaciones.
+                </p>
+
+                <!-- Guía rápida de registro y botón oficial -->
+                <div class="mb-5 p-3.5 bg-fnNeonCyan/10 border border-fnNeonCyan/25 rounded-lg text-xs font-chakra">
+                    <span class="block font-bold text-white uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info text-fnNeonCyan"></i> ¿Cómo inscribirse?
+                    </span>
+                    <ol class="list-decimal list-inside text-gray-400 text-[11px] space-y-1.5 mb-3 leading-normal">
+                        <li>Crea una cuenta en la plataforma de <strong class="text-white">Rankit.Pro</strong> si aún no la tienes.</li>
+                        <li>Inscríbete abajo usando el <strong>mismo correo</strong> de tu cuenta de Rankit.Pro.</li>
+                        <li>Te contactaremos para coordinar tu pase al torneo.</li>
+                    </ol>
+                    <a href="https://rankit.pro" target="_blank" class="w-full text-center bg-fnNeonCyan text-white py-2 px-3 rounded font-bold uppercase tracking-wider text-[10px] flex items-center justify-center gap-1.5 transition-all hover:bg-cyan-600 shadow-glowCyan">
+                        <i class="fa-solid fa-user-plus"></i> Registrarse en Rankit.Pro <i class="fa-solid fa-up-right-from-square text-[8px]"></i>
+                    </a>
+                </div>
+
+                <!-- Inputs del Formulario -->
+                <div class="space-y-4 font-chakra">
+                    <!-- Dropdown de Evento -->
+                    <div>
+                        <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-1">Selecciona el Torneo *</label>
+                        <select id="other-reg-game" class="w-full bg-black/50 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnNeonCyan rounded cursor-pointer">
+                            <option value="valorant-dm">Valorant DM Showdown ($5 USD) - Martes</option>
+                            <option value="lol-aram">League of Legends Rey ARAM ($5 USD) - Miércoles</option>
+                            <option value="rocket-hoops">Rocket League Hoops 2v2 ($5 USD) - Jueves</option>
+                            <option value="overwatch-copa">Overwatch 2 Copa Defensora ($15 USD) - Sábado</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-1">Gamer ID / Tag de Juego (Epic ID, Riot ID, Summoner) *</label>
+                        <input type="text" id="other-reg-gamertag" placeholder="Ej: Ninja#1234 o SavageLlama" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnNeonCyan transition-colors rounded">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-fnNeonCyan mb-1">Correo Electrónico (DEBE SER EL MISMO DE RANKIT.PRO) *</label>
+                        <input type="email" id="other-reg-email" placeholder="ejemplo@correo.com" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnNeonCyan transition-colors rounded">
+                        <span class="text-[9px] text-fnNeonCyan mt-1 block font-bold uppercase">⚠️ Si el correo no coincide con tu cuenta de rankit.pro, tu pase no será válido.</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] font-chakra font-bold uppercase tracking-widest text-gray-500 mb-1">WhatsApp de contacto *</label>
+                        <input type="tel" id="other-reg-whatsapp" placeholder="Ej: +52 5512345678" class="w-full bg-black/40 border border-white/10 px-3 py-2.5 text-xs text-white focus:outline-none focus:border-fnNeonCyan transition-colors rounded">
+                    </div>
+
+                    <!-- Checkboxes -->
+                    <div class="space-y-1.5 p-3 bg-black/50 border border-white/10 rounded">
+                        <label class="flex items-start gap-2 cursor-pointer text-[10px] text-gray-400 hover:text-white transition-colors">
+                            <input id="other-chk-rankit" type="checkbox" class="mt-0.5 rounded border-white/15 bg-black/30 text-fnNeonCyan focus:ring-fnNeonCyan">
+                            <span>Tengo cuenta en <a href="https://rankit.pro" target="_blank" class="text-fnNeonCyan underline font-semibold">rankit.pro</a> con este correo.</span>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer text-[10px] text-gray-400 hover:text-white transition-colors">
+                            <input id="other-chk-follow" type="checkbox" class="mt-0.5 rounded border-white/15 bg-black/30 text-fnNeonCyan focus:ring-fnNeonCyan">
+                            <span>Sigo a <a href="https://www.instagram.com/rankit.pro/followers/mutualOnly" target="_blank" class="text-fnNeonCyan underline font-semibold">rankit.pro</a> y a <a href="https://www.instagram.com/xbellz_/" target="_blank" class="text-fnNeonCyan underline font-semibold">bellz</a> en redes.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="submitOtherRegistration()" class="w-full fn-btn bg-white text-black font-chakra font-bold text-xs py-3.5 uppercase tracking-widest transition-all hover:bg-gray-200 mt-4">
+                    REGISTRAR EN TORNEO SEMANAL
+                </button>
+            </div>
+
+            <!-- Ficha Éxito Registro -->
+            <div id="other-success-widget" class="hidden premium-card p-6 border-2 border-fnNeonCyan shadow-[0_0_20px_rgba(0,229,255,0.25)] relative overflow-hidden rounded-xl">
+                <div class="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-fnNeonCyan/20 blur-xl"></div>
+                
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center border-2 border-white/20 text-xl bg-black/40">
+                        <i class="fa-solid fa-check text-fnNeonCyan"></i>
+                    </div>
+                    <div>
+                        <span class="text-[8px] uppercase tracking-widest font-bold bg-white/10 border border-white/15 px-2 py-0.5 rounded text-white">Solicitud Recibida</span>
+                        <h4 class="font-chakra text-lg font-bold leading-none mt-1 text-white" id="widget-gamer-tag">Ninja#1234</h4>
+                        <p class="text-[10px] text-gray-500 mt-1" id="widget-gamer-contact">correo@mail.com</p>
+                    </div>
+                </div>
+                
+                <div class="border-t border-white/5 pt-3 flex justify-between items-center text-[10px] font-chakra">
+                    <span class="text-gray-500">Torneo Seleccionado:</span>
+                    <span class="font-bold text-white uppercase tracking-wider" id="widget-gamer-event">VALORANT DM</span>
+                </div>
+
+                <div class="mt-3 p-2.5 bg-white/5 rounded text-[10px] text-gray-400 border border-white/5 leading-relaxed font-chakra">
+                    ¡Datos registrados! Te hemos enviado la solicitud del boleto. Nos contactaremos de inmediato a tu WhatsApp o correo electrónico para coordinar tu pase de entrada al lobby privado.
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Sistema de Notificaciones Toast de Estilo Gaming -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-black/95 border border-white/10 text-white px-6 py-4 rounded shadow-2xl flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="p-1 bg-white/5 rounded">
+            <i id="toast-icon" class="fa-solid fa-circle-check text-fnBrightPurple text-lg"></i>
+        </div>
+        <div>
+            <h5 class="font-bold text-sm font-chakra" id="toast-title">Alerta Rankit</h5>
+            <p class="text-xs text-gray-400 mt-0.5 font-chakra" id="toast-message">Procesando información del servidor...</p>
+        </div>
+    </div>
+
+    <!-- Footer Elegante -->
+    <footer class="border-t border-white/5 bg-[#010003] py-16 px-4 text-center relative z-10 font-chakra">
+        <div class="flex justify-center gap-8 text-lg text-gray-600 mb-8 font-chakra">
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.instagram.com/rankit.pro/followers/mutualOnly" target="_blank" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <p class="font-block text-sm text-gray-600 tracking-widest uppercase mb-4">&copy; 2026 RANKIT PRO LEAGUE.</p>
+        <p class="max-w-2xl mx-auto leading-relaxed text-[10px] text-gray-700">
+            Esta liga competitiva no está afiliada ni patrocinada por Epic Games. Todo el circuito es en formato solitario de Fortnite. El correo de registro debe ser el de rankit.pro. Los registros son necesarios para enviarte el link de invitación al lobby o tu boleto.
+        </p>
+    </footer>
+
+    <script>
+        function showOtherGamesForm() {
+            document.getElementById('view-selection').classList.add('hidden');
+            const formSection = document.getElementById('view-other-form');
+            formSection.classList.remove('hidden');
+            
+            // Vaciar formulario y restaurar visibilidad
+            document.getElementById('register-card').classList.remove('hidden');
+            document.getElementById('other-success-widget').classList.add('hidden');
+            
+            document.getElementById('other-reg-gamertag').value = '';
+            document.getElementById('other-reg-email').value = '';
+            document.getElementById('other-reg-whatsapp').value = '';
+            document.getElementById('other-chk-rankit').checked = false;
+            document.getElementById('other-chk-follow').checked = false;
+        }
+
+        function backToSelection() {
+            document.getElementById('view-other-form').classList.add('hidden');
+            document.getElementById('view-selection').classList.remove('hidden');
+        }
+
+        function submitOtherRegistration() {
+            const selectGame = document.getElementById('other-reg-game');
+            const selectedText = selectGame.options[selectGame.selectedIndex].text;
+            
+            const gamerTag = document.getElementById('other-reg-gamertag').value.trim();
+            const email = document.getElementById('other-reg-email').value.trim();
+            const whatsapp = document.getElementById('other-reg-whatsapp').value.trim();
+            
+            const chkRankit = document.getElementById('other-chk-rankit').checked;
+            const chkFollow = document.getElementById('other-chk-follow').checked;
+
+            if (!gamerTag || !email || !whatsapp) {
+                showToast("Campos Incompletos", "Por favor completa tu ID de Juego, Correo y WhatsApp.", "exclamation-triangle");
+                return;
+            }
+
+            if (!chkRankit || !chkFollow) {
+                showToast("Requisitos Vacíos", "Debes tener cuenta en rankit.pro y seguir los oficiales para competir.", "exclamation-triangle");
+                return;
+            }
+
+            // Simular registro exitoso
+            document.getElementById('widget-gamer-tag').innerText = `ID: ${gamerTag}`;
+            document.getElementById('widget-gamer-contact').innerText = `Correo: ${email} | WhatsApp: ${whatsapp}`;
+            document.getElementById('widget-gamer-event').innerText = selectedText.split('($')[0].trim();
+
+            document.getElementById('register-card').classList.add('hidden');
+            const successWidget = document.getElementById('other-success-widget');
+            successWidget.classList.remove('hidden');
+
+            showToast("Registro Recibido", "Hemos registrado tu solicitud para el torneo.", "circle-check");
+        }
+
+        function showToast(title, message, iconClass = "circle-check") {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastTitle.innerText = title;
+            toastMsg.innerText = message;
+            
+            if (iconClass === 'circle-check') {
+                toastIcon.className = "fa-solid fa-circle-check text-fnNeonCyan text-lg";
+            } else {
+                toastIcon.className = `fa-solid fa-${iconClass} text-fnNeonCyan text-lg`;
+            }
+
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 4000);
+        }
+
+        // Pre-selección de juego desde parámetros de URL (?game=game-id)
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const game = params.get('game');
+            if (game) {
+                const selectGame = document.getElementById('other-reg-game');
+                if (selectGame) {
+                    for (let i = 0; i < selectGame.options.length; i++) {
+                        if (selectGame.options[i].value === game) {
+                            selectGame.value = game;
+                            showOtherGamesForm();
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
